@@ -1,0 +1,187 @@
+ALLOCATION AND SURVIVAL FOLLOW-UP run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | glmmTMB 1.1.15.2 
+
+
+==============================================================================
+1. Allocation: root:new-stem ratio (core LMM) and new Figure 2
+==============================================================================
+Root:new-stem ratio = root dry mass / new stem dry mass (log scale). Sample (a): n = 414; (b): n = 242.
+  [1] log root:new-stem ratio | (a) estimated root mass | n = 414 | Ancestry × drought (LRT, 2 df): χ²(2) = 0.23, P = 0.890
+  [1] log root:new-stem ratio | (a) estimated root mass | n = 414 | Linear ancestry: β = 0.00767, t = 5.85, df = 39.2, P < 0.001
+  [1] log root:new-stem ratio | (a) estimated root mass | n = 414 | Quadratic ancestry: β = 0.000145, t = 2.03, df = 33, P = 0.051
+  [1] log root:new-stem ratio | (a) estimated root mass | n = 414 | Drought: β = –0.0149, t = –0.20, df = 386.2, P = 0.844
+  diagnostics: max |scaled resid| = 5.62; 4 beyond |3|; Shapiro-Wilk P = 4.7e-09; singular = FALSE; model = reduced
+  [1] log root:new-stem ratio | (b) measured root mass only | n = 242 | Ancestry × drought (LRT, 2 df): χ²(2) = 1.68, P = 0.432
+  [1] log root:new-stem ratio | (b) measured root mass only | n = 242 | Linear ancestry: β = 0.00715, t = 4.44, df = 41.5, P < 0.001
+  [1] log root:new-stem ratio | (b) measured root mass only | n = 242 | Quadratic ancestry: β = 0.000118, t = 1.41, df = 31.2, P = 0.168
+  [1] log root:new-stem ratio | (b) measured root mass only | n = 242 | Drought: β = 0.0964, t = 1.04, df = 218.1, P = 0.302
+  diagnostics: max |scaled resid| = 3.90; 3 beyond |3|; Shapiro-Wilk P = 0.00053; singular = FALSE; model = reduced
+  [1] log total new biomass (Figure 2A model) | (a) estimated root mass | n = 414 | Ancestry × drought (LRT, 2 df): χ²(2) = 0.11, P = 0.947
+  [1] log total new biomass (Figure 2A model) | (a) estimated root mass | n = 414 | Linear ancestry: β = 0.00201, t = 2.52, df = 39.3, P = 0.016
+  [1] log total new biomass (Figure 2A model) | (a) estimated root mass | n = 414 | Quadratic ancestry: β = –0.0000346, t = –0.83, df = 36.2, P = 0.413
+  [1] log total new biomass (Figure 2A model) | (a) estimated root mass | n = 414 | Drought: β = –0.220, t = –5.27, df = 382.8, P < 0.001
+  diagnostics: max |scaled resid| = 4.40; 4 beyond |3|; Shapiro-Wilk P = 3.8e-11; singular = FALSE; model = reduced
+
+Root:new-stem ratio, back-transformed estimated marginal means by treatment:
+$`(a) estimated root mass`
+ treatment    response    SE   df lower.CL upper.CL
+ Well-watered     3.18 0.850 9.15     1.74     5.81
+ Drought          3.13 0.843 9.40     1.71     5.73
+
+Results are averaged over the levels of: myco_cat, soil 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+Intervals are back-transformed from the log scale 
+
+$`(b) measured root mass only`
+ treatment    response    SE    df lower.CL upper.CL
+ Well-watered     2.71 0.730  9.62     1.48     4.95
+ Drought          2.98 0.817 10.29     1.62     5.48
+
+Results are averaged over the levels of: myco_cat, soil 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+Intervals are back-transformed from the log scale 
+
+  [1] Root:new-stem ratio, model mean | (a) estimated root mass | n = 414 | Well-watered / drought (95% CI): 3.18 (1.74–5.81) / 3.13 (1.71–5.73); drought × 0.99
+  [1] Root:new-stem ratio, model mean | (b) measured root mass only | n = 242 | Well-watered / drought (95% CI): 2.71 (1.48–4.95) / 2.98 (1.62–5.48); drought × 1.10
+SMF: predict() = plogis(eta) (max |difference| 0) | predicted share of exact zeros 0.000 vs observed 0.000 | mean expected fraction 0.151 vs observed mean 0.163
+LMF: predict() = plogis(eta) (max |difference| 0) | predicted share of exact zeros 0.160 vs observed 0.159 | mean expected fraction 0.323 vs observed mean 0.328
+RMF: predict() = plogis(eta) (max |difference| 0) | predicted share of exact zeros 0.000 vs observed 0.000 | mean expected fraction 0.522 vs observed mean 0.508
+
+
+==============================================================================
+3. Above-belowground: whole-leaf conductance vs. EMF colonization and root mass fraction
+==============================================================================
+Plants with whole-leaf conductance and all three guilds scored: 71 | with root mass fraction: 70 (root mass is estimated for all of them, so RMF results are approximate) | genotypes: 37 
+  [3] log whole-leaf conductance | plants with conductance and colonization | n = 71 | EMF colonization (per 10 percentage points): β = –0.0459, t = –0.84, df = 60, P = 0.404; –4.5% change in conductance (95% CI –14.2 to 6.3%)
+  [3] log whole-leaf conductance | plants with conductance and colonization | n = 71 | EMF colonization (per 10 percentage points) × drought: β = 0.124, t = 1.17, df = 59, P = 0.247
+  singular: TRUE 
+  [3] log whole-leaf conductance | plants with conductance and colonization | n = 70 | Root mass fraction (per 0.1; approximate): β = –0.00108, t = –0.02, df = 59, P = 0.981; –0.1% change in conductance (95% CI –8.8 to 9.4%)
+  [3] log whole-leaf conductance | plants with conductance and colonization | n = 70 | Root mass fraction (per 0.1; approximate) × drought: β = –0.100, t = –1.11, df = 58, P = 0.270
+  singular: TRUE 
+
+
+==============================================================================
+4. Counts and tables
+==============================================================================
+Survivors (alive 1 Oct 2021): 441 | with new stem mass: 426 | without: 15 
+
+harvested; new stem mass not recorded            no harvest masses recorded 
+                                   13                                     2 
+   plant new_stem_mass stem_mass leaf_mass root_mass fresh_root_mass
+  BRF216            NA        NA     0.479     0.484           8.260
+  BRN901            NA        NA     0.403        NA           7.060
+  ICH601            NA        NA     0.394        NA           4.450
+  ICH803            NA        NA     0.224     0.796           7.320
+  ICH806            NA        NA     0.760     0.901           7.730
+  ICH908            NA        NA     0.624     0.381           3.700
+  JCF101            NA        NA     0.227     0.552           3.868
+  JCF104            NA        NA     0.808     0.633           5.080
+  JCF318            NA        NA        NA     0.678              NA
+  JCN309            NA        NA        NA     0.459              NA
+  LCN216            NA        NA     0.671     0.519              NA
+  OCH509            NA        NA     0.757     0.660           5.810
+  OCN805            NA        NA        NA     0.576           4.470
+ BRN1016            NA        NA        NA        NA           4.706
+  LCN109            NA        NA        NA        NA              NA
+                  notes                                status
+          PINK PETIOLES harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+              PINK STEM harvested; new stem mass not recorded
+ PINK LEAVES & PETIOLES harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+               1 BRANCH harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA> harvested; new stem mass not recorded
+                   <NA>            no harvest masses recorded
+                   <NA>            no harvest masses recorded
+
+Mother trees by population and cross type (genotypes spanning more than one cross-type label: 0 )
+ pop Narrowleaf Backcross Narrowleaf F1 Hybrid Backcross Fremont Fremont
+  BR          3                    0         0                 2       1
+  IC          2                    0         1                 0       5
+  JC          4                    0         0                 0       3
+  LC          2                    0         2                 0       2
+  OC          5                    1         0                 0       4
+  SF          2                    1         1                 1       1
+ mother_trees cuttings survivors
+            6       78        62
+            8       88        64
+            7       94        84
+            6       88        78
+           10      130        96
+            6       96        57
+Totals: mother trees 43 | narrowleaf 18 | Fremont 16 | hybrid or backcross 9 
+Population elevations are not in the data (mega_ds.csv has no elevation column). GPS coordinates by population and cross type are in
+data/raw_data/WC Garden Collections_Coords.xlsx (sheet 'Sources for GH Expt') for Indian Creek, Little Colorado, Blue River and San Francisco River only.
+
+Colonized plants (all three guilds, n = 78 ), inoculum x drought:
+ myco_cat Well-watered Drought Total
+     None            8      13    21
+       AM           11      10    21
+       EM           13      11    24
+     Both            6       6    12
+Colonized plants by cross type x drought:
+            new_class Well-watered Drought Total
+           Narrowleaf           15      14    29
+ Backcross Narrowleaf            1       6     7
+            F1 Hybrid            4       6    10
+    Backcross Fremont            3       3     6
+              Fremont           15      11    26
+
+Predicted survival (reported survival GLMM, averaged over population, inoculum, soil and diameter; 95% CI):
+ fremont_ancestry    treatment survival_pct lower upper
+               0% Well-watered         94.2  89.6  96.8
+               0%      Drought         82.9  73.7  89.4
+             100% Well-watered         84.1  75.4  90.1
+             100%      Drought         61.3  48.7  72.4
+  [4] Predicted survival | survival model, n = 563 | n = 563 | 0% Fremont, Well-watered: 94.2% (95% CI 89.6–96.8%)
+  [4] Predicted survival | survival model, n = 563 | n = 563 | 0% Fremont, Drought: 82.9% (95% CI 73.7–89.4%)
+  [4] Predicted survival | survival model, n = 563 | n = 563 | 100% Fremont, Well-watered: 84.1% (95% CI 75.4–90.1%)
+  [4] Predicted survival | survival model, n = 563 | n = 563 | 100% Fremont, Drought: 61.3% (95% CI 48.7–72.4%)
+
+
+==============================================================================
+5. Inoculum as a fixed effect
+==============================================================================
+  [5] Colonization LMM | reported (inoculum random) | n = 78 | EMF vs. AMF ancestry slope, well-watered: β = –0.171, t = –3.51, df = 209.5, P < 0.001
+  [5] Colonization LMM | reported (inoculum random) | n = 78 | EMF ancestry slope (averaged over treatments): β = –0.124, t = –4.80, df = 215.6, P < 0.001
+  [5] Colonization LMM | reported (inoculum random) | n = 78 | AMF ancestry slope (averaged over treatments): β = 0.0108, t = 0.42, df = 215.6, P = 0.678
+  [5] Colonization LMM | reported (inoculum random) | n = 78 | DSE ancestry slope (averaged over treatments): β = 0.0127, t = 0.49, df = 215.6, P = 0.623
+  [5] Colonization LMM | inoculum fixed + inoculum x fungal type | n = 78 | EMF vs. AMF ancestry slope, well-watered: β = –0.163, t = –3.44, df = 203, P < 0.001
+  [5] Colonization LMM | inoculum fixed + inoculum x fungal type | n = 78 | EMF ancestry slope (averaged over treatments): β = –0.121, t = –4.87, df = 207.2, P < 0.001
+  [5] Colonization LMM | inoculum fixed + inoculum x fungal type | n = 78 | AMF ancestry slope (averaged over treatments): β = 0.0105, t = 0.42, df = 207.2, P = 0.673
+  [5] Colonization LMM | inoculum fixed + inoculum x fungal type | n = 78 | DSE ancestry slope (averaged over treatments): β = 0.0137, t = 0.55, df = 207.2, P = 0.584
+  [5] Colonization LMM | inoculum fixed + inoculum x fungal type | n = 78 | Inoculum: F = 1.13, df = 3, 198.4, P = 0.339
+  [5] Colonization LMM | inoculum fixed + inoculum x fungal type | n = 78 | Inoculum × fungal type: F = 4.67, df = 6, 203, P < 0.001
+Colonization-biomass model: inoculum category is already a fixed effect in the reported model (log new stem ~ ... + og_drc_mm + myco_cat + soil); no refit needed.
+
+
+==============================================================================
+6. EMF x drought robustness: other responses; narrowleaf plants only
+==============================================================================
+  [6] Colonization-biomass model | log new stem biomass (reported) | n = 77 | EMF × drought (per SD of EMF, 13.8 percentage points): β = –0.444, t = –2.84, df = 57.3, P = 0.006
+  genotypes = 37; singular = FALSE; max |scaled resid| = 2.54
+  [6] Colonization-biomass model | log total new biomass (root mass estimated; approximate) | n = 77 | EMF × drought (per SD of EMF, 13.8 percentage points): β = –0.172, t = –1.93, df = 58.6, P = 0.059
+  genotypes = 37; singular = FALSE; max |scaled resid| = 2.25
+  [6] Colonization-biomass model | log root:new-stem ratio (root mass estimated; approximate) | n = 77 | EMF × drought (per SD of EMF, 13.8 percentage points): β = 0.307, t = 1.63, df = 54.9, P = 0.110
+  genotypes = 37; singular = FALSE; max |scaled resid| = 2.66
+  [6] Colonization-biomass model | log new stem biomass, narrowleaf plants only (linear ancestry only) | n = 29 | EMF × drought (per SD of EMF, 13.8 percentage points): β = –0.476, t = –0.95, df = 15, P = 0.356
+  genotypes = 15; singular = TRUE; max |scaled resid| = 1.90
+
+
+==============================================================================
+7. Conductance drought effect; Figure 4 predictions
+==============================================================================
+  [7] Conductance: drought effect by ancestry | reported whole-leaf model | n = 203 | Drought at 0% Fremont ancestry: β = –0.325, t = –2.54, df = 176, P = 0.012; –27.7% conductance under drought
+  [7] Conductance: drought effect by ancestry | reported whole-leaf model | n = 203 | Drought at 50% Fremont ancestry: β = –0.110, t = –1.38, df = 176, P = 0.169; –10.5% conductance under drought
+  [7] Conductance: drought effect by ancestry | reported whole-leaf model | n = 203 | Drought at 100% Fremont ancestry: β = 0.104, t = 0.90, df = 176, P = 0.372; 11.0% conductance under drought
+  (df for the 0% and 100% contrasts use the Satterthwaite df of the drought coefficient; approximate.)
+Figure 4 check (EMF panel, drought, EMF z = 0.5): averaged design rows give -2.087247 on the log scale; other guilds at their means give -2.087247
+
+Done.

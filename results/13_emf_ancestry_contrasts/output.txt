@@ -1,0 +1,175 @@
+EMF ANCESTRY CONTRASTS run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 | nlme 3.1.169 
+
+Reported lmer: plants = 78 | coefficient per_f:fungal_typeemf (EMF - AMF slope, well-watered):
+     Estimate    Std. Error            df       t value      Pr(>|t|) 
+-1.709448e-01  4.864812e-02  2.094876e+02 -3.513904e+00  5.409706e-04 
+$avg
+ contrast   estimate         SE     df t.ratio p.value
+ emf - amf -0.135033 0.03639688 209.49  -3.710  0.0003
+
+Results are averaged over the levels of: treatment, soil 
+Degrees-of-freedom method: satterthwaite 
+
+$byw
+treatment = Well-watered:
+ contrast     estimate         SE     df t.ratio p.value
+ emf - amf -0.17094482 0.04864812 209.49  -3.514  0.0005
+
+treatment = Drought:
+ contrast     estimate         SE     df t.ratio p.value
+ emf - amf -0.09912124 0.05220409 209.49  -1.899  0.0590
+
+Results are averaged over the levels of: soil 
+Degrees-of-freedom method: satterthwaite 
+
+
+Slopes, Satterthwaite:
+ fungal_type per_f.trend        SE     df    lower.CL    upper.CL
+ amf          0.01075939 0.0259169 215.64 -0.04032349  0.06184228
+ dse          0.01274480 0.0259169 215.64 -0.03833809  0.06382768
+ emf         -0.12427364 0.0259169 215.64 -0.17535652 -0.07319075
+
+Results are averaged over the levels of: treatment, soil 
+Degrees-of-freedom method: satterthwaite 
+Confidence level used: 0.95 
+Slopes, Kenward-Roger:
+ fungal_type per_f.trend         SE     df    lower.CL    upper.CL
+ amf          0.01075939 0.02636325 141.85 -0.04135623  0.06287501
+ dse          0.01274480 0.02636325 141.85 -0.03937082  0.06486042
+ emf         -0.12427364 0.02636325 141.85 -0.17638926 -0.07215802
+
+Results are averaged over the levels of: treatment, soil 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+
+EMF - AMF, Kenward-Roger:
+$avg
+ contrast   estimate         SE  df t.ratio p.value
+ emf - amf -0.135033 0.03639688 146  -3.710  0.0003
+
+Results are averaged over the levels of: treatment, soil 
+Degrees-of-freedom method: kenward-roger 
+
+$byw
+treatment = Well-watered:
+ contrast     estimate         SE  df t.ratio p.value
+ emf - amf -0.17094482 0.04864812 146  -3.514  0.0006
+
+treatment = Drought:
+ contrast     estimate         SE  df t.ratio p.value
+ emf - amf -0.09912124 0.05220409 146  -1.899  0.0596
+
+Results are averaged over the levels of: soil 
+Degrees-of-freedom method: kenward-roger 
+
+
+Genotype means, EMF (OLS):
+     Estimate    Std. Error       t value      Pr(>|t|) 
+-1.547200e-01  3.360222e-02 -4.604458e+00  5.266207e-05 
+
+nlme coefficient per_f:fungal_typeemf:
+        Value     Std.Error            DF       t-value       p-value 
+ -0.170944818   0.057348208 180.000000000  -2.980822301   0.003272412 
+
+nlme EMF - AMF via emtrends (emmeans default df for lme):
+$avg
+ contrast   estimate         SE  df t.ratio p.value
+ emf - amf -0.135033 0.04290599 180  -3.147  0.0019
+
+Results are averaged over the levels of: treatment, soil, myco_cat 
+Degrees-of-freedom method: containment 
+
+$byw
+treatment = Well-watered:
+ contrast     estimate         SE  df t.ratio p.value
+ emf - amf -0.17094482 0.05734821 180  -2.981  0.0033
+
+treatment = Drought:
+ contrast     estimate         SE  df t.ratio p.value
+ emf - amf -0.09912124 0.06154011 180  -1.611  0.1090
+
+Results are averaged over the levels of: soil, myco_cat 
+Degrees-of-freedom method: containment 
+
+
+No-control lmer: plants = 57 
+     Estimate    Std. Error            df       t value      Pr(>|t|) 
+ -0.157092630   0.053457664 154.999999458  -2.938636233   0.003800704 
+$avg
+ contrast    estimate         SE  df t.ratio p.value
+ emf - amf -0.1440379 0.04102995 155  -3.511  0.0006
+
+Results are averaged over the levels of: treatment, soil 
+Degrees-of-freedom method: satterthwaite 
+
+$byw
+treatment = Well-watered:
+ contrast    estimate         SE  df t.ratio p.value
+ emf - amf -0.1570926 0.05345766 155  -2.939  0.0038
+
+treatment = Drought:
+ contrast    estimate         SE  df t.ratio p.value
+ emf - amf -0.1309831 0.06083668 155  -2.153  0.0329
+
+Results are averaged over the levels of: soil 
+Degrees-of-freedom method: satterthwaite 
+
+
+
+Summary table:
+   contrast                                                   
+1  EMF − AMF ancestry slope, averaged over watering           
+2  EMF − AMF ancestry slope, well-watered only                
+3  EMF − AMF ancestry slope, drought only                     
+4  EMF ancestry slope (per 1% Fremont), averaged over watering
+5  EMF ancestry slope (per 1% Fremont), averaged over watering
+6  EMF ancestry slope (per 1% Fremont)                        
+7  EMF − AMF ancestry slope                                   
+8  EMF − AMF ancestry slope, well-watered only                
+9  EMF − AMF ancestry slope, averaged over watering           
+10 EMF ancestry slope (per 1% Fremont), averaged over watering
+11 EMF − AMF ancestry slope, well-watered only                
+12 EMF − AMF ancestry slope, averaged over watering           
+13 EMF ancestry slope (per 1% Fremont), averaged over watering
+   model                                                             n_plants
+1  Reported LMM (Satterthwaite)                                      78      
+2  Reported LMM (Satterthwaite)                                      78      
+3  Reported LMM (Satterthwaite)                                      78      
+4  Reported LMM (Satterthwaite)                                      78      
+5  Reported LMM (Kenward–Roger)                                      78      
+6  Genotype means, OLS (one point per genotype)                      78      
+7  Genotype means, OLS (per_f × guild, AMF and EMF only)             78      
+8  nlme: within-plant correlation + guild variances (containment df) 78      
+9  nlme (emmeans containment df)                                     78      
+10 nlme (emmeans containment df)                                     78      
+11 Reported LMM without control plants (Satterthwaite)               57      
+12 Reported LMM without control plants (Satterthwaite)               57      
+13 Reported LMM without control plants (Satterthwaite)               57      
+   estimate   t        df      P          
+1  -0.1350330 -3.71002 209.488 2.65504e-04
+2  -0.1709450 -3.51390 209.488 5.40971e-04
+3  -0.0991212 -1.89873 209.488 5.89749e-02
+4  -0.1242740 -4.79508 215.643 3.02988e-06
+5  -0.1242740 -4.71390 141.853 5.74471e-06
+6  -0.1547200 -4.60446  35.000 5.26621e-05
+7  -0.1497110 -3.44000  70.000 9.84395e-04
+8  -0.1709450 -2.98082 180.000 3.27241e-03
+9  -0.1350330 -3.14718 180.000 1.92970e-03
+10 -0.1210030 -3.49403  30.000 1.50038e-03
+11 -0.1570930 -2.93864 155.000 3.80070e-03
+12 -0.1440380 -3.51055 155.000 5.85783e-04
+13 -0.1360100 -4.65921 155.000 6.78869e-06
+   manuscript_location                                                                                                      
+1  Not currently reported                                                                                                   
+2  Results colonization paragraph and Figure 3 caption ('Fremont ancestry × EMF interaction'); Appendix S4 table, all plants
+3  Not currently reported                                                                                                   
+4  Figure 3 caption; Results colonization paragraph ('–0.124 ... about 12 percentage points')                               
+5  Results colonization paragraph ('t = –4.71, df = 142')                                                                   
+6  Results colonization paragraph ('β = –0.155, t = –4.60, df = 35')                                                        
+7  Not currently reported                                                                                                   
+8  Results colonization paragraph ('with within-plant correlation ... t = –2.98, df = 180')                                 
+9  Not currently reported                                                                                                   
+10 Not currently reported                                                                                                   
+11 Results colonization paragraph ('n = 57; t = –2.94, df = 155'); Appendix S4 table, inoculated only                       
+12 Not currently reported                                                                                                   
+13 Not currently reported                                                                                                   

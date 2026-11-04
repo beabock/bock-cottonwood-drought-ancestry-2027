@@ -1,0 +1,5 @@
+﻿"guild","comparison","control","inoculated","wilcoxon_W","wilcoxon_P","lmm","lmm_n"
+"EMF","Control vs. EMF inoculum","median 32.0% (IQR 21.0–40.5%, n = 43)","median 37.2% (IQR 26.7–43.8%, n = 44)",725.5,0.06176572670543973,"β = 5.37, t = 2.31, df = 66.6, P = 0.024",87
+"EMF","Control vs. EMF or dual inoculum","median 32.0% (IQR 21.0–40.5%, n = 43)","median 35.7% (IQR 28.3–43.0%, n = 78)",1285.5,0.03420216361738955,"β = 5.02, t = 2.50, df = 104.2, P = 0.014",121
+"AMF","Control vs. AMF inoculum","median 1.0% (IQR 0.0–5.3%, n = 26)","median 13.6% (IQR 8.6–19.6%, n = 21)",453.5,9.478797145701101e-5,"β = 9.78, t = 4.19, df = 41.3, P < 0.001",47
+"AMF","Control vs. AMF or dual inoculum","median 1.0% (IQR 0.0–5.3%, n = 26)","median 12.0% (IQR 4.9–19.6%, n = 37)",752.5,1.393244450351716e-4,"β = 7.60, t = 3.41, df = 57.6, P = 0.001",63

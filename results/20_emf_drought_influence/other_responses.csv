@@ -1,0 +1,10 @@
+﻿"response","n","term","string","p"
+"Total new biomass (root mass estimated)",77,"EMF × drought (per SD)","β = –0.172, t = –1.93, df = 58.6, P = 0.059",0.05861802868897443
+"Total new biomass (root mass estimated)",77,"EMF slope, well-watered","8.7% per 10 percentage points of EMF (95% CI –1.2 to 19.7%), t = 1.74, df = 59.5, P = 0.087",0.08691717932869639
+"Total new biomass (root mass estimated)",77,"EMF slope, drought","–4.0% per 10 percentage points of EMF (95% CI –13.3 to 6.4%), t = –0.79, df = 55.2, P = 0.432",0.43212741812633526
+"New stem + root mass (root mass estimated)",77,"EMF × drought (per SD)","β = –0.181, t = –1.67, df = 60.2, P = 0.099",0.09930493421685642
+"New stem + root mass (root mass estimated)",77,"EMF slope, well-watered","6.9% per 10 percentage points of EMF (95% CI –4.9 to 20.2%), t = 1.15, df = 61.1, P = 0.256",0.25625527673291026
+"New stem + root mass (root mass estimated)",77,"EMF slope, drought","–6.2% per 10 percentage points of EMF (95% CI –17.1 to 6.2%), t = –1.03, df = 56.6, P = 0.308",0.3084040321218485
+"New stem biomass (reported)",77,"EMF × drought (per SD)","β = –0.444, t = –2.84, df = 57.3, P = 0.006",0.006184410570706987
+"New stem biomass (reported)",77,"EMF slope, well-watered","11.1% per 10 percentage points of EMF (95% CI –6.0 to 31.2%), t = 1.26, df = 58.6, P = 0.213",0.21318468012468095
+"New stem biomass (reported)",77,"EMF slope, drought","–19.4% per 10 percentage points of EMF (95% CI –32.8 to –3.3%), t = –2.38, df = 52, P = 0.021",0.021088559936857616

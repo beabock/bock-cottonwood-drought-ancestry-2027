@@ -1,0 +1,102 @@
+Colonization, all scored plants run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+
+
+==============================================================================
+2a. Which plants and models Appendix S2 uses
+==============================================================================
+                                                use guild plants all_three
+                         Figure S2 boxes and points   AMF     91        78
+                         Figure S2 boxes and points   DSE     91        78
+                         Figure S2 boxes and points   EMF    166        78
+ Appendix S2 LMM (inoculum, soil, inoculum × guild)   AMF     91        78
+ Appendix S2 LMM (inoculum, soil, inoculum × guild)   DSE     91        78
+ Appendix S2 LMM (inoculum, soil, inoculum × guild)   EMF    165        78
+ partial alive_at_harvest genotypes
+      13               89        40
+      13               89        40
+      88              164        41
+      13               89        40
+      13               89        40
+      87              164        41
+Appendix S2 LMM: rows = 347 | plants = 178 | genotypes = 42 | model: colonization ~ myco_cat * fungal_type + soil + treatment + per_f + og_drc_mm_z + (1 | pop) + (1 | pop:geno_id) + (1 | tree_id); Type II F, Satterthwaite
+  [2a] Appendix S2 samples | Figure S2 and S2 LMM | n = 178 | Plants per guild: Figure S2 and the S2 LMM both use every scored plant: AMF 91, DSE 91, EMF 165 plants (EMF: 78 with all three guilds + 87 EMF only; AMF/DSE: 78 + 13 AMF and DSE only); LMM 347 rows from 178 plants, 42 genotypes
+
+
+==============================================================================
+2b, 2d. Ancestry slope for each guild against zero; ancestry x drought (Q3)
+==============================================================================
+  [2b] EMF ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 37 genotypes) | n = 78 | Slope, averaged over watering: β = –0.128, t = –4.02, df = 66.7, P < 0.001; genotype-level df (37 genotypes − 2): t = –4.02, df = 35, P < 0.001; genotype-mean OLS: β = –0.155, t = –4.60, df = 35, P < 0.001
+  [2b] EMF ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 27 genotypes) | n = 78 | Slope, Well-watered: β = –0.156, t = –3.67, df = 65.1, P < 0.001; genotype-level df (27 genotypes − 2): t = –3.67, df = 25, P = 0.001; genotype-mean OLS: β = –0.173, t = –3.23, df = 25, P = 0.003
+  [2b] EMF ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 27 genotypes) | n = 78 | Slope, Drought: β = –0.100, t = –2.21, df = 66.5, P = 0.030; genotype-level df (27 genotypes − 2): t = –2.21, df = 25, P = 0.036; genotype-mean OLS: β = –0.104, t = –2.21, df = 25, P = 0.036
+  [2d] EMF colonization: ancestry × drought (Q3) | 78 plants with all three guilds | n = 78 | Ancestry × drought (drought − well-watered slope): β = 0.0557, t = 0.92, df = 65.2, P = 0.360
+    78 plants with all three guilds / emf: genotype variance 0; singular TRUE
+  [2b] AMF ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 37 genotypes) | n = 78 | Slope, averaged over watering: β = 0.0150, t = 0.66, df = 26.4, P = 0.514; genotype-level df (37 genotypes − 2): t = 0.66, df = 35, P = 0.512; genotype-mean OLS: β = –0.00501, t = –0.18, df = 35, P = 0.857
+  [2b] AMF ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 27 genotypes) | n = 78 | Slope, Well-watered: β = 0.0281, t = 0.92, df = 48.3, P = 0.360; genotype-level df (27 genotypes − 2): t = 0.92, df = 25, P = 0.364; genotype-mean OLS: β = 0.00113, t = 0.03, df = 25, P = 0.977
+  [2b] AMF ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 27 genotypes) | n = 78 | Slope, Drought: β = 0.00188, t = 0.06, df = 57, P = 0.953; genotype-level df (27 genotypes − 2): t = 0.06, df = 25, P = 0.953; genotype-mean OLS: β = –0.00621, t = –0.18, df = 25, P = 0.857
+  [2d] AMF colonization: ancestry × drought (Q3) | 78 plants with all three guilds | n = 78 | Ancestry × drought (drought − well-watered slope): β = –0.0262, t = –0.61, df = 63.3, P = 0.543
+    78 plants with all three guilds / amf: genotype variance 0.738; singular FALSE
+  [2b] DSE ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 37 genotypes) | n = 78 | Slope, averaged over watering: β = 0.0152, t = 0.89, df = 70.1, P = 0.379; genotype-level df (37 genotypes − 2): t = 0.89, df = 35, P = 0.382; genotype-mean OLS: β = 0.00989, t = 0.63, df = 35, P = 0.532
+  [2b] DSE ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 27 genotypes) | n = 78 | Slope, Well-watered: β = –0.0116, t = –0.50, df = 71.6, P = 0.617; genotype-level df (27 genotypes − 2): t = –0.50, df = 25, P = 0.620; genotype-mean OLS: β = –0.0205, t = –0.88, df = 25, P = 0.389
+  [2b] DSE ancestry slope (per 1% Fremont), single-guild LMM | 78 plants with all three guilds (well-watered 38, drought 40; 27 genotypes) | n = 78 | Slope, Drought: β = 0.0420, t = 1.72, df = 68.7, P = 0.090; genotype-level df (27 genotypes − 2): t = 1.72, df = 25, P = 0.098; genotype-mean OLS: β = 0.0354, t = 1.66, df = 25, P = 0.110
+  [2d] DSE colonization: ancestry × drought (Q3) | 78 plants with all three guilds | n = 78 | Ancestry × drought (drought − well-watered slope): β = 0.0536, t = 1.63, df = 70.6, P = 0.107
+    78 plants with all three guilds / dse: genotype variance 0; singular TRUE
+  [2b] EMF ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 106, drought 59; 41 genotypes) | n = 165 | Slope, averaged over watering: β = –0.143, t = –5.93, df = 34.2, P < 0.001; genotype-level df (41 genotypes − 2): t = –5.93, df = 39, P < 0.001; genotype-mean OLS: β = –0.142, t = –4.90, df = 39, P < 0.001
+  [2b] EMF ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 106, drought 59; 37 genotypes) | n = 165 | Slope, Well-watered: β = –0.173, t = –5.94, df = 54.6, P < 0.001; genotype-level df (37 genotypes − 2): t = –5.94, df = 35, P < 0.001; genotype-mean OLS: β = –0.177, t = –4.31, df = 35, P < 0.001
+  [2b] EMF ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 106, drought 59; 35 genotypes) | n = 165 | Slope, Drought: β = –0.114, t = –3.14, df = 108.3, P = 0.002; genotype-level df (35 genotypes − 2): t = –3.14, df = 33, P = 0.004; genotype-mean OLS: β = –0.109, t = –2.75, df = 33, P = 0.010
+  [2d] EMF colonization: ancestry × drought (Q3) | all plants scored for the guild | n = 165 | Ancestry × drought (drought − well-watered slope): β = 0.0589, t = 1.32, df = 146.8, P = 0.189
+    all plants scored for the guild / emf: genotype variance 2.8; singular FALSE
+  [2b] AMF ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 48, drought 43; 40 genotypes) | n = 91 | Slope, averaged over watering: β = 0.0257, t = 1.19, df = 82.4, P = 0.236; genotype-level df (40 genotypes − 2): t = 1.19, df = 38, P = 0.240; genotype-mean OLS: β = 0.000618, t = 0.02, df = 38, P = 0.981
+  [2b] AMF ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 48, drought 43; 30 genotypes) | n = 91 | Slope, Well-watered: β = 0.0370, t = 1.32, df = 82.8, P = 0.190; genotype-level df (30 genotypes − 2): t = 1.32, df = 28, P = 0.197; genotype-mean OLS: β = 0.00184, t = 0.05, df = 28, P = 0.960
+  [2b] AMF ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 48, drought 43; 29 genotypes) | n = 91 | Slope, Drought: β = 0.0143, t = 0.46, df = 82.1, P = 0.648; genotype-level df (29 genotypes − 2): t = 0.46, df = 27, P = 0.651; genotype-mean OLS: β = 0.00497, t = 0.15, df = 27, P = 0.879
+  [2d] AMF colonization: ancestry × drought (Q3) | all plants scored for the guild | n = 91 | Ancestry × drought (drought − well-watered slope): β = –0.0227, t = –0.55, df = 82.4, P = 0.582
+    all plants scored for the guild / amf: genotype variance 0; singular TRUE
+  [2b] DSE ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 48, drought 43; 40 genotypes) | n = 91 | Slope, averaged over watering: β = 0.0232, t = 1.30, df = 47.3, P = 0.201; genotype-level df (40 genotypes − 2): t = 1.30, df = 38, P = 0.203; genotype-mean OLS: β = 0.0179, t = 1.19, df = 38, P = 0.240
+  [2b] DSE ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 48, drought 43; 30 genotypes) | n = 91 | Slope, Well-watered: β = 0.00427, t = 0.18, df = 68.8, P = 0.854; genotype-level df (30 genotypes − 2): t = 0.18, df = 28, P = 0.855; genotype-mean OLS: β = –0.00806, t = –0.34, df = 28, P = 0.740
+  [2b] DSE ancestry slope (per 1% Fremont), single-guild LMM | all plants scored for the guild (well-watered 48, drought 43; 29 genotypes) | n = 91 | Slope, Drought: β = 0.0422, t = 1.61, df = 77.8, P = 0.111; genotype-level df (29 genotypes − 2): t = 1.61, df = 27, P = 0.119; genotype-mean OLS: β = 0.0403, t = 2.03, df = 27, P = 0.052
+  [2d] DSE colonization: ancestry × drought (Q3) | all plants scored for the guild | n = 91 | Ancestry × drought (drought − well-watered slope): β = 0.0379, t = 1.11, df = 82.4, P = 0.268
+    all plants scored for the guild / dse: genotype variance 0.162; singular TRUE
+  [2d] EMF colonization: ancestry × drought (Q3), reported three-guild model | 78 plants | n = 78 | EMF slope, drought − well-watered: β = 0.0523, t = 1.05, df = 214.8, P = 0.293
+  [2d] EMF ancestry slope by watering, reported three-guild model | 78 plants | n = 78 | EMF slope, Well-watered: β = –0.150, t = –4.35, df = 214.6, P < 0.001
+  [2d] EMF ancestry slope by watering, reported three-guild model | 78 plants | n = 78 | EMF slope, Drought: β = –0.0981, t = –2.64, df = 214.6, P = 0.009
+
+
+==============================================================================
+2e. Colonization in control vs. inoculated plants (all scored plants)
+==============================================================================
+  [2e] EMF colonization, control vs. EMF inoculum | all plants scored for the guild | n = 87 | Medians and test: control median 32.0% (IQR 21.0–40.5%, n = 43); EMF inoculum median 37.2% (IQR 26.7–43.8%, n = 44); Wilcoxon rank-sum W = 725.5, P = 0.062; LMM (inoculum + ancestry + drought + soil, random population and genotype): difference β = 5.37, t = 2.31, df = 66.6, P = 0.024
+  [2e] EMF colonization, control vs. EMF or dual inoculum | all plants scored for the guild | n = 121 | Medians and test: control median 32.0% (IQR 21.0–40.5%, n = 43); EMF or dual inoculum median 35.7% (IQR 28.3–43.0%, n = 78); Wilcoxon rank-sum W = 1285.5, P = 0.034; LMM (inoculum + ancestry + drought + soil, random population and genotype): difference β = 5.02, t = 2.50, df = 104.2, P = 0.014
+  [2e] AMF colonization, control vs. AMF inoculum | all plants scored for the guild | n = 47 | Medians and test: control median 1.0% (IQR 0.0–5.3%, n = 26); AMF inoculum median 13.6% (IQR 8.6–19.6%, n = 21); Wilcoxon rank-sum W = 453.5, P < 0.001; LMM (inoculum + ancestry + drought + soil, random population and genotype): difference β = 9.78, t = 4.19, df = 41.3, P < 0.001
+  [2e] AMF colonization, control vs. AMF or dual inoculum | all plants scored for the guild | n = 63 | Medians and test: control median 1.0% (IQR 0.0–5.3%, n = 26); AMF or dual inoculum median 12.0% (IQR 4.9–19.6%, n = 37); Wilcoxon rank-sum W = 752.5, P < 0.001; LMM (inoculum + ancestry + drought + soil, random population and genotype): difference β = 7.60, t = 3.41, df = 57.6, P = 0.001
+ guild                       comparison                               control
+   EMF         Control vs. EMF inoculum median 32.0% (IQR 21.0–40.5%, n = 43)
+   EMF Control vs. EMF or dual inoculum median 32.0% (IQR 21.0–40.5%, n = 43)
+   AMF         Control vs. AMF inoculum    median 1.0% (IQR 0.0–5.3%, n = 26)
+   AMF Control vs. AMF or dual inoculum    median 1.0% (IQR 0.0–5.3%, n = 26)
+                            inoculated wilcoxon_W   wilcoxon_P
+ median 37.2% (IQR 26.7–43.8%, n = 44)      725.5 6.176573e-02
+ median 35.7% (IQR 28.3–43.0%, n = 78)     1285.5 3.420216e-02
+  median 13.6% (IQR 8.6–19.6%, n = 21)      453.5 9.478797e-05
+  median 12.0% (IQR 4.9–19.6%, n = 37)      752.5 1.393244e-04
+                                       lmm lmm_n
+  β = 5.37, t = 2.31, df = 66.6, P = 0.024    87
+ β = 5.02, t = 2.50, df = 104.2, P = 0.014   121
+  β = 9.78, t = 4.19, df = 41.3, P < 0.001    47
+  β = 7.60, t = 3.41, df = 57.6, P = 0.001    63
+
+
+==============================================================================
+3a. Control plants only: EMF colonization vs. Fremont ancestry
+==============================================================================
+  [3a] EMF ancestry slope (per 1% Fremont), control plants only | controls, 78 plants with all three guilds (well-watered 8, drought 13; 16 genotypes) | n = 21 | Slope, averaged over watering: β = –0.0998, t = –1.06, df = 15, P = 0.304; genotype-level df: t = –1.06, df = 14, P = 0.305; genotype-mean OLS: β = –0.136, t = –1.99, df = 14, P = 0.067
+    singular: TRUE 
+  [3a] EMF ancestry slope (per 1% Fremont), control plants only | controls, all plants scored for the guild (well-watered 26, drought 17; 30 genotypes) | n = 43 | Slope, averaged over watering: β = –0.153, t = –2.74, df = 37, P = 0.009; genotype-level df: t = –2.74, df = 28, P = 0.011; genotype-mean OLS: β = –0.175, t = –4.02, df = 28, P < 0.001
+    singular: TRUE 
+
+
+==============================================================================
+3b. Does the ancestry effect on EMF differ between control and inoculated plants?
+==============================================================================
+  [3b] EMF: ancestry × inoculation (control vs. any inoculum) | 78 plants with all three guilds (control 21, inoculated 57) | n = 78 | Ancestry × inoculated: β = –0.0551, t = –0.72, df = 70, P = 0.475; slopes: control β = –0.0847, t = –1.24, df = 70, P = 0.218, inoculated β = –0.140, t = –3.71, df = 70, P < 0.001
+  [3b] EMF: ancestry × inoculation (control vs. any inoculum) | all plants scored for the guild (control 43, inoculated 122) | n = 165 | Ancestry × inoculated: β = 0.00648, t = 0.13, df = 156.1, P = 0.900; slopes: control β = –0.153, t = –3.27, df = 137, P = 0.001, inoculated β = –0.146, t = –5.18, df = 50.1, P < 0.001
+
+Done.

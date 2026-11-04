@@ -1,0 +1,5 @@
+﻿"Predictor","Pair of dates as covariate","Plants","Effect on conductance","Interaction with drought"
+"EMF colonization (per 10 percentage points)","No",71,"β = –0.0459, t = –0.84, df = 60, P = 0.404; –4.5% change in conductance (95% CI –14.2 to 6.3%)","β = 0.124, t = 1.17, df = 59, P = 0.247"
+"EMF colonization (per 10 percentage points)","Yes",71,"β = –0.0484, t = –0.88, df = 57, P = 0.385; –4.7% change in conductance (95% CI –14.5 to 6.2%)","β = 0.130, t = 1.19, df = 56, P = 0.239"
+"Root mass fraction (per 0.1; root mass estimated)","No",70,"β = –0.00108, t = –0.02, df = 59, P = 0.981; –0.1% change in conductance (95% CI –8.8 to 9.4%)","β = –0.100, t = –1.11, df = 58, P = 0.270"
+"Root mass fraction (per 0.1; root mass estimated)","Yes",70,"β = –0.0237, t = –0.49, df = 56, P = 0.629; –2.3% change in conductance (95% CI –11.2 to 7.4%)","β = –0.0735, t = –0.79, df = 55, P = 0.432"

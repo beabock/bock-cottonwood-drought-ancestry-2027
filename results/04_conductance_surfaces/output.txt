@@ -1,0 +1,196 @@
+CONDUCTANCE SURFACES run: 
+
+
+==============================================================================
+1. Appendix S5: aggregated survival grouping sensitivity
+==============================================================================
+  grouping                                                                  
+1 Population × cross type × drought × inoculum × soil (reported grouping)   
+2 Reported grouping, groups with ≥ 2 scored plants                          
+3 Reported grouping, groups with ≥ 3 scored plants                          
+4 Population × cross type × drought (inoculum and soil as group proportions)
+5 Coarser grouping, groups with ≥ 2 scored plants                           
+6 Coarser grouping, groups with ≥ 3 scored plants                           
+  n_groups n_plants scored_median scored_min scored_max dispersion estimable
+1 35       126       1             0          2         1.28        TRUE    
+2  3        11       2             2          2           NA       FALSE    
+3  0         0      NA            NA         NA           NA       FALSE    
+4 34       547       2             1          5         1.57        TRUE    
+5 25       436       2             2          5         1.56        TRUE    
+6 11       203       4             3          5           NA       FALSE    
+  note                                                 AMF_beta AMF_z
+1                                                      -1.960   -2.29
+2 not estimable: 3 groups, only one watering treatment     NA      NA
+3 no groups                                                NA      NA
+4                                                      -0.573   -1.98
+5                                                      -1.110   -2.18
+6 not estimable: 11 groups for 15 parameters               NA      NA
+  AMF_P_wald AMF_P_quasi EMF_beta EMF_z  EMF_P_wald EMF_P_quasi DSE_beta DSE_z
+1 0.0218     0.0564      -2.650   -1.990 0.0465     0.0941      -3.840   -1.79
+2     NA         NA          NA       NA     NA         NA          NA      NA
+3     NA         NA          NA       NA     NA         NA          NA      NA
+4 0.0476     0.1310      -0.274   -0.939 0.3480     0.4630      -0.866   -2.93
+5 0.0296     0.1120      -0.581   -1.630 0.1030     0.2210      -1.610   -3.08
+6     NA         NA          NA       NA     NA         NA          NA      NA
+  DSE_P_wald DSE_P_quasi quasi_df
+1 0.07280    0.1290      20      
+2      NA        NA      NA      
+3      NA        NA      NA      
+4 0.00338    0.0306      19      
+5 0.00209    0.0335      10      
+6      NA        NA      NA      
+
+
+==============================================================================
+2. Surface-specific stomatal conductance (adaxial = top, abaxial = bottom)
+==============================================================================
+Trees with porometer data: 205 | with both days: 172 
+Non-positive surface means (cannot be logged): adaxial 1 | abaxial 4 | adaxial wet-day 2 | abaxial wet-day 6 
+
+--- adaxial: n = 203 trees, 41 genotypes, 6 populations; singular = TRUE ---
+                        Estimate Std. Error        df  t value Pr(>|t|)
+per_fc                  -0.01417    0.00173  69.57907 -8.20212  0.00000
+I(per_fc^2)             -0.00018    0.00007  36.59086 -2.33566  0.02510
+treatmentDrought        -0.14417    0.08192 174.39801 -1.75994  0.08017
+per_fc:treatmentDrought  0.00499    0.00189 172.75556  2.64524  0.00892
+og_drc_mm               -0.00884    0.04835 167.09446 -0.18285  0.85514
+soilTam Legacy           0.06161    0.07867 177.42644  0.78314  0.43459
+myco_catAM               0.01133    0.10396 178.19185  0.10901  0.91331
+myco_catEM              -0.08680    0.10588 174.21390 -0.81979  0.41346
+myco_catBoth            -0.10105    0.11048 177.79147 -0.91470  0.36159
+ Groups      Name        Std.Dev.
+ pop:geno_id (Intercept) 0.30129 
+ pop         (Intercept) 0.00000 
+ Residual                0.51922 
+# A tibble: 2 × 6
+  treatment    slope_log     se pct_per_10    lo     hi
+  <chr>            <dbl>  <dbl>      <dbl> <dbl>  <dbl>
+1 Well-watered   -0.0142 0.0017     -13.2  -16.1 -10.2 
+2 Drought        -0.0092 0.0019      -8.77 -12.1  -5.26
+
+--- abaxial: n = 200 trees, 41 genotypes, 6 populations; singular = FALSE ---
+                        Estimate Std. Error        df  t value Pr(>|t|)
+per_fc                   0.00975    0.00262  46.01491  3.72791  0.00053
+I(per_fc^2)             -0.00024    0.00012  25.70308 -1.94313  0.06303
+treatmentDrought         0.07589    0.11413 161.88444  0.66491  0.50705
+per_fc:treatmentDrought -0.00022    0.00264 160.50282 -0.08502  0.93235
+og_drc_mm               -0.07953    0.07098 186.10867 -1.12040  0.26399
+soilTam Legacy           0.02509    0.10975 163.46621  0.22859  0.81947
+myco_catAM               0.18484    0.14549 163.41440  1.27051  0.20571
+myco_catEM              -0.00649    0.14730 160.12600 -0.04409  0.96488
+myco_catBoth             0.02557    0.15320 162.78195  0.16693  0.86763
+ Groups      Name        Std.Dev.
+ pop:geno_id (Intercept) 0.50023 
+ pop         (Intercept) 0.47121 
+ Residual                0.70915 
+# A tibble: 2 × 6
+  treatment    slope_log     se pct_per_10    lo    hi
+  <chr>            <dbl>  <dbl>      <dbl> <dbl> <dbl>
+1 Well-watered    0.0098 0.0026      10.2   4.73  16.0
+2 Drought         0.0095 0.0029      10.00  3.92  16.4
+
+
+==============================================================================
+2b. Ancestry x surface model (both surfaces in one model)
+==============================================================================
+Formula: log(gsw) ~ surface * (per_fc * treatment + I(per_fc^2)) + og_drc_mm + soil + myco_cat + (1 | pop) + (1 | pop:geno_id) + (1 | tree_id)
+n = 403 surface-level observations from 203 trees (201 with both surfaces), 41 genotypes, 6 populations; singular = FALSE
+                                       Estimate Std. Error        df   t value
+(Intercept)                            -2.57791    0.29533  87.01708  -8.72890
+surfaceadaxial                          1.00512    0.15459 196.73442   6.50172
+per_fc                                  0.00974    0.00203  87.19664   4.79483
+treatmentDrought                        0.13095    0.10882 316.06294   1.20340
+I(per_fc^2)                            -0.00023    0.00009  43.00495  -2.63100
+og_drc_mm                              -0.05309    0.05313 174.91858  -0.99920
+soilTam Legacy                          0.03880    0.08528 175.78028   0.45505
+myco_catAM                              0.10628    0.11288 176.57783   0.94151
+myco_catEM                             -0.03879    0.11466 172.07437  -0.33827
+myco_catBoth                           -0.04439    0.11955 174.87718  -0.37131
+per_fc:treatmentDrought                -0.00173    0.00252 315.80678  -0.68589
+surfaceadaxial:per_fc                  -0.02373    0.00173 197.79611 -13.71912
+surfaceadaxial:treatmentDrought        -0.28183    0.12429 198.46140  -2.26764
+surfaceadaxial:I(per_fc^2)              0.00009    0.00007 196.64625   1.25674
+surfaceadaxial:per_fc:treatmentDrought  0.00721    0.00288 198.75541   2.50027
+                                       Pr(>|t|)
+(Intercept)                             0.00000
+surfaceadaxial                          0.00000
+per_fc                                  0.00001
+treatmentDrought                        0.22972
+I(per_fc^2)                             0.01177
+og_drc_mm                               0.31908
+soilTam Legacy                          0.64963
+myco_catAM                              0.34773
+myco_catEM                              0.73557
+myco_catBoth                            0.71085
+per_fc:treatmentDrought                 0.49329
+surfaceadaxial:per_fc                   0.00000
+surfaceadaxial:treatmentDrought         0.02443
+surfaceadaxial:I(per_fc^2)              0.21034
+surfaceadaxial:per_fc:treatmentDrought  0.01322
+ Groups      Name        Std.Dev.
+ tree_id     (Intercept) 0.37981 
+ pop:geno_id (Intercept) 0.30926 
+ pop         (Intercept) 0.19647 
+ Residual                0.58321 
+
+
+==============================================================================
+2c. Sensitivity: watering-day readings only; plants with both days only
+==============================================================================
+   analysis                   surface n   term                    beta     
+1  All readings (main)        adaxial 203 per_fc                  -1.42e-02
+2  All readings (main)        adaxial 203 I(per_fc^2)             -1.75e-04
+3  All readings (main)        adaxial 203 treatmentDrought        -1.44e-01
+4  All readings (main)        adaxial 203 per_fc:treatmentDrought  4.99e-03
+5  All readings (main)        abaxial 200 per_fc                   9.75e-03
+6  All readings (main)        abaxial 200 I(per_fc^2)             -2.41e-04
+7  All readings (main)        abaxial 200 treatmentDrought         7.59e-02
+8  All readings (main)        abaxial 200 per_fc:treatmentDrought -2.25e-04
+9  Watering-day readings only adaxial 200 per_fc                  -1.61e-02
+10 Watering-day readings only adaxial 200 I(per_fc^2)             -2.17e-04
+11 Watering-day readings only adaxial 200 treatmentDrought        -2.86e-01
+12 Watering-day readings only adaxial 200 per_fc:treatmentDrought  7.86e-03
+13 Watering-day readings only abaxial 196 per_fc                   7.96e-03
+14 Watering-day readings only abaxial 196 I(per_fc^2)             -2.22e-04
+15 Watering-day readings only abaxial 196 treatmentDrought         5.88e-02
+16 Watering-day readings only abaxial 196 per_fc:treatmentDrought  8.23e-05
+17 Plants with both days only adaxial 170 per_fc                  -1.43e-02
+18 Plants with both days only adaxial 170 I(per_fc^2)             -1.73e-04
+19 Plants with both days only adaxial 170 treatmentDrought        -1.23e-01
+20 Plants with both days only adaxial 170 per_fc:treatmentDrought  5.34e-03
+21 Plants with both days only abaxial 167 per_fc                   1.06e-02
+22 Plants with both days only abaxial 167 I(per_fc^2)             -2.33e-04
+23 Plants with both days only abaxial 167 treatmentDrought         8.03e-02
+24 Plants with both days only abaxial 167 per_fc:treatmentDrought -6.19e-04
+   t       df    p        sig   same_sign_as_main same_significance_as_main
+1  -8.2000  69.6 8.07e-12  TRUE  TRUE              TRUE                    
+2  -2.3400  36.6 2.51e-02  TRUE  TRUE              TRUE                    
+3  -1.7600 174.0 8.02e-02 FALSE  TRUE              TRUE                    
+4   2.6500 173.0 8.92e-03  TRUE  TRUE              TRUE                    
+5   3.7300  46.0 5.28e-04  TRUE  TRUE              TRUE                    
+6  -1.9400  25.7 6.30e-02 FALSE  TRUE              TRUE                    
+7   0.6650 162.0 5.07e-01 FALSE  TRUE              TRUE                    
+8  -0.0850 161.0 9.32e-01 FALSE  TRUE              TRUE                    
+9  -6.5000  72.0 8.95e-09  TRUE  TRUE              TRUE                    
+10 -2.1100  35.2 4.20e-02  TRUE  TRUE              TRUE                    
+11 -2.2100 177.0 2.85e-02  TRUE  TRUE             FALSE                    
+12  2.6300 175.0 9.31e-03  TRUE  TRUE              TRUE                    
+13  2.9000  60.1 5.14e-03  TRUE  TRUE              TRUE                    
+14 -1.9400  26.8 6.28e-02 FALSE  TRUE              TRUE                    
+15  0.3860 173.0 7.00e-01 FALSE  TRUE              TRUE                    
+16  0.0232 170.0 9.82e-01 FALSE FALSE              TRUE                    
+17 -7.9400  78.0 1.24e-11  TRUE  TRUE              TRUE                    
+18 -2.4300  34.2 2.04e-02  TRUE  TRUE              TRUE                    
+19 -1.4700 147.0 1.43e-01 FALSE  TRUE              TRUE                    
+20  2.7200 148.0 7.34e-03  TRUE  TRUE              TRUE                    
+21  3.8800  53.5 2.90e-04  TRUE  TRUE              TRUE                    
+22 -2.0100  21.9 5.73e-02 FALSE  TRUE              TRUE                    
+23  0.6570 135.0 5.13e-01 FALSE  TRUE              TRUE                    
+24 -0.2140 137.0 8.31e-01 FALSE  TRUE              TRUE                    
+
+Conclusion changes (sign or P < 0.05 status differs from the main model):
+  analysis                   surface term                    beta      p     
+1 Watering-day readings only adaxial treatmentDrought        -2.86e-01 0.0285
+2 Watering-day readings only abaxial per_fc:treatmentDrought  8.23e-05 0.9820
+
+Appended 34 lines to results/02_main_models/formatted_results_main_models_df.md 

@@ -1,0 +1,18 @@
+﻿"factor","level","survivors","missing","pct_missing","fisher_P"
+"watering","Well-watered",255,8,3.1,0.7930138980314653
+"watering","Drought",186,7,3.8,0.7930138980314653
+"inoculum","None",124,5,4,0.7172228277717223
+"inoculum","AM",111,5,4.5,0.7172228277717223
+"inoculum","EM",99,3,3,0.7172228277717223
+"inoculum","Both",107,2,1.9,0.7172228277717223
+"soil","No Tam Legacy",218,6,2.8,0.6012284905201901
+"soil","Tam Legacy",223,9,4,0.6012284905201901
+"population","BR",62,3,4.8,0.37848621513784864
+"population","IC",64,4,6.2,0.37848621513784864
+"population","JC",84,4,4.8,0.37848621513784864
+"population","LC",78,2,2.6,0.37848621513784864
+"population","OC",96,2,2.1,0.37848621513784864
+"population","SF",57,0,0,0.37848621513784864
+"ancestry_tercile","lower third",164,5,3,0.9478305216947831
+"ancestry_tercile","middle third",135,5,3.7,0.9478305216947831
+"ancestry_tercile","upper third",142,5,3.5,0.9478305216947831

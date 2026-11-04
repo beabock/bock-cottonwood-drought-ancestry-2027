@@ -1,0 +1,4 @@
+﻿"Surface","Plants (observations)","Ancestry, averaged over watering (per 10 percentage points)","Drought, averaged over ancestry","Ancestry × drought (reported, not interpreted)"
+"Adaxial","203 (372)","–10.0% per 10 percentage points (95% CI –13.7 to –6.1%), t = –4.91, df = 77.2, P < 0.001","–36.6% (95% CI –56.9 to –6.6%), t = –2.30, df = 177.2, P = 0.022","β = 0.00290, t = 0.88, df = 178.7, P = 0.379"
+"Abaxial","202 (366)","12.3% per 10 percentage points (95% CI 5.5 to 19.5%), t = 3.64, df = 66.3, P < 0.001","–35.6% (95% CI –61.6 to 7.9%), t = –1.67, df = 169.7, P = 0.097","β = –0.00427, t = –0.96, df = 175.8, P = 0.338"
+"Adaxial minus abaxial, joint model","203 (738)","Difference in ancestry slope: β = –0.0207, t = –16.89, df = 360.8, P < 0.001","–","–"

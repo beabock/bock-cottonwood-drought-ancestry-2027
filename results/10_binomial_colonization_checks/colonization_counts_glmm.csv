@@ -1,0 +1,9 @@
+﻿"model","quantity","string","p"
+"Binomial GLMM + observation-level RE (lme4)","EMF vs. AMF ancestry slope, well-watered (logit, per 1%)","β = –0.0106, z = –2.03, P = 0.042",0.04241112054657281
+"Binomial GLMM + observation-level RE (lme4)","AMF ancestry slope, averaged over treatments (logit, per 1%)","β = 0.000540, z = 0.19, P = 0.852; OR per 10 points 1.005 (95% CI 0.950–1.064)",0.8515685855423152
+"Binomial GLMM + observation-level RE (lme4)","DSE ancestry slope, averaged over treatments (logit, per 1%)","β = 0.00497, z = 1.56, P = 0.118; OR per 10 points 1.051 (95% CI 0.987–1.118)",0.11784408036286635
+"Binomial GLMM + observation-level RE (lme4)","EMF ancestry slope, averaged over treatments (logit, per 1%)","β = –0.00591, z = –2.24, P = 0.025; OR per 10 points 0.943 (95% CI 0.895–0.993)",0.02518145148189246
+"Beta-binomial GLMM (glmmTMB)","EMF vs. AMF ancestry slope, well-watered (logit, per 1%)","β = –0.00911, z = –1.94, P = 0.052",0.052463313937113815
+"Beta-binomial GLMM (glmmTMB)","AMF ancestry slope, averaged over treatments (logit, per 1%)","β = –0.000393, z = –0.13, P = 0.895; OR per 10 points 0.996 (95% CI 0.939–1.056)",0.8952693212051561
+"Beta-binomial GLMM (glmmTMB)","DSE ancestry slope, averaged over treatments (logit, per 1%)","β = 0.00417, z = 1.49, P = 0.137; OR per 10 points 1.043 (95% CI 0.987–1.101)",0.1373969518152959
+"Beta-binomial GLMM (glmmTMB)","EMF ancestry slope, averaged over treatments (logit, per 1%)","β = –0.00550, z = –3.29, P = 0.001; OR per 10 points 0.947 (95% CI 0.916–0.978)",0.0010136438633820896

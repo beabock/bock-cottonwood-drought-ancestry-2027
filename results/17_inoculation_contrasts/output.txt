@@ -1,0 +1,92 @@
+INOCULATION CONTRASTS run: | R version 4.6.1 (2026-06-24 ucrt) | emmeans 2.0.4 
+emmeans default adjustment for 'trt.vs.ctrl':  dunnettx 
+
+New stem biomass (log) | n = 425 | adjustment attached by emmeans: P value adjustment: dunnettx method for 3 tests 
+Total new biomass (log), (a) estimated root mass | n = 414 | adjustment attached by emmeans: P value adjustment: dunnettx method for 3 tests 
+Total new biomass (log), (b) measured root mass only | n = 242 | adjustment attached by emmeans: P value adjustment: dunnettx method for 3 tests 
+ response                                             n   treatment   
+ New stem biomass (log)                               425 Well-watered
+ New stem biomass (log)                               425 Well-watered
+ New stem biomass (log)                               425 Well-watered
+ New stem biomass (log)                               425 Drought     
+ New stem biomass (log)                               425 Drought     
+ New stem biomass (log)                               425 Drought     
+ Total new biomass (log), (a) estimated root mass     414 Well-watered
+ Total new biomass (log), (a) estimated root mass     414 Well-watered
+ Total new biomass (log), (a) estimated root mass     414 Well-watered
+ Total new biomass (log), (a) estimated root mass     414 Drought     
+ Total new biomass (log), (a) estimated root mass     414 Drought     
+ Total new biomass (log), (a) estimated root mass     414 Drought     
+ Total new biomass (log), (b) measured root mass only 242 Well-watered
+ Total new biomass (log), (b) measured root mass only 242 Well-watered
+ Total new biomass (log), (b) measured root mass only 242 Well-watered
+ Total new biomass (log), (b) measured root mass only 242 Drought     
+ Total new biomass (log), (b) measured root mass only 242 Drought     
+ Total new biomass (log), (b) measured root mass only 242 Drought     
+ contrast    ratio  t        df    P_unadjusted P_dunnettx_reported
+ AM - None   1.0680  0.58800 386.5 0.556900     0.85540            
+ EM - None   1.2610  1.96000 385.6 0.050740     0.13070            
+ Both - None 1.0130  0.11190 386.0 0.911000     0.99520            
+ AM - None   0.9931 -0.05218 391.3 0.958400     0.99900            
+ EM - None   1.0330  0.24390 385.9 0.807400     0.97610            
+ Both - None 1.0240  0.18510 389.0 0.853200     0.98650            
+ AM - None   0.8289 -2.56600 372.4 0.010680     0.02971            
+ EM - None   0.9635 -0.47760 373.1 0.633200     0.90480            
+ Both - None 0.8868 -1.61100 374.4 0.108000     0.25820            
+ AM - None   1.1050  1.14200 379.8 0.254200     0.52100            
+ EM - None   0.8982 -1.25500 374.5 0.210300     0.45030            
+ Both - None 0.9209 -0.96170 376.3 0.336800     0.63710            
+ AM - None   0.7479 -2.70900 210.4 0.007306     0.02052            
+ EM - None   0.9388 -0.52720 208.8 0.598600     0.88380            
+ Both - None 0.8659 -1.35200 212.2 0.177900     0.39370            
+ AM - None   1.0810  0.66970 216.3 0.503700     0.81350            
+ EM - None   0.7794 -2.17900 214.1 0.030420     0.08092            
+ Both - None 0.8269 -1.69800 208.4 0.091040     0.22200            
+ ratio_lo_dunnettx ratio_hi_dunnettx P_dunnett_mvt P_holm_all18
+ 0.8191            1.3930            0.88730       1.0000      
+ 0.9528            1.6680            0.12790       0.7611      
+ 0.7739            1.3250            0.99900       1.0000      
+ 0.7248            1.3610            0.99990       1.0000      
+ 0.7562            1.4100            0.99100       1.0000      
+ 0.7517            1.3960            0.99600       1.0000      
+ 0.6971            0.9857            0.02910       0.1816      
+ 0.8012            1.1590            0.93420       1.0000      
+ 0.7433            1.0580            0.25410       1.0000      
+ 0.8984            1.3590            0.54530       1.0000      
+ 0.7334            1.1000            0.46890       1.0000      
+ 0.7517            1.1280            0.67090       1.0000      
+ 0.5796            0.9650            0.02015       0.1315      
+ 0.7063            1.2480            0.91450       1.0000      
+ 0.6723            1.1150            0.39300       1.0000      
+ 0.8199            1.4250            0.85750       1.0000      
+ 0.5939            1.0230            0.08231       0.4868      
+ 0.6336            1.0790            0.22900       1.0000      
+ P_bonferroni_all18
+ 1.0000            
+ 0.9133            
+ 1.0000            
+ 1.0000            
+ 1.0000            
+ 1.0000            
+ 0.1923            
+ 1.0000            
+ 1.0000            
+ 1.0000            
+ 1.0000            
+ 1.0000            
+ 0.1315            
+ 1.0000            
+ 1.0000            
+ 1.0000            
+ 0.5476            
+ 1.0000            
+
+Contrasts with Dunnett-adjusted P < 0.05:
+                                              response    treatment  contrast
+1     Total new biomass (log), (a) estimated root mass Well-watered AM - None
+2 Total new biomass (log), (b) measured root mass only Well-watered AM - None
+      ratio P_unadjusted P_dunnettx_reported P_dunnett_mvt P_holm_all18
+1 0.8289434  0.010680770          0.02971276    0.02909973    0.1815731
+2 0.7479119  0.007305952          0.02052481    0.02014820    0.1315071
+
+Contrasts with unadjusted P < 0.05: 3 | Holm across 18 < 0.05: 0 

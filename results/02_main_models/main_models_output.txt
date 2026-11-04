@@ -1,0 +1,1081 @@
+MAIN MODELS run: 
+
+
+==============================================================================
+Genotype map (saved to results/02_main_models/genotype_map.csv)
+==============================================================================
+genotypes: 43 | cuttings per genotype: 3-18 | genotypes with >1 distinct per_f: 0 | genotypes spanning >1 crosstype label: 0 
+
+   Backcross Fremont Backcross Narrowleaf            F1 Hybrid 
+                   3                    2                    4 
+             Fremont           Narrowleaf 
+                  16                   18 
+
+
+==============================================================================
+PERMANOVA: crosstype and population in the same model; strata = inoculum category
+==============================================================================
+
+Model A4 (categorical, 3 focal crosstypes): fungal_matrix ~ new_class + pop + treatment + soil; n = 65 ; sequential terms; permutations restricted within inoculum category
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Blocks:  strata 
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = fmat ~ new_class + pop + treatment + soil, data = fenv, permutations = 999, method = "euclidean", by = "terms", strata = fenv$myco_cat)
+          Df SumOfSqs      R2      F Pr(>F)   
+new_class  2   2259.0 0.12496 4.3473  0.004 **
+pop        5   1345.1 0.07441 1.0354  0.453   
+treatment  1      8.7 0.00048 0.0336  0.989   
+soil       1    175.5 0.00971 0.6756  0.502   
+Residual  55  14290.1 0.79045                 
+Total     64  18078.5 1.00000                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Model B4 (continuous ancestry, all crosstypes): fungal_matrix ~ per_f + pop + treatment + soil; n = 78 
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Blocks:  strata 
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = fmatb ~ per_f + pop + treatment + soil, data = fenvb, permutations = 999, method = "euclidean", by = "terms", strata = fenvb$myco_cat)
+          Df SumOfSqs      R2       F Pr(>F)    
+per_f      1   2512.8 0.11517 10.0949  0.001 ***
+pop        5   1502.0 0.06884  1.2068  0.299    
+treatment  1     90.4 0.00414  0.3632  0.725    
+soil       1    537.2 0.02462  2.1580  0.106    
+Residual  69  17175.5 0.78722                   
+Total     77  21817.9 1.00000                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Pairwise crosstype (crosstype only, no strata/covariates):
+                    pairs Df  SumsOfSqs   F.Model          R2 p.value
+1   Fremont vs Narrowleaf  1 2134.50545 8.4270466 0.137187884   0.001
+2    Fremont vs F1 Hybrid  1  730.80252 2.9971392 0.081010026   0.058
+3 Narrowleaf vs F1 Hybrid  1   80.24017 0.2991584 0.008020512   0.812
+  p.adjusted sig
+1      0.003   *
+2      0.174    
+3      1.000    
+
+Order-independent (marginal) tests, Model A4:
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Blocks:  strata 
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = fmat ~ new_class + pop + treatment + soil, data = fenv, permutations = 999, method = "euclidean", by = "margin", strata = fenv$myco_cat)
+          Df SumOfSqs      R2      F Pr(>F)    
+new_class  2   2525.9 0.13972 4.8608  0.001 ***
+pop        5   1264.8 0.06996 0.9736  0.498    
+treatment  1     32.4 0.00179 0.1246  0.920    
+soil       1    175.5 0.00971 0.6756  0.544    
+Residual  55  14290.1 0.79045                  
+Total     64  18078.5 1.00000                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Order-independent (marginal) tests, Model B4:
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Blocks:  strata 
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = fmatb ~ per_f + pop + treatment + soil, data = fenvb, permutations = 999, method = "euclidean", by = "margin", strata = fenvb$myco_cat)
+          Df SumOfSqs      R2       F Pr(>F)    
+per_f      1   2719.7 0.12465 10.9259  0.001 ***
+pop        5   1416.5 0.06492  1.1381  0.356    
+treatment  1    178.7 0.00819  0.7181  0.475    
+soil       1    537.2 0.02462  2.1580  0.098 .  
+Residual  69  17175.5 0.78722                   
+Total     77  21817.9 1.00000                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Note: genotype cannot be a PERMANOVA term (it determines ancestry, so it is collinear with crosstype/per_f).
+Permutations here still treat trees as exchangeable within inoculum category.
+
+
+==============================================================================
+COLONIZATION LMM: + genotype (pop:geno_id) and tree_id
+==============================================================================
+trees: 78 | genotypes: 37 | rows: 234 
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: update(fx, . ~ . + (1 | pop) + (1 | myco_cat) + (1 | pop:geno_id) +  
+    (1 | tree_id))
+   Data: dl
+
+REML criterion at convergence: 1691.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.8267 -0.6678 -0.1064  0.4875  2.8446 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ tree_id     (Intercept)  0.0000  0.0000  
+ pop:geno_id (Intercept)  0.0000  0.0000  
+ pop         (Intercept)  1.5405  1.2412  
+ myco_cat    (Intercept)  0.1312  0.3622  
+ Residual                83.4977  9.1377  
+Number of obs: 234, groups:  tree_id, 78; pop:geno_id, 37; pop, 6; myco_cat, 4
+
+Fixed effects:
+                                       Estimate Std. Error        df t value
+(Intercept)                             7.90368    2.49416 122.03532   3.169
+per_f                                   0.02054    0.03458 214.63936   0.594
+fungal_typedse                         -0.79249    3.34693 209.48759  -0.237
+fungal_typeemf                         32.32548    3.34693 209.48759   9.658
+treatmentDrought                        1.92650    3.24516 216.73645   0.594
+og_drc_mm_z                            -1.30392    1.09951 215.14359  -1.186
+soilTam Legacy                         -0.98586    1.26263 217.83733  -0.781
+per_f:fungal_typedse                   -0.03642    0.04865 209.48759  -0.749
+per_f:fungal_typeemf                   -0.17094    0.04865 209.48759  -3.514
+per_f:treatmentDrought                 -0.01956    0.04961 214.83507  -0.394
+fungal_typedse:treatmentDrought        -3.30903    4.56167 209.48759  -0.725
+fungal_typeemf:treatmentDrought        -1.44742    4.56167 209.48759  -0.317
+fungal_typedse:og_drc_mm_z             -0.05759    1.53737 209.48759  -0.037
+fungal_typeemf:og_drc_mm_z             -0.05352    1.53737 209.48759  -0.035
+per_f:fungal_typedse:treatmentDrought   0.07681    0.06989 209.48759   1.099
+per_f:fungal_typeemf:treatmentDrought   0.07182    0.06989 209.48759   1.028
+                                      Pr(>|t|)    
+(Intercept)                           0.001934 ** 
+per_f                                 0.553093    
+fungal_typedse                        0.813058    
+fungal_typeemf                         < 2e-16 ***
+treatmentDrought                      0.553363    
+og_drc_mm_z                           0.236966    
+soilTam Legacy                        0.435769    
+per_f:fungal_typedse                  0.454889    
+per_f:fungal_typeemf                  0.000541 ***
+per_f:treatmentDrought                0.693730    
+fungal_typedse:treatmentDrought       0.469017    
+fungal_typeemf:treatmentDrought       0.751331    
+fungal_typedse:og_drc_mm_z            0.970152    
+fungal_typeemf:og_drc_mm_z            0.972265    
+per_f:fungal_typedse:treatmentDrought 0.273007    
+per_f:fungal_typeemf:treatmentDrought 0.305305    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+
+nlme sensitivity (random ~1|pop/geno_id; corSymm within tree; varIdent by fungal type):
+                                            Value  Std.Error  DF     t-value
+(Intercept)                            6.33014054 2.38112331 180  2.65846818
+per_f                                  0.02611768 0.03176374  30  0.82224818
+fungal_typedse                        -0.79248868 3.17286771 180 -0.24977048
+fungal_typeemf                        32.32547917 3.94548562 180  8.19302927
+treatmentDrought                       2.04029785 2.95764859 180  0.68983782
+og_drc_mm_z                           -1.17858645 1.00316518 180 -1.17486778
+soilTam Legacy                         0.50281398 0.93961699 180  0.53512654
+myco_catAM                             2.20362502 1.25339951 180  1.75811862
+myco_catEM                             0.08583273 1.22555186 180  0.07003599
+myco_catBoth                           0.72420644 1.43918922 180  0.50320446
+per_f:fungal_typedse                  -0.03642198 0.04611809 180 -0.78975475
+per_f:fungal_typeemf                  -0.17094482 0.05734821 180 -2.98082230
+per_f:treatmentDrought                -0.02417550 0.04515725 180 -0.53536252
+fungal_typedse:treatmentDrought       -3.30902726 4.32443346 180 -0.76519324
+fungal_typeemf:treatmentDrought       -1.44742203 5.37746657 180 -0.26916430
+fungal_typedse:og_drc_mm_z            -0.05759416 1.45741736 180 -0.03951796
+fungal_typeemf:og_drc_mm_z            -0.05351534 1.81230979 180 -0.02952880
+per_f:fungal_typedse:treatmentDrought  0.07681478 0.06625709 180  1.15934440
+per_f:fungal_typeemf:treatmentDrought  0.07182358 0.08239120 180  0.87173842
+                                           p-value
+(Intercept)                           8.556811e-03
+per_f                                 4.174233e-01
+fungal_typedse                        8.030497e-01
+fungal_typeemf                        4.596664e-14
+treatmentDrought                      4.911846e-01
+og_drc_mm_z                           2.415995e-01
+soilTam Legacy                        5.932228e-01
+myco_catAM                            8.042696e-02
+myco_catEM                            9.442428e-01
+myco_catBoth                          6.154357e-01
+per_f:fungal_typedse                  4.307101e-01
+per_f:fungal_typeemf                  3.272412e-03
+per_f:treatmentDrought                5.930600e-01
+fungal_typedse:treatmentDrought       4.451586e-01
+fungal_typeemf:treatmentDrought       7.881115e-01
+fungal_typedse:og_drc_mm_z            9.685212e-01
+fungal_typeemf:og_drc_mm_z            9.764756e-01
+per_f:fungal_typedse:treatmentDrought 2.478514e-01
+per_f:fungal_typeemf:treatmentDrought 3.845124e-01
+Correlation structure of class corSymm representing
+ Correlation: 
+  1      2     
+2 -0.408       
+3 -0.074  0.288
+Variance function structure of class varIdent representing
+      amf       emf       dse 
+1.0000000 1.4692493 0.7539187 
+            Variance     StdDev   
+pop =       pdLogChol(1)          
+(Intercept)  0.001425304 0.0377532
+geno_id =   pdLogChol(1)          
+(Intercept)  1.004798637 1.0023964
+Residual    68.737401031 8.2908022
+
+Ancestry slope by fungal type (lmer):
+ fungal_type per_f.trend     SE  df lower.CL upper.CL t.ratio p.value
+ amf              0.0108 0.0259 216  -0.0403   0.0618   0.415  0.6784
+ dse              0.0127 0.0259 216  -0.0383   0.0638   0.492  0.6234
+ emf             -0.1243 0.0259 216  -0.1754  -0.0732  -4.795 <0.0001
+
+Results are averaged over the levels of: treatment, soil 
+Degrees-of-freedom method: satterthwaite 
+Confidence level used: 0.95 
+
+Ancestry slope by fungal type (nlme):
+ fungal_type per_f.trend     SE df lower.CL upper.CL t.ratio p.value
+ amf               0.014 0.0238 30  -0.0346   0.0627   0.589  0.5603
+ dse               0.016 0.0182 30  -0.0212   0.0532   0.879  0.3865
+ emf              -0.121 0.0346 30  -0.1917  -0.0503  -3.494  0.0015
+
+Results are averaged over the levels of: treatment, soil, myco_cat 
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+
+==============================================================================
+BIOMASS: log(dryshoot_new), (1|pop) + (1|pop:geno_id)
+==============================================================================
+
+--- FULL (ancestry x drought) ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: log(dryshoot_new) ~ per_fc * treatment + I(per_fc^2) * treatment +  
+    og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id)
+   Data: ds
+
+REML criterion at convergence: 932.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.3081 -0.5318  0.0622  0.5834  3.1455 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ pop:geno_id (Intercept) 0.0513   0.2265  
+ pop         (Intercept) 0.1950   0.4416  
+ Residual                0.3947   0.6282  
+Number of obs: 425, groups:  pop:geno_id, 41; pop, 6
+
+Fixed effects:
+                               Estimate Std. Error         df t value Pr(>|t|)
+(Intercept)                  -1.816e+00  2.665e-01  1.977e+01  -6.816 1.34e-06
+per_fc                       -5.478e-03  1.298e-03  5.848e+01  -4.221 8.60e-05
+treatmentDrought             -2.787e-01  1.614e-01  3.916e+02  -1.727   0.0850
+I(per_fc^2)                  -1.807e-04  7.089e-05  5.079e+01  -2.549   0.0139
+og_drc_mm                     3.907e-02  3.057e-02  3.929e+02   1.278   0.2019
+myco_catAM                    2.988e-02  8.524e-02  3.860e+02   0.351   0.7261
+myco_catEM                    1.396e-01  8.782e-02  3.875e+02   1.589   0.1129
+myco_catBoth                  1.158e-02  8.544e-02  3.865e+02   0.136   0.8923
+soilTam Legacy                9.722e-02  6.206e-02  3.928e+02   1.566   0.1180
+per_fc:treatmentDrought       6.270e-04  1.454e-03  3.917e+02   0.431   0.6667
+treatmentDrought:I(per_fc^2)  8.909e-05  7.738e-05  3.921e+02   1.151   0.2503
+                                
+(Intercept)                  ***
+per_fc                       ***
+treatmentDrought             .  
+I(per_fc^2)                  *  
+og_drc_mm                       
+myco_catAM                      
+myco_catEM                      
+myco_catBoth                    
+soilTam Legacy                  
+per_fc:treatmentDrought         
+treatmentDrought:I(per_fc^2)    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) per_fc trtmnD I(_^2) og_dr_ myc_AM myc_EM myc_cB slTmLg
+per_fc       0.113                                                        
+trtmntDrght -0.245  0.024                                                 
+I(per_fc^2) -0.461  0.065  0.421                                          
+og_drc_mm   -0.434 -0.282 -0.039 -0.107                                   
+myco_catAM  -0.172  0.008  0.039 -0.002  0.016                            
+myco_catEM  -0.135 -0.002  0.053  0.030 -0.062  0.456                     
+myco_catBth -0.155  0.012  0.047  0.008 -0.007  0.465  0.458              
+soilTamLgcy -0.135 -0.007  0.014  0.023 -0.007  0.078  0.028  0.015       
+pr_fc:trtmD -0.015 -0.457 -0.032  0.003  0.018 -0.023  0.025  0.021  0.011
+trtD:I(_^2)  0.224 -0.027 -0.919 -0.455  0.033 -0.018 -0.048 -0.028 -0.014
+            pr_f:D
+per_fc            
+trtmntDrght       
+I(per_fc^2)       
+og_drc_mm         
+myco_catAM        
+myco_catEM        
+myco_catBth       
+soilTamLgcy       
+pr_fc:trtmD       
+trtD:I(_^2)  0.083
+fit warnings:
+Some predictor variables are on very different scales: consider rescaling. 
+You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.
+
+--- REDUCED (no interactions) ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: log(dryshoot_new) ~ per_fc + treatment + I(per_fc^2) + og_drc_mm +  
+    myco_cat + soil + (1 | pop) + (1 | pop:geno_id)
+   Data: ds
+
+REML criterion at convergence: 905.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.3426 -0.5503  0.0763  0.5635  3.2079 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ pop:geno_id (Intercept) 0.05049  0.2247  
+ pop         (Intercept) 0.19241  0.4386  
+ Residual                0.39448  0.6281  
+Number of obs: 425, groups:  pop:geno_id, 41; pop, 6
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)      -1.882e+00  2.584e-01  1.797e+01  -7.285 9.13e-07 ***
+per_fc           -5.240e-03  1.149e-03  3.747e+01  -4.560 5.32e-05 ***
+treatmentDrought -1.104e-01  6.309e-02  3.956e+02  -1.750   0.0808 .  
+I(per_fc^2)      -1.446e-04  6.276e-05  3.160e+01  -2.303   0.0280 *  
+og_drc_mm         3.790e-02  3.052e-02  3.936e+02   1.242   0.2151    
+myco_catAM        3.229e-02  8.518e-02  3.881e+02   0.379   0.7049    
+myco_catEM        1.435e-01  8.766e-02  3.897e+02   1.637   0.1024    
+myco_catBoth      1.358e-02  8.535e-02  3.888e+02   0.159   0.8737    
+soilTam Legacy    9.797e-02  6.203e-02  3.950e+02   1.579   0.1150    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) per_fc trtmnD I(_^2) og_dr_ myc_AM myc_EM myc_cB
+per_fc       0.120                                                 
+trtmntDrght -0.100  0.057                                          
+I(per_fc^2) -0.412  0.091  0.002                                   
+og_drc_mm   -0.455 -0.309 -0.024 -0.104                            
+myco_catAM  -0.174 -0.003  0.060 -0.010  0.017                     
+myco_catEM  -0.127  0.011  0.018  0.008 -0.061  0.457              
+myco_catBth -0.153  0.025  0.052 -0.006 -0.007  0.465  0.457       
+soilTamLgcy -0.135 -0.002  0.003  0.018 -0.007  0.078  0.027  0.015
+
+--- LRT ancestry (linear + quadratic) x drought ---
+Data: ds
+Models:
+bio_red4: log(dryshoot_new) ~ per_fc + treatment + I(per_fc^2) + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id)
+bio_full4: log(dryshoot_new) ~ per_fc * treatment + I(per_fc^2) * treatment + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id)
+          npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(>Chisq)
+bio_red4    12 875.75 924.38 -425.88    851.75                     
+bio_full4   14 878.32 935.04 -425.16    850.32 1.4376  2     0.4873
+
+
+==============================================================================
+BIOMASS PEAK: vertex = 50 - b/(2c) from the reduced model
+==============================================================================
+b = -0.00524  c = -0.0001446 
+Vertex = 31.88 % Fremont (Q = 0.681 )
+Delta-method 95% CI: 15.2 to 48.5 
+Parametric bootstrap (2000 sims, bootMer, use.u = FALSE): median 31.6 | 95% percentile CI (all sims) -43.1 to 42.5 | outside 0-100: 152 of 2000
+Refits where the quadratic is NOT concave (c >= 0, so there is no peak): 16 of 2000 ( 0.8 %)
+95% percentile CI among concave refits only: -43.9 to 41.8 | share of concave refits with vertex inside 0-100: 93 %
+Original estimate: c = -0.000145 (SE 6.28e-05 ), t = -2.3 
+
+
+==============================================================================
+SURVIVAL: binomial GLMM, population fixed + (1 | geno_id)
+==============================================================================
+n = 563 
+
+--- FULL: raw glmer summary (ancestry in units of 50 points) ---
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: alive_01_10_2021 ~ pf50 * treatment + I(pf50^2) * treatment +  
+    pop + og_drc_mm + soil + myco_cat + (1 | geno_id)
+   Data: ds
+Control: ctl
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+    530.0     603.7    -248.0     496.0       546 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.3593  0.1467  0.3042  0.5133  1.9293 
+
+Random effects:
+ Groups  Name        Variance Std.Dev.
+ geno_id (Intercept) 0.2228   0.472   
+Number of obs: 563, groups:  geno_id, 43
+
+Fixed effects:
+                           Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                 3.18881    0.77566   4.111 3.94e-05 ***
+pf50                       -0.54543    0.26452  -2.062   0.0392 *  
+treatmentDrought           -0.87190    0.54211  -1.608   0.1078    
+I(pf50^2)                   0.32531    0.61033   0.533   0.5940    
+popIC                      -0.06065    0.53568  -0.113   0.9098    
+popJC                       0.78650    0.58353   1.348   0.1777    
+popLC                       0.83260    0.59708   1.394   0.1632    
+popOC                      -0.36036    0.49004  -0.735   0.4621    
+popSF                      -1.26172    0.52171  -2.418   0.0156 *  
+og_drc_mm                  -0.21509    0.10815  -1.989   0.0467 *  
+soilTam Legacy              0.23879    0.22953   1.040   0.2982    
+myco_catAM                 -0.38214    0.33517  -1.140   0.2542    
+myco_catEM                 -0.57047    0.32813  -1.739   0.0821 .  
+myco_catBoth               -0.51676    0.32845  -1.573   0.1156    
+pf50:treatmentDrought      -0.02836    0.29641  -0.096   0.9238    
+treatmentDrought:I(pf50^2) -0.44585    0.68011  -0.656   0.5121    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+--- FULL: coefficients converted to per-1% ancestry units ---
+                             Estimate Std. Error  z value Pr(>|z|)
+(Intercept)                   3.18881    0.77566  4.11108  0.00004
+per_fc                       -0.01091    0.00529 -2.06198  0.03921
+treatmentDrought             -0.87190    0.54211 -1.60833  0.10776
+I(per_fc^2)                   0.00013    0.00024  0.53301  0.59403
+popIC                        -0.06065    0.53568 -0.11323  0.90985
+popJC                         0.78650    0.58353  1.34782  0.17771
+popLC                         0.83260    0.59708  1.39445  0.16318
+popOC                        -0.36036    0.49004 -0.73537  0.46211
+popSF                        -1.26172    0.52171 -2.41842  0.01559
+og_drc_mm                    -0.21509    0.10815 -1.98883  0.04672
+soilTam Legacy                0.23879    0.22953  1.04034  0.29818
+myco_catAM                   -0.38214    0.33517 -1.14014  0.25423
+myco_catEM                   -0.57047    0.32813 -1.73854  0.08212
+myco_catBoth                 -0.51676    0.32845 -1.57332  0.11564
+per_fc:treatmentDrought      -0.00057    0.00593 -0.09568  0.92378
+treatmentDrought:I(per_fc^2) -0.00018    0.00027 -0.65556  0.51211
+
+--- REDUCED: raw glmer summary ---
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: alive_01_10_2021 ~ pf50 + treatment + I(pf50^2) + pop + og_drc_mm +  
+    soil + myco_cat + (1 | geno_id)
+   Data: ds
+Control: ctl
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+    526.5     591.5    -248.3     496.5       548 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.2053  0.1497  0.3016  0.5093  2.0054 
+
+Random effects:
+ Groups  Name        Variance Std.Dev.
+ geno_id (Intercept) 0.2283   0.4778  
+Number of obs: 563, groups:  geno_id, 43
+
+Fixed effects:
+                 Estimate Std. Error z value Pr(>|z|)    
+(Intercept)       3.37763    0.73086   4.621 3.81e-06 ***
+pf50             -0.56129    0.17858  -3.143  0.00167 ** 
+treatmentDrought -1.20467    0.23912  -5.038 4.71e-07 ***
+I(pf50^2)         0.06204    0.46100   0.135  0.89295    
+popIC            -0.06218    0.53708  -0.116  0.90783    
+popJC             0.78114    0.58423   1.337  0.18121    
+popLC             0.84081    0.59829   1.405  0.15991    
+popOC            -0.34790    0.49091  -0.709  0.47852    
+popSF            -1.26810    0.52294  -2.425  0.01531 *  
+og_drc_mm        -0.21318    0.10870  -1.961  0.04986 *  
+soilTam Legacy    0.23535    0.22944   1.026  0.30500    
+myco_catAM       -0.38609    0.33508  -1.152  0.24922    
+myco_catEM       -0.57616    0.32805  -1.756  0.07904 .  
+myco_catBoth     -0.51924    0.32852  -1.581  0.11398    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+--- REDUCED: coefficients converted to per-1% ancestry units ---
+                 Estimate Std. Error  z value Pr(>|z|)
+(Intercept)       3.37763    0.73086  4.62144  0.00000
+per_fc           -0.01123    0.00357 -3.14306  0.00167
+treatmentDrought -1.20467    0.23912 -5.03788  0.00000
+I(per_fc^2)       0.00002    0.00018  0.13458  0.89295
+popIC            -0.06218    0.53708 -0.11578  0.90783
+popJC             0.78114    0.58423  1.33703  0.18121
+popLC             0.84081    0.59829  1.40537  0.15991
+popOC            -0.34790    0.49091 -0.70869  0.47852
+popSF            -1.26810    0.52294 -2.42494  0.01531
+og_drc_mm        -0.21318    0.10870 -1.96113  0.04986
+soilTam Legacy    0.23535    0.22944  1.02578  0.30500
+myco_catAM       -0.38609    0.33508 -1.15223  0.24922
+myco_catEM       -0.57616    0.32805 -1.75631  0.07904
+myco_catBoth     -0.51924    0.32852 -1.58055  0.11398
+
+--- Alternative: population RANDOM + genotype nested (reduced), per-1% units ---
+                 Estimate Std. Error  z value Pr(>|z|)
+(Intercept)       3.19874    0.71436  4.47774  0.00001
+per_fc           -0.01104    0.00383 -2.88602  0.00390
+treatmentDrought -1.21470    0.23714 -5.12239  0.00000
+I(per_fc^2)       0.00008    0.00020  0.41874  0.67540
+og_drc_mm        -0.20328    0.10723 -1.89570  0.05800
+soilTam Legacy    0.23443    0.22775  1.02936  0.30331
+myco_catAM       -0.37365    0.33271 -1.12306  0.26141
+myco_catEM       -0.58008    0.32544 -1.78246  0.07467
+myco_catBoth     -0.52109    0.32583 -1.59926  0.10976
+ Groups      Name        Std.Dev.
+ pop:geno_id (Intercept) 0.61685 
+ pop         (Intercept) 0.58590 
+--- Alternative (full) interaction terms:
+                             Estimate Std. Error  z value Pr(>|z|)
+per_fc:treatmentDrought      -0.00021    0.00586 -0.03648  0.97090
+treatmentDrought:I(per_fc^2) -0.00018    0.00027 -0.67942  0.49687
+
+
+==============================================================================
+COLONIZATION x BIOMASS: + (1 | pop:geno_id)
+==============================================================================
+--- ancestry-controlled ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: log(dryshoot_new) ~ scale(amf) * treatment + scale(emf) * treatment +  
+    scale(dse) * treatment + per_fc + I(per_fc^2) + og_drc_mm +  
+    myco_cat + soil + (1 | pop) + (1 | pop:geno_id)
+   Data: ds
+
+REML criterion at convergence: 184.8
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.44456 -0.59280  0.04105  0.51710  2.54277 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ pop:geno_id (Intercept) 0.05394  0.2322  
+ pop         (Intercept) 0.15293  0.3911  
+ Residual                0.27118  0.5207  
+Number of obs: 77, groups:  pop:geno_id, 37; pop, 6
+
+Fixed effects:
+                              Estimate Std. Error         df t value Pr(>|t|)
+(Intercept)                 -1.504e+00  3.294e-01  3.128e+01  -4.567 7.27e-05
+scale(amf)                   2.425e-02  1.060e-01  5.686e+01   0.229  0.81976
+treatmentDrought            -1.475e-01  1.370e-01  4.602e+01  -1.077  0.28728
+scale(emf)                   1.451e-01  1.153e-01  5.861e+01   1.259  0.21318
+scale(dse)                  -1.016e-01  1.150e-01  5.823e+01  -0.884  0.38059
+per_fc                      -2.096e-03  2.099e-03  2.673e+01  -0.999  0.32690
+I(per_fc^2)                 -7.922e-05  9.171e-05  1.540e+01  -0.864  0.40095
+og_drc_mm                   -3.489e-03  4.352e-02  4.773e+01  -0.080  0.93644
+myco_catAM                  -5.413e-01  2.152e-01  5.951e+01  -2.516  0.01459
+myco_catEM                  -8.692e-02  1.973e-01  5.310e+01  -0.441  0.66131
+myco_catBoth                -2.926e-01  2.364e-01  5.634e+01  -1.238  0.22098
+soilTam Legacy               1.960e-01  1.424e-01  5.585e+01   1.376  0.17418
+scale(amf):treatmentDrought -9.158e-02  1.432e-01  4.699e+01  -0.640  0.52554
+treatmentDrought:scale(emf) -4.438e-01  1.561e-01  5.726e+01  -2.843  0.00618
+treatmentDrought:scale(dse) -1.782e-02  1.645e-01  5.307e+01  -0.108  0.91416
+                               
+(Intercept)                 ***
+scale(amf)                     
+treatmentDrought               
+scale(emf)                     
+scale(dse)                     
+per_fc                         
+I(per_fc^2)                    
+og_drc_mm                      
+myco_catAM                  *  
+myco_catEM                     
+myco_catBoth                   
+soilTam Legacy                 
+scale(amf):treatmentDrought    
+treatmentDrought:scale(emf) ** 
+treatmentDrought:scale(dse)    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+fit warnings:
+Some predictor variables are on very different scales: consider rescaling. 
+You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.
+
+--- naive ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: log(dryshoot_new) ~ scale(amf) * treatment + scale(emf) * treatment +  
+    scale(dse) * treatment + og_drc_mm + myco_cat + soil + (1 |  
+    pop) + (1 | pop:geno_id)
+   Data: ds
+
+REML criterion at convergence: 159.2
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.56379 -0.49046  0.02515  0.54850  2.51186 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ pop:geno_id (Intercept) 0.05803  0.2409  
+ pop         (Intercept) 0.12945  0.3598  
+ Residual                0.26993  0.5196  
+Number of obs: 77, groups:  pop:geno_id, 37; pop, 6
+
+Fixed effects:
+                            Estimate Std. Error       df t value Pr(>|t|)    
+(Intercept)                 -1.61710    0.27358 28.19064  -5.911 2.27e-06 ***
+scale(amf)                   0.01773    0.10600 58.36173   0.167  0.86773    
+treatmentDrought            -0.14534    0.13695 46.67366  -1.061  0.29402    
+scale(emf)                   0.18640    0.10636 60.43247   1.753  0.08475 .  
+scale(dse)                  -0.11069    0.11403 60.07656  -0.971  0.33556    
+og_drc_mm                   -0.01138    0.04243 49.53573  -0.268  0.78955    
+myco_catAM                  -0.56890    0.21103 61.53234  -2.696  0.00904 ** 
+myco_catEM                  -0.11462    0.19604 55.03836  -0.585  0.56114    
+myco_catBoth                -0.31123    0.23498 59.25594  -1.325  0.19042    
+soilTam Legacy               0.24252    0.13787 56.79648   1.759  0.08396 .  
+scale(amf):treatmentDrought -0.09299    0.14312 47.32476  -0.650  0.51901    
+treatmentDrought:scale(emf) -0.45042    0.15591 58.31913  -2.889  0.00542 ** 
+treatmentDrought:scale(dse) -0.04116    0.16334 54.16098  -0.252  0.80201    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Trees with |z| > 3 for log(dryshoot_new) among these 77 : 1 (max |z| = 3.71 , tree SFN117 )
+Max |scaled residual|, ancestry-controlled model: 2.54 
+
+
+==============================================================================
+AGGREGATED SURVIVAL: weighted binomial, population random intercept
+==============================================================================
+cells >=3 trees: 77 | with a survivor: 76 | usable (all three fungal means): 35 
+Group size (trees):
+
+ 3  4  5  6 
+20 11  2  2 
+
+Groups whose colonization mean rests on ONE scored tree (of 35 groups):
+# A tibble: 1 × 6
+    EMF   AMF   DSE any_fungus_one_tree all_three_one_tree
+  <int> <int> <int>               <int>              <int>
+1    19    31    31                  32                 18
+# ℹ 1 more variable: `AMF/DSE one tree and EMF one tree` <int>
+Scored trees per group: EMF median 1 (range 1-5 ); AMF median 1 (range 1-2 )
+
+n groups in model: 35 
+Population random intercept: converged = TRUE | singular (pop variance at 0) = TRUE 
+
+--- ancestry-controlled ---
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: 
+survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) *  
+    treatment + mean_per_fc + I(mean_per_fc^2) + mean_drc_mm +  
+    soil + myco_cat + (1 | pop)
+   Data: sdf
+Weights: n_total
+Control: ctl
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+     89.9     114.8     -28.9      57.9        19 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.4661 -0.6330  0.2371  0.5609  1.3814 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ pop    (Intercept) 0        0       
+Number of obs: 35, groups:  pop, 6
+
+Fixed effects:
+                                   Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                      -1.3815096  3.5589432  -0.388   0.6979  
+scale(mean_emf)                   0.7105945  0.6354201   1.118   0.2634  
+scale(mean_dse)                  -0.3177075  0.2857637  -1.112   0.2662  
+scale(mean_amf)                   0.2478606  0.5080845   0.488   0.6257  
+treatmentDrought                  0.0623383  0.8675185   0.072   0.9427  
+mean_per_fc                       0.0003989  0.0093016   0.043   0.9658  
+I(mean_per_fc^2)                  0.0017096  0.0014755   1.159   0.2466  
+mean_drc_mm                      -0.1073439  0.4032711  -0.266   0.7901  
+soilTam Legacy                    1.4381350  0.8424348   1.707   0.0878 .
+myco_catAM                       -0.4134313  1.2275289  -0.337   0.7363  
+myco_catEM                       -1.7311662  0.9059031  -1.911   0.0560 .
+myco_catBoth                     -0.8503801  0.9356620  -0.909   0.3634  
+scale(mean_emf):treatmentDrought -3.2688475  1.6420125  -1.991   0.0465 *
+scale(mean_dse):treatmentDrought -3.7890156  2.1122825  -1.794   0.0728 .
+scale(mean_amf):treatmentDrought -1.9345219  0.8436623  -2.293   0.0218 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+fit warnings:
+Some predictor variables are on very different scales: consider rescaling. 
+You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.
+optimizer (bobyqa) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+
+--- naive ---
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: 
+survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) *  
+    treatment + mean_drc_mm + soil + myco_cat + (1 | pop)
+   Data: sdf
+Weights: n_total
+Control: ctl
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+     86.9     108.7     -29.5      58.9        21 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.0765 -0.6906  0.2592  0.5862  1.3935 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ pop    (Intercept) 0        0       
+Number of obs: 35, groups:  pop, 6
+
+Fixed effects:
+                                 Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                       2.32474    1.79750   1.293   0.1959  
+scale(mean_emf)                   0.71302    0.54625   1.305   0.1918  
+scale(mean_dse)                  -0.27150    0.26297  -1.032   0.3019  
+scale(mean_amf)                   0.25644    0.49779   0.515   0.6064  
+treatmentDrought                 -0.01496    0.82777  -0.018   0.9856  
+mean_drc_mm                      -0.03885    0.35647  -0.109   0.9132  
+soilTam Legacy                    1.17019    0.74438   1.572   0.1159  
+myco_catAM                       -0.54272    1.15593  -0.470   0.6387  
+myco_catEM                       -1.72369    0.89780  -1.920   0.0549 .
+myco_catBoth                     -0.77854    0.91852  -0.848   0.3967  
+scale(mean_emf):treatmentDrought -2.77204    1.51691  -1.827   0.0676 .
+scale(mean_dse):treatmentDrought -3.12338    1.85317  -1.685   0.0919 .
+scale(mean_amf):treatmentDrought -1.67113    0.73949  -2.260   0.0238 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+optimizer (bobyqa) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+
+Same AMF x drought term from three engines (identical coefficient, population variance is 0):
+             engine estimate     se       p
+1    glmmTMB, no RE   -1.935 0.8437 0.02185
+2 stats::glm, no RE   -1.935 0.8436 0.02184
+3   glmer + (1|pop)   -1.935 0.8437 0.02185
+
+
+==============================================================================
+STOMATAL CONDUCTANCE: model as described in the Methods + alternatives
+==============================================================================
+n = 204 
+
+--- M: Methods model (linear + quadratic ancestry x drought) ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: fp("per_fc * treatment + I(per_fc^2) * treatment")
+   Data: ds
+
+REML criterion at convergence: -502.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.7222 -0.6470 -0.1542  0.4896  5.1778 
+
+Random effects:
+ Groups      Name        Variance  Std.Dev.
+ pop:geno_id (Intercept) 0.0005008 0.02238 
+ pop         (Intercept) 0.0000000 0.00000 
+ Residual                0.0024070 0.04906 
+Number of obs: 204, groups:  pop:geno_id, 41; pop, 6
+
+Fixed effects:
+                               Estimate Std. Error         df t value Pr(>|t|)
+(Intercept)                   1.395e-01  2.369e-02  1.076e+02   5.887 4.53e-08
+per_fc                       -7.364e-04  1.486e-04  7.243e+01  -4.955 4.60e-06
+treatmentDrought             -1.734e-02  1.766e-02  1.744e+02  -0.982   0.3274
+I(per_fc^2)                  -1.195e-05  7.210e-06  6.094e+01  -1.657   0.1026
+og_drc_mm                    -2.425e-03  4.355e-03  1.418e+02  -0.557   0.5786
+soilTam Legacy                1.088e-02  7.359e-03  1.814e+02   1.479   0.1409
+myco_catAM                    1.073e-02  9.786e-03  1.823e+02   1.096   0.2744
+myco_catEM                    5.426e-03  9.937e-03  1.768e+02   0.546   0.5857
+myco_catBoth                 -3.138e-03  1.030e-02  1.820e+02  -0.305   0.7611
+per_fc:treatmentDrought       3.681e-04  1.770e-04  1.751e+02   2.079   0.0391
+treatmentDrought:I(per_fc^2) -5.427e-07  8.597e-06  1.744e+02  -0.063   0.9497
+                                
+(Intercept)                  ***
+per_fc                       ***
+treatmentDrought                
+I(per_fc^2)                     
+og_drc_mm                       
+soilTam Legacy                  
+myco_catAM                      
+myco_catEM                      
+myco_catBoth                    
+per_fc:treatmentDrought      *  
+treatmentDrought:I(per_fc^2)    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) per_fc trtmnD I(_^2) og_dr_ slTmLg myc_AM myc_EM myc_cB
+per_fc       0.284                                                        
+trtmntDrght -0.399  0.011                                                 
+I(per_fc^2) -0.514  0.036  0.493                                          
+og_drc_mm   -0.706 -0.452  0.043 -0.117                                   
+soilTamLgcy -0.156  0.058 -0.038  0.030 -0.008                            
+myco_catAM  -0.266 -0.035  0.126  0.024  0.064 -0.007                     
+myco_catEM  -0.149  0.023  0.059  0.016 -0.075  0.048  0.450              
+myco_catBth -0.285 -0.060  0.072  0.036  0.082  0.060  0.456  0.444       
+pr_fc:trtmD -0.035 -0.473 -0.027  0.012  0.108 -0.117  0.012 -0.059  0.032
+trtD:I(_^2)  0.397  0.063 -0.901 -0.515 -0.081 -0.042 -0.116 -0.051 -0.056
+            pr_f:D
+per_fc            
+trtmntDrght       
+I(per_fc^2)       
+og_drc_mm         
+soilTamLgcy       
+myco_catAM        
+myco_catEM        
+myco_catBth       
+pr_fc:trtmD       
+trtD:I(_^2) -0.016
+fit warnings:
+Some predictor variables are on very different scales: consider rescaling. 
+You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability.
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+
+--- R: additive (no interactions) ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: fp("per_fc + treatment + I(per_fc^2)")
+   Data: ds
+
+REML criterion at convergence: -534.7
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.7076 -0.6924 -0.1880  0.5513  5.1156 
+
+Random effects:
+ Groups      Name        Variance  Std.Dev.
+ pop:geno_id (Intercept) 0.0004709 0.02170 
+ pop         (Intercept) 0.0000000 0.00000 
+ Residual                0.0024531 0.04953 
+Number of obs: 204, groups:  pop:geno_id, 41; pop, 6
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)       1.417e-01  2.168e-02  9.471e+01   6.536 3.16e-09 ***
+per_fc           -5.891e-04  1.297e-04  4.992e+01  -4.543 3.53e-05 ***
+treatmentDrought -1.668e-02  7.701e-03  1.795e+02  -2.165   0.0317 *  
+I(per_fc^2)      -1.214e-05  6.113e-06  3.649e+01  -1.985   0.0547 .  
+og_drc_mm        -3.516e-03  4.320e-03  1.419e+02  -0.814   0.4172    
+soilTam Legacy    1.261e-02  7.358e-03  1.847e+02   1.714   0.0881 .  
+myco_catAM        1.032e-02  9.795e-03  1.852e+02   1.054   0.2932    
+myco_catEM        6.639e-03  9.988e-03  1.797e+02   0.665   0.5071    
+myco_catBoth     -3.936e-03  1.036e-02  1.855e+02  -0.380   0.7045    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) per_fc trtmnD I(_^2) og_dr_ slTmLg myc_AM myc_EM
+per_fc       0.308                                                 
+trtmntDrght -0.110  0.128                                          
+I(per_fc^2) -0.386  0.093  0.079                                   
+og_drc_mm   -0.740 -0.458 -0.057 -0.188                            
+soilTamLgcy -0.158  0.006 -0.187  0.011  0.000                     
+myco_catAM  -0.244 -0.026  0.051 -0.043  0.056 -0.011              
+myco_catEM  -0.145 -0.003  0.024 -0.013 -0.073  0.038  0.449       
+myco_catBth -0.287 -0.048  0.053  0.008  0.075  0.061  0.453  0.445
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+
+--- L: linear ancestry x drought, no quadratic ---
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: fp("per_fc * treatment")
+   Data: ds
+
+REML criterion at convergence: -541.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.7669 -0.6830 -0.1339  0.5097  5.1450 
+
+Random effects:
+ Groups      Name        Variance  Std.Dev.
+ pop:geno_id (Intercept) 5.251e-04 0.022914
+ pop         (Intercept) 1.367e-05 0.003697
+ Residual                2.415e-03 0.049141
+Number of obs: 204, groups:  pop:geno_id, 41; pop, 6
+
+Fixed effects:
+                          Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)              1.234e-01  2.025e-02  1.110e+02   6.093 1.64e-08 ***
+per_fc                  -7.148e-04  1.493e-04  6.806e+01  -4.786 9.52e-06 ***
+treatmentDrought        -1.733e-02  7.669e-03  1.773e+02  -2.260   0.0250 *  
+og_drc_mm               -4.015e-03  4.310e-03  1.360e+02  -0.931   0.3533    
+soilTam Legacy           1.093e-02  7.374e-03  1.815e+02   1.482   0.1402    
+myco_catAM               9.916e-03  9.741e-03  1.825e+02   1.018   0.3101    
+myco_catEM               5.094e-03  9.948e-03  1.766e+02   0.512   0.6093    
+myco_catBoth            -2.988e-03  1.032e-02  1.819e+02  -0.290   0.7725    
+per_fc:treatmentDrought  3.701e-04  1.774e-04  1.742e+02   2.086   0.0385 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) per_fc trtmnD og_dr_ slTmLg myc_AM myc_EM myc_cB
+per_fc       0.340                                                 
+trtmntDrght -0.080  0.151                                          
+og_drc_mm   -0.894 -0.440 -0.054                                   
+soilTamLgcy -0.161  0.060 -0.176 -0.009                            
+myco_catAM  -0.279 -0.024  0.053  0.050 -0.012                     
+myco_catEM  -0.155  0.028  0.031 -0.084  0.046  0.446              
+myco_catBth -0.306 -0.058  0.050  0.082  0.058  0.454  0.442       
+pr_fc:trtmD -0.032 -0.472 -0.097  0.110 -0.118  0.009 -0.060  0.031
+
+--- Model comparison (ML refits) ---
+Data: ds
+Models:
+poro_LR: fp("per_fc + treatment")
+poro_L: fp("per_fc * treatment")
+poro_R: fp("per_fc + treatment + I(per_fc^2)")
+poro_A: fp("per_fc * treatment + I(per_fc^2)")
+poro_M: fp("per_fc * treatment + I(per_fc^2) * treatment")
+        npar     AIC     BIC logLik -2*log(L)  Chisq Df Pr(>Chisq)  
+poro_LR   11 -603.79 -567.29 312.90   -625.79                       
+poro_L    12 -606.20 -566.39 315.10   -630.20 4.4130  1    0.03567 *
+poro_R    12 -605.95 -566.13 314.97   -629.95 0.0000  0             
+poro_A    13 -608.33 -565.20 317.17   -634.33 4.3849  1    0.03626 *
+poro_M    14 -606.33 -559.88 317.17   -634.33 0.0032  1    0.95517  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Scaled residual extremes: M 5.18 | L 5.15 
+
+--- Key terms: A (common quadratic, linear ancestry x drought), R (additive), L (linear, x drought) ---
+Model A 
+                        Estimate Std. Error  t value Pr(>|t|)
+per_fc                  -0.00074    0.00015 -4.96963  0.00000
+I(per_fc^2)             -0.00001    0.00001 -1.97507  0.05607
+treatmentDrought        -0.01836    0.00765 -2.39969  0.01744
+per_fc:treatmentDrought  0.00037    0.00018  2.08497  0.03851
+Model R 
+                 Estimate Std. Error  t value Pr(>|t|)
+per_fc           -0.00059    0.00013 -4.54340  0.00004
+I(per_fc^2)      -0.00001    0.00001 -1.98529  0.05467
+treatmentDrought -0.01668    0.00770 -2.16526  0.03169
+Model L 
+                        Estimate Std. Error  t value Pr(>|t|)
+per_fc                  -0.00071    0.00015 -4.78645  0.00001
+treatmentDrought        -0.01733    0.00767 -2.26007  0.02503
+per_fc:treatmentDrought  0.00037    0.00018  2.08584  0.03845
+Model A on log(por_avg):
+                        Estimate  t value Pr(>|t|)
+per_fc                  -0.00851 -5.24128  0.00000
+I(per_fc^2)             -0.00016 -2.26383  0.02960
+treatmentDrought        -0.11048 -1.38147  0.16888
+per_fc:treatmentDrought  0.00429  2.32532  0.02121
+Slope of conductance on ancestry (per 1% Fremont) by treatment, model A (at the midpoint, per_fc = 0):
+  well-watered: -0.000736 | drought: -0.000368 
+
+--- log(por_avg) diagnostics: Methods model terms ---
+                             Estimate  t value Pr(>|t|)
+per_fc                       -0.00847 -5.20515  0.00000
+I(per_fc^2)                  -0.00017 -2.15841  0.03494
+treatmentDrought             -0.17269 -0.93684  0.35016
+per_fc:treatmentDrought       0.00427  2.31140  0.02199
+treatmentDrought:I(per_fc^2)  0.00003  0.37672  0.70684
+log(por_avg), linear model terms:
+                        Estimate  t value Pr(>|t|)
+per_fc                  -0.00825 -4.95915  0.00000
+treatmentDrought        -0.10012 -1.24752  0.21387
+per_fc:treatmentDrought  0.00431  2.32209  0.02140
+Distinct genotypes with porometer data: 41 
+
+
+==============================================================================
+APPENDIX S2: inoculum and soil effects on colonization (mixed model, Type II Satterthwaite F)
+==============================================================================
+rows: 347 | trees: 178 | genotypes: 42 
+ Groups      Name        Std.Dev.
+ tree_id     (Intercept)  0.00000
+ pop:geno_id (Intercept)  1.81422
+ pop         (Intercept)  0.98942
+ Residual                10.12044
+Type II Analysis of Variance Table with Satterthwaite's method
+                     Sum Sq Mean Sq NumDF  DenDF  F value    Pr(>F)    
+myco_cat                911   303.5     3 284.74   2.9632 0.0325260 *  
+fungal_type           58163 29081.6     2 306.73 283.9352 < 2.2e-16 ***
+soil                     29    29.0     1 318.73   0.2827 0.5953159    
+treatment                26    26.2     1 310.47   0.2558 0.6133965    
+per_f                  1436  1435.5     1  32.76  14.0158 0.0006974 ***
+og_drc_mm_z             500   500.2     1 193.14   4.8835 0.0282901 *  
+myco_cat:fungal_type   2359   393.2     6 307.49   3.8388 0.0010443 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+==============================================================================
+ALLOCATION (exploratory): leaf mass fraction with genotype
+==============================================================================
+
+--- lmf_A n = 358 | LRT ancestry x drought p = 0.785 
+                 Estimate Std. Error  t value Pr(>|t|)
+per_fc           -0.00016    0.00011 -1.42940  0.16009
+I(per_fc^2)       0.00000    0.00001 -0.32794  0.74487
+treatmentDrought -0.00945    0.00681 -1.38794  0.16607
+
+--- lmf_B n = 357 | LRT ancestry x drought p = 0.816 
+                 Estimate Std. Error  t value Pr(>|t|)
+per_fc           -0.00035    0.00018 -1.96034  0.05636
+I(per_fc^2)       0.00000    0.00001 -0.42304  0.67476
+treatmentDrought -0.01315    0.01027 -1.28077  0.20116
+
+
+==============================================================================
+CONVERGENCE / SINGULARITY SUMMARY (saved to results/02_main_models/convergence.csv)
+==============================================================================
+   model                                                    converged singular
+1  colonization lmer (+pop, myco_cat, pop:geno_id, tree_id) TRUE       TRUE   
+2  biomass full                                             TRUE      FALSE   
+3  biomass reduced                                          TRUE      FALSE   
+4  survival full (pop fixed, geno_id)                       TRUE      FALSE   
+5  survival reduced (pop fixed, geno_id)                    TRUE      FALSE   
+6  survival full (pop random + pop:geno_id)                 TRUE      FALSE   
+7  survival reduced (pop random + pop:geno_id)              TRUE      FALSE   
+8  colonization-biomass ancestry-controlled                 TRUE      FALSE   
+9  colonization-biomass naive                               TRUE      FALSE   
+10 aggregated survival ancestry-controlled (1|pop)          TRUE       TRUE   
+11 aggregated survival naive (1|pop)                        TRUE       TRUE   
+12 stomatal M                                               TRUE       TRUE   
+13 stomatal A                                               TRUE       TRUE   
+14 stomatal R                                               TRUE       TRUE   
+15 stomatal L                                               TRUE      FALSE   
+16 stomatal LR                                              TRUE      FALSE   
+17 Supp Fig 2 mixed model                                   TRUE       TRUE   
+18 allocation lmf_A full                                    TRUE       TRUE   
+19 allocation lmf_B full                                    TRUE       TRUE   
+   messages                                        genotype_sd pop_sd
+1  boundary (singular) fit: see help('isSingular') 0.000       1.241 
+2                                                  0.226       0.442 
+3                                                  0.225       0.439 
+4                                                  0.472          NA 
+5                                                  0.478          NA 
+6                                                  0.614       0.584 
+7                                                  0.617       0.586 
+8                                                  0.232       0.391 
+9                                                  0.241       0.360 
+10 boundary (singular) fit: see help('isSingular')    NA       0.000 
+11 boundary (singular) fit: see help('isSingular')    NA       0.000 
+12 boundary (singular) fit: see help('isSingular') 0.022       0.000 
+13 boundary (singular) fit: see help('isSingular') 0.022       0.000 
+14 boundary (singular) fit: see help('isSingular') 0.022       0.000 
+15                                                 0.023       0.004 
+16                                                 0.022       0.004 
+17 boundary (singular) fit: see help('isSingular') 1.814       0.989 
+18 boundary (singular) fit: see help('isSingular') 0.020       0.000 
+19 boundary (singular) fit: see help('isSingular') 0.035       0.000 
+
+--- Session ---
+[1] "R version 4.6.1 (2026-06-24 ucrt)"

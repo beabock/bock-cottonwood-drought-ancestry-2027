@@ -1,0 +1,51 @@
+Small counts run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+
+
+==============================================================================
+9a. Holm family for the inoculum contrasts
+==============================================================================
+                                             response   n contrasts inocula
+                               New stem biomass (log) 425         6       3
+     Total new biomass (log), (a) estimated root mass 414         6       3
+ Total new biomass (log), (b) measured root mass only 242         6       3
+ watering
+        2
+        2
+        2
+  [9a] Holm family, inoculum vs. control | results/17_inoculation_contrasts/inoculation_contrasts.csv | n = 18 | Contrasts: 18 = 3 responses × 3 inocula × 2 watering levels: New stem biomass (log) (n = 425); Total new biomass (log), (a) estimated root mass (n = 414); Total new biomass (log), (b) measured root mass only (n = 242); smallest Holm P = 0.132
+
+
+==============================================================================
+9b. Mother trees collected, in the cutting key, and analysed
+==============================================================================
+ pop type collected in_key analysed        not_analysed
+  IC    F        10      3        3                    
+  IC    H        10      3        3                    
+  IC    N        10      3        2               ICN10
+  OC    F        11      4        4                    
+  OC    H        10      3        3                    
+  OC    N        11      3        3                    
+  JC    F        10      3        3                    
+  JC    H        10      3        3                    
+  JC    N        20      4        1 JCN12, JCN13, JCN15
+  LC    F        10      2        2                    
+  LC    H        10      2        2                    
+  LC    N        10      2        2                    
+  BR    F        10      2        2                    
+  BR    H        10      2        2                    
+  BR    N        10      3        2                BRN1
+  SF    F        10      2        2                    
+  SF    H        10      2        2                    
+  SF    N        10      2        2                    
+
+Mother trees in the cutting key but not analysed:
+ pop type geno cuttings_in_key with_treatment old_class has_q_score in_analysis
+  BR    N    1              17              0      BRN1        TRUE       FALSE
+  IC    N   10              26              0     ICN10        TRUE       FALSE
+  JC    N   12              29             23     JCN12       FALSE       FALSE
+  JC    N   13              28             26     JCN13       FALSE       FALSE
+  JC    N   15              29             21     JCN15       FALSE       FALSE
+Cuttings per analysed mother tree in the key: 17–29 
+  [9b] Mother trees | collection workbook Sheet1; data/raw_data/gh_cuttingskey.csv; mega_ds.csv | n = 43 | Collected / in cutting key / analysed: 192 genotypes collected at 18 collection points; 48 mother trees (946 cuttings) in the cutting key; 43 analysed. Not analysed: BRN1 (17 cuttings, 0 with a watering treatment, Q score present); ICN10 (26 cuttings, 0 with a watering treatment, Q score present); JCN12 (29 cuttings, 23 with a watering treatment, Q score absent); JCN13 (28 cuttings, 26 with a watering treatment, Q score absent); JCN15 (29 cuttings, 21 with a watering treatment, Q score absent). No record of how the cutting-key trees were chosen from those collected
+
+Done.

@@ -1,0 +1,241 @@
+CONTROL INOCULUM SENSITIVITY run: 
+
+
+==============================================================================
+1a. Colonization LMM: Fremont ancestry x EMF interaction
+==============================================================================
+All plants (reported): n = 78 trees (37 genotypes)
+  β = –0.171, t = –3.51, df = 209.5, P < 0.001
+Without control-inoculum plants: n = 57 trees (33 genotypes)
+  β = –0.157, t = –2.94, df = 155, P = 0.004
+
+
+==============================================================================
+1b. Colonization-biomass LMM: fungus x drought
+==============================================================================
+All plants (reported): n = 77
+  EMF × drought: β = –0.444, t = –2.84, df = 57.3, P = 0.006
+  AMF × drought: β = –0.0916, t = –0.64, df = 47, P = 0.526
+  DSE × drought: β = –0.0178, t = –0.11, df = 53.1, P = 0.914
+Without control-inoculum plants: n = 57
+  EMF × drought: β = –0.525, t = –2.40, df = 39.8, P = 0.021
+  AMF × drought: β = –0.0632, t = –0.31, df = 35.9, P = 0.755
+  DSE × drought: β = 0.0916, t = 0.33, df = 37.6, P = 0.745
+
+
+==============================================================================
+1c. PERMANOVA with whole-genotype permutations (marginal tests; 4999 permutations)
+==============================================================================
+All plants (reported), Cross type (3 focal): 65 trees, 33 genotypes
+  R² = 14.0%, F = 4.86, df = 2, 55, P = 0.002
+All plants (reported), Continuous ancestry: 78 trees, 37 genotypes
+  R² = 12.5%, F = 10.93, df = 1, 69, P < 0.001
+Without control-inoculum plants, Cross type (3 focal): 50 trees, 30 genotypes
+  R² = 14.8%, F = 3.90, df = 2, 40, P = 0.003
+Without control-inoculum plants, Continuous ancestry: 57 trees, 33 genotypes
+  R² = 14.5%, F = 9.27, df = 1, 48, P < 0.001
+
+Note: P values for 'All plants' are recomputed here with a fresh permutation stream, so they can differ in the third decimal from formatted_results_main_models_df.md.
+
+
+==============================================================================
+1. Summary: does any conclusion change without control plants?
+==============================================================================
+   analysis                   term                  
+1  Colonization LMM           Fremont ancestry × EMF
+2  Colonization LMM           Fremont ancestry × EMF
+3  Colonization-biomass LMM   EMF × drought         
+4  Colonization-biomass LMM   AMF × drought         
+5  Colonization-biomass LMM   DSE × drought         
+6  Colonization-biomass LMM   EMF × drought         
+7  Colonization-biomass LMM   AMF × drought         
+8  Colonization-biomass LMM   DSE × drought         
+9  PERMANOVA (genotype-level) Cross type (3 focal)  
+10 PERMANOVA (genotype-level) Continuous ancestry   
+11 PERMANOVA (genotype-level) Cross type (3 focal)  
+12 PERMANOVA (genotype-level) Continuous ancestry   
+   data                            n 
+1  All plants (reported)           78
+2  Without control-inoculum plants 57
+3  All plants (reported)           77
+4  All plants (reported)           77
+5  All plants (reported)           77
+6  Without control-inoculum plants 57
+7  Without control-inoculum plants 57
+8  Without control-inoculum plants 57
+9  All plants (reported)           65
+10 All plants (reported)           78
+11 Without control-inoculum plants 50
+12 Without control-inoculum plants 57
+   string                                       conclusion_changes
+1  β = –0.171, t = –3.51, df = 209.5, P < 0.001 FALSE             
+2  β = –0.157, t = –2.94, df = 155, P = 0.004   FALSE             
+3  β = –0.444, t = –2.84, df = 57.3, P = 0.006  FALSE             
+4  β = –0.0916, t = –0.64, df = 47, P = 0.526   FALSE             
+5  β = –0.0178, t = –0.11, df = 53.1, P = 0.914 FALSE             
+6  β = –0.525, t = –2.40, df = 39.8, P = 0.021  FALSE             
+7  β = –0.0632, t = –0.31, df = 35.9, P = 0.755 FALSE             
+8  β = 0.0916, t = 0.33, df = 37.6, P = 0.745    TRUE             
+9  R² = 14.0%, F = 4.86, df = 2, 55, P = 0.002  FALSE             
+10 R² = 12.5%, F = 10.93, df = 1, 69, P < 0.001 FALSE             
+11 R² = 14.8%, F = 3.90, df = 2, 40, P = 0.003  FALSE             
+12 R² = 14.5%, F = 9.27, df = 1, 48, P < 0.001  FALSE             
+
+
+==============================================================================
+1. Colonization range by guild (min / median / max, %), all scored plants
+==============================================================================
+  guild n   min median max  zero set                                    
+1 AMF    26 0    1.0   30.0 13   Controls only                          
+2 EMF    43 6   32.0   60.0  0   Controls only                          
+3 DSE    26 0    6.9   24.0  1   Controls only                          
+4 AMF    91 0    5.7   32.7 24   With controls (all inoculum treatments)
+5 EMF   166 0   33.0   69.7  1   With controls (all inoculum treatments)
+6 DSE    91 0    5.1   27.0 13   With controls (all inoculum treatments)
+7 AMF    65 0    8.1   32.7 11   Without controls                       
+8 EMF   123 0   33.3   69.7  1   Without controls                       
+9 DSE    65 0    4.6   27.0 12   Without controls                       
+
+
+==============================================================================
+2. Plants whose new biomass (dryshoot_new) exceeds dry leaf mass
+==============================================================================
+Plants with both values: 359 | new biomass > leaf mass: 17 
+
+   tree_idold cross_type           pct_fremont treatment    pop genotype
+1  BRN914     Narrowleaf            1.5        Well-watered BR  BR_N_9  
+2  BRN916     Narrowleaf            1.5        Well-watered BR  BR_N_9  
+3  JCH911     Narrowleaf            1.4        Well-watered JC  JC_H_9  
+4  JCN306     Narrowleaf            1.1        Drought      JC  JC_N_3  
+5  JCN312     Narrowleaf            1.1        Well-watered JC  JC_N_3  
+6  LCN114     Narrowleaf            1.0        Well-watered LC  LC_N_1  
+7  LCN203     Narrowleaf            1.0        Drought      LC  LC_N_2  
+8  LCN215     Narrowleaf            1.0        Well-watered LC  LC_N_2  
+9  OCN802     Narrowleaf            4.8        Drought      OC  OC_N_8  
+10 OCN806     Narrowleaf            4.8        Drought      OC  OC_N_8  
+11 SFN203     Narrowleaf            1.2        Drought      SF  SF_N_2  
+12 OCN404     Backcross Narrowleaf 34.6        Drought      OC  OC_N_4  
+13 LCH214     F1 Hybrid            58.8        Well-watered LC  LC_H_2  
+14 SFH417     F1 Hybrid            45.9        Well-watered SF  SF_H_4  
+15 JCF411     Fremont              97.7        Well-watered JC  JC_F_4  
+16 LCF502     Fremont              98.9        Drought      LC  LC_F_5  
+17 OCF713     Fremont              98.8        Well-watered OC  OC_F_7  
+   inoculum soil          new_biomass_g leaf_g stem_g ratio_new_to_leaf
+1  EM       No Tam Legacy 0.310         0.136  2.100  2.28             
+2  None     No Tam Legacy 0.560         0.464  3.250  1.21             
+3  Both     Tam Legacy    0.417         0.311  1.839  1.34             
+4  EM       Tam Legacy    0.200         0.176  2.442  1.14             
+5  None     Tam Legacy    0.295         0.280  1.785  1.05             
+6  EM       No Tam Legacy 0.624         0.397  1.870  1.57             
+7  Both     Tam Legacy    0.526         0.488  2.605  1.08             
+8  Both     No Tam Legacy 0.742         0.480  2.166  1.55             
+9  EM       Tam Legacy    0.610         0.539  1.780  1.13             
+10 EM       No Tam Legacy 0.190         0.033  1.720  5.76             
+11 Both     Tam Legacy    0.200         0.186  2.400  1.08             
+12 None     Tam Legacy    0.474         0.185  0.967  2.56             
+13 EM       No Tam Legacy 0.470         0.425  2.245  1.11             
+14 AM       Tam Legacy    0.700         0.577  1.330  1.21             
+15 Both     No Tam Legacy 0.107         0.000  3.550   Inf             
+16 EM       Tam Legacy    0.980         0.788  3.812  1.24             
+17 AM       No Tam Legacy 0.280         0.265  1.320  1.06             
+
+By new_class (n with new > leaf / n total, %):
+                level flagged total pct
+           Narrowleaf      11   150 7.3
+ Backcross Narrowleaf       1    19 5.3
+            F1 Hybrid       2    38 5.3
+    Backcross Fremont       0    21 0.0
+              Fremont       3   131 2.3
+  Fisher exact test (simulated) P = 0.258 
+
+By pop (n with new > leaf / n total, %):
+ level flagged total pct
+    BR       2    47 4.3
+    IC       0    54 0.0
+    JC       4    70 5.7
+    LC       5    60 8.3
+    OC       4    80 5.0
+    SF       2    48 4.2
+  Fisher exact test (simulated) P = 0.406 
+
+By treatment (n with new > leaf / n total, %):
+        level flagged total pct
+ Well-watered      10   229 4.4
+      Drought       7   130 5.4
+  Fisher exact test (simulated) P = 0.797 
+
+By myco_cat (n with new > leaf / n total, %):
+ level flagged total pct
+  None       3   106 2.8
+    AM       2    83 2.4
+    EM       7    79 8.9
+  Both       5    91 5.5
+  Fisher exact test (simulated) P = 0.192 
+
+By soil (n with new > leaf / n total, %):
+         level flagged total pct
+ No Tam Legacy       8   176 4.5
+    Tam Legacy       9   183 4.9
+  Fisher exact test (simulated) P = 1 
+
+Genotypes contributing flagged plants:
+
+BR_N_9 JC_N_3 LC_N_2 OC_N_8 JC_F_4 JC_H_9 LC_F_5 LC_H_2 LC_N_1 OC_F_7 OC_N_4 
+     2      2      2      2      1      1      1      1      1      1      1 
+SF_H_4 SF_N_2 
+     1      1 
+Median ratio new/leaf among flagged plants: 1.21 
+
+
+==============================================================================
+3. How the stomatal conductance (204) and colonization (78) plants split
+==============================================================================
+Stomatal conductance plants (por_avg > 0): 204 | colonization plants (all three guilds scored): 78 
+
+-- treatment --
+        level conductance colonization all_plants
+ Well-watered         131           38        303
+      Drought          73           40        271
+
+-- myco_cat --
+ level conductance colonization all_plants
+  None          58           21        153
+    AM          54           21        141
+    EM          48           24        139
+  Both          44           12        141
+
+-- new_class --
+                level conductance colonization all_plants
+           Narrowleaf          66           29        231
+ Backcross Narrowleaf           9            7         32
+            F1 Hybrid          23           10         57
+    Backcross Fremont          15            6         39
+              Fremont          91           26        215
+
+Conductance plants, cross type x treatment:
+                      
+                       Well-watered Drought
+  Narrowleaf                     38      28
+  Backcross Narrowleaf            3       6
+  F1 Hybrid                      13      10
+  Backcross Fremont              11       4
+  Fremont                        66      25
+
+Colonization plants, cross type x treatment:
+                      
+                       Well-watered Drought
+  Narrowleaf                     15      14
+  Backcross Narrowleaf            1       6
+  F1 Hybrid                       4       6
+  Backcross Fremont               3       3
+  Fremont                        15      11
+
+Colonization plants, inoculum x treatment:
+      
+       Well-watered Drought
+  None            8      13
+  AM             11      10
+  EM             13      11
+  Both            6       6
+
+Overlap: plants in both subsets: 71 

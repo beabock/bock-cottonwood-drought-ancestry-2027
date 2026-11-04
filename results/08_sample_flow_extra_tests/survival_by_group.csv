@@ -1,0 +1,21 @@
+﻿"table","treatment","planted","survived","survival_pct","new_class","myco_cat"
+"treatment","Well-watered",294,254,86.4,NA,NA
+"treatment","Drought",269,186,69.1,NA,NA
+"cross type x drought","Well-watered",119,112,94.1,"Narrowleaf",NA
+"cross type x drought","Drought",109,89,81.7,"Narrowleaf",NA
+"cross type x drought","Well-watered",14,11,78.6,"Backcross Narrowleaf",NA
+"cross type x drought","Drought",18,11,61.1,"Backcross Narrowleaf",NA
+"cross type x drought","Well-watered",31,26,83.9,"F1 Hybrid",NA
+"cross type x drought","Drought",25,19,76,"F1 Hybrid",NA
+"cross type x drought","Well-watered",19,14,73.7,"Backcross Fremont",NA
+"cross type x drought","Drought",17,9,52.9,"Backcross Fremont",NA
+"cross type x drought","Well-watered",111,91,82,"Fremont",NA
+"cross type x drought","Drought",100,58,58,"Fremont",NA
+"inoculum x drought","Well-watered",76,67,88.2,NA,"None"
+"inoculum x drought","Drought",73,57,78.1,NA,"None"
+"inoculum x drought","Well-watered",79,69,87.3,NA,"AM"
+"inoculum x drought","Drought",61,42,68.9,NA,"AM"
+"inoculum x drought","Well-watered",69,56,81.2,NA,"EM"
+"inoculum x drought","Drought",65,43,66.2,NA,"EM"
+"inoculum x drought","Well-watered",70,62,88.6,NA,"Both"
+"inoculum x drought","Drought",70,44,62.9,NA,"Both"

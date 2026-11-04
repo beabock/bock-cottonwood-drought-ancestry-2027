@@ -1,0 +1,5 @@
+"response","root_mass","n","drought","drought_P","linear_ancestry","ancestry_P"
+"Root mass fraction (ordered beta)","predicted ratio (reported)",414,"β = 0.203, z = 3.36, P < 0.001",0.000785333037741735,"β = 0.000924, z = 0.93, P = 0.351",0.350617185343647
+"Root mass fraction (ordered beta)","pooled ratio",414,"β = 0.179, z = 2.96, P = 0.003",0.00307700373822581,"β = 0.00134, z = 1.35, P = 0.177",0.176725055867003
+"Root:shoot ratio (log, LMM)","predicted ratio (reported)",414,"β = 0.224, t = 3.25, df = 387.7, P = 0.001",0.00123501576454482,"β = 0.00104, t = 0.92, df = 39.5, P = 0.365",0.364875198625629
+"Root:shoot ratio (log, LMM)","pooled ratio",414,"β = 0.198, t = 2.87, df = 387.7, P = 0.004",0.00427776917732261,"β = 0.00150, t = 1.32, df = 39.4, P = 0.195",0.195247448449563

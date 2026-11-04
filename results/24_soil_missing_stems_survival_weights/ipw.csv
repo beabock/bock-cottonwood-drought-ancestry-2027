@@ -1,0 +1,19 @@
+﻿"response","weights","n","term","string","P"
+"New stem biomass (log)","unweighted (reported)",425,"Linear ancestry (per 1%)","β = –0.00524, t = –4.56, df = 37.5, P < 0.001",5.3200539038602754e-5
+"New stem biomass (log)","unweighted (reported)",425,"Quadratic ancestry","β = –0.000145, t = –2.30, df = 31.6, P = 0.028",0.028002836252643413
+"New stem biomass (log)","unweighted (reported)",425,"Drought","β = –0.110, t = –1.75, df = 395.6, P = 0.081",0.08083418502197857
+"New stem biomass (log)","IPW, fitted survival probability (with genotype effect)",425,"Linear ancestry (per 1%)","β = –0.00486, t = –4.46, df = 34.4, P < 0.001",8.41840800091778e-5
+"New stem biomass (log)","IPW, fitted survival probability (with genotype effect)",425,"Quadratic ancestry","β = –0.000123, t = –2.05, df = 30, P = 0.050",0.04963789286415535
+"New stem biomass (log)","IPW, fitted survival probability (with genotype effect)",425,"Drought","β = –0.122, t = –1.92, df = 398, P = 0.055",0.054952796653779855
+"New stem biomass (log)","IPW, population-level survival probability",425,"Linear ancestry (per 1%)","β = –0.00484, t = –4.39, df = 34.3, P < 0.001",1.037839221954028e-4
+"New stem biomass (log)","IPW, population-level survival probability",425,"Quadratic ancestry","β = –0.000124, t = –2.03, df = 30.4, P = 0.051",0.050790887612010054
+"New stem biomass (log)","IPW, population-level survival probability",425,"Drought","β = –0.119, t = –1.86, df = 399.7, P = 0.063",0.06338011288591865
+"Total new biomass (log), (a) estimated root mass","unweighted (reported)",414,"Linear ancestry (per 1%)","β = 0.00201, t = 2.52, df = 39.3, P = 0.016",0.016030423631878423
+"Total new biomass (log), (a) estimated root mass","unweighted (reported)",414,"Quadratic ancestry","β = –0.0000346, t = –0.83, df = 36.2, P = 0.413",0.41316002660120643
+"Total new biomass (log), (a) estimated root mass","unweighted (reported)",414,"Drought","β = –0.220, t = –5.27, df = 382.8, P < 0.001",2.2924126847897143e-7
+"Total new biomass (log), (a) estimated root mass","IPW, fitted survival probability (with genotype effect)",414,"Linear ancestry (per 1%)","β = 0.00210, t = 2.61, df = 37.7, P = 0.013",0.012803016859927775
+"Total new biomass (log), (a) estimated root mass","IPW, fitted survival probability (with genotype effect)",414,"Quadratic ancestry","β = –0.0000371, t = –0.87, df = 36.3, P = 0.391",0.3906277722650784
+"Total new biomass (log), (a) estimated root mass","IPW, fitted survival probability (with genotype effect)",414,"Drought","β = –0.223, t = –5.36, df = 384.2, P < 0.001",1.435765554804965e-7
+"Total new biomass (log), (a) estimated root mass","IPW, population-level survival probability",414,"Linear ancestry (per 1%)","β = 0.00212, t = 2.66, df = 37.5, P = 0.012",0.011566497497963719
+"Total new biomass (log), (a) estimated root mass","IPW, population-level survival probability",414,"Quadratic ancestry","β = –0.0000359, t = –0.84, df = 36.7, P = 0.405",0.40528629214056433
+"Total new biomass (log), (a) estimated root mass","IPW, population-level survival probability",414,"Drought","β = –0.224, t = –5.40, df = 385.7, P < 0.001",1.1622110340611436e-7

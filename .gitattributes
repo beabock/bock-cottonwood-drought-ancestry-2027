@@ -1,0 +1,2 @@
+# Store outputs and data byte for byte (no line-ending conversion), so reruns can be compared exactly
+* -text

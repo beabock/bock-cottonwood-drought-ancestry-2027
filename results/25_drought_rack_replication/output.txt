@@ -1,0 +1,97 @@
+Drought rack replication run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+Columns matching rack/bench/block/position in the data: 0 
+
+Well-watered      Drought 
+         303          271 
+
+
+==============================================================================
+A. Reported drought test with df = number of racks - 2
+==============================================================================
+
+
+==============================================================================
+B. Pseudo-rack means
+==============================================================================
+ response               
+ Survival               
+ Survival               
+ Survival               
+ Survival               
+ Total new biomass (log)
+ Total new biomass (log)
+ Total new biomass (log)
+ Total new biomass (log)
+ Leafless at harvest    
+ Leafless at harvest    
+ Leafless at harvest    
+ Leafless at harvest    
+ Survival               
+ Survival               
+ Total new biomass (log)
+ Total new biomass (log)
+ Leafless at harvest    
+ Leafless at harvest    
+ method                                                                  
+ A: df = racks − 2 (6 plants per rack, 95 racks)                         
+ A: df = racks − 2 (7 plants per rack, 82 racks)                         
+ A: df = racks − 2 (8 plants per rack, 72 racks)                         
+ C: rack ICC at which drought P = 0.05 (7 per rack, df = racks − 2)      
+ A: df = racks − 2 (6 plants per rack, 95 racks)                         
+ A: df = racks − 2 (7 plants per rack, 82 racks)                         
+ A: df = racks − 2 (8 plants per rack, 72 racks)                         
+ C: rack ICC at which drought P = 0.05 (7 per rack, df = racks − 2)      
+ A: df = racks − 2 (6 plants per rack, 95 racks)                         
+ A: df = racks − 2 (7 plants per rack, 82 racks)                         
+ A: df = racks − 2 (8 plants per rack, 72 racks)                         
+ C: rack ICC at which drought P = 0.05 (7 per rack, df = racks − 2)      
+ B1: random pseudo-racks of 7 within watering, 1000 partitions (83 racks)
+ B2: pseudo-racks of up to 7 within genotype × watering (120 racks)      
+ B1: random pseudo-racks of 7 within watering, 1000 partitions (83 racks)
+ B2: pseudo-racks of up to 7 within genotype × watering (108 racks)      
+ B1: random pseudo-racks of 7 within watering, 1000 partitions (83 racks)
+ B2: pseudo-racks of up to 7 within genotype × watering (108 racks)      
+ string                                                                                                      
+ β = –1.20, t = –5.04, df = 93, P < 0.001                                                                    
+ β = –1.20, t = –5.04, df = 80, P < 0.001                                                                    
+ β = –1.20, t = –5.04, df = 70, P < 0.001                                                                    
+ ICC = 0.90 (design effect 6.41)                                                                             
+ β = –0.220, t = –5.27, df = 93, P < 0.001                                                                   
+ β = –0.220, t = –5.27, df = 80, P < 0.001                                                                   
+ β = –0.220, t = –5.27, df = 70, P < 0.001                                                                   
+ P < 0.05 for any ICC ≤ 1                                                                                    
+ β = 1.63, t = 5.21, df = 93, P < 0.001                                                                      
+ β = 1.63, t = 5.21, df = 80, P < 0.001                                                                      
+ β = 1.63, t = 5.21, df = 70, P < 0.001                                                                      
+ ICC = 0.98 (design effect 6.86)                                                                             
+ median β = –0.172, t = –5.14, df = 78, P < 0.001; P < 0.05 in 100.0% of partitions (P range 9.2e-10–0.00012)
+ β = –0.174, t = –4.00, df = 115, P < 0.001                                                                  
+ median β = –0.236, t = –5.29, df = 78, P < 0.001; P < 0.05 in 100.0% of partitions (P range 8.9e-10–4.5e-05)
+ β = –0.238, t = –4.98, df = 103, P < 0.001                                                                  
+ median β = 0.188, t = 5.29, df = 78, P < 0.001; P < 0.05 in 100.0% of partitions (P range 3.3e-10–8.3e-05)  
+ β = 0.188, t = 4.99, df = 103, P < 0.001                                                                    
+
+B uses the rack mean of the response (survival and leafless as proportions, total new biomass as mean log mass); estimates are on that scale, not the GLMM log-odds scale.
+  [7] Drought effect: Survival | A: df = racks − 2 (6 plants per rack, 95 racks) | n = NA | Drought: β = –1.20, t = –5.04, df = 93, P < 0.001
+  [7] Drought effect: Survival | A: df = racks − 2 (7 plants per rack, 82 racks) | n = NA | Drought: β = –1.20, t = –5.04, df = 80, P < 0.001
+  [7] Drought effect: Survival | A: df = racks − 2 (8 plants per rack, 72 racks) | n = NA | Drought: β = –1.20, t = –5.04, df = 70, P < 0.001
+  [7] Drought effect: Survival | C: rack ICC at which drought P = 0.05 (7 per rack, df = racks − 2) | n = NA | Drought: ICC = 0.90 (design effect 6.41)
+  [7] Drought effect: Total new biomass (log) | A: df = racks − 2 (6 plants per rack, 95 racks) | n = NA | Drought: β = –0.220, t = –5.27, df = 93, P < 0.001
+  [7] Drought effect: Total new biomass (log) | A: df = racks − 2 (7 plants per rack, 82 racks) | n = NA | Drought: β = –0.220, t = –5.27, df = 80, P < 0.001
+  [7] Drought effect: Total new biomass (log) | A: df = racks − 2 (8 plants per rack, 72 racks) | n = NA | Drought: β = –0.220, t = –5.27, df = 70, P < 0.001
+  [7] Drought effect: Total new biomass (log) | C: rack ICC at which drought P = 0.05 (7 per rack, df = racks − 2) | n = NA | Drought: P < 0.05 for any ICC ≤ 1
+  [7] Drought effect: Leafless at harvest | A: df = racks − 2 (6 plants per rack, 95 racks) | n = NA | Drought: β = 1.63, t = 5.21, df = 93, P < 0.001
+  [7] Drought effect: Leafless at harvest | A: df = racks − 2 (7 plants per rack, 82 racks) | n = NA | Drought: β = 1.63, t = 5.21, df = 80, P < 0.001
+  [7] Drought effect: Leafless at harvest | A: df = racks − 2 (8 plants per rack, 72 racks) | n = NA | Drought: β = 1.63, t = 5.21, df = 70, P < 0.001
+  [7] Drought effect: Leafless at harvest | C: rack ICC at which drought P = 0.05 (7 per rack, df = racks − 2) | n = NA | Drought: ICC = 0.98 (design effect 6.86)
+  [7] Drought effect: Survival | B1: random pseudo-racks of 7 within watering, 1000 partitions (83 racks) | n = NA | Drought: median β = –0.172, t = –5.14, df = 78, P < 0.001; P < 0.05 in 100.0% of partitions (P range 9.2e-10–0.00012)
+  [7] Drought effect: Survival | B2: pseudo-racks of up to 7 within genotype × watering (120 racks) | n = NA | Drought: β = –0.174, t = –4.00, df = 115, P < 0.001
+  [7] Drought effect: Total new biomass (log) | B1: random pseudo-racks of 7 within watering, 1000 partitions (83 racks) | n = NA | Drought: median β = –0.236, t = –5.29, df = 78, P < 0.001; P < 0.05 in 100.0% of partitions (P range 8.9e-10–4.5e-05)
+  [7] Drought effect: Total new biomass (log) | B2: pseudo-racks of up to 7 within genotype × watering (108 racks) | n = NA | Drought: β = –0.238, t = –4.98, df = 103, P < 0.001
+  [7] Drought effect: Leafless at harvest | B1: random pseudo-racks of 7 within watering, 1000 partitions (83 racks) | n = NA | Drought: median β = 0.188, t = 5.29, df = 78, P < 0.001; P < 0.05 in 100.0% of partitions (P range 3.3e-10–8.3e-05)
+  [7] Drought effect: Leafless at harvest | B2: pseudo-racks of up to 7 within genotype × watering (108 racks) | n = NA | Drought: β = 0.188, t = 4.99, df = 103, P < 0.001
+  [7] Drought effect: Survival | reported model | n = 563 | Drought (reported): β = –1.20, z = –5.04, P < 0.001
+  [7] Drought effect: Total new biomass (log) | reported model | n = 414 | Drought (reported): β = –0.220, t = –5.27, df = 382.8, P < 0.001
+  [7] Drought effect: Leafless at harvest | reported model | n = 425 | Drought (reported): β = 1.63, z = 5.21, P < 0.001
+
+Done.

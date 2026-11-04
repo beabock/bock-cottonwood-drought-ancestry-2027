@@ -1,0 +1,21 @@
+"specification","permutation_scheme","permutations","n","df","R2_pct","F","P","source","reported","P_below_0.05"
+"Cross type (3 focal), population + drought + soil (marginal)","Genotype-level engine: soil permuted among cuttings within genotype",4999,65,"1, 55",0.971,0.6756,0.4464,"results/02_main_models/main_models_followup_output.txt; r_code/02b_main_models_followup.R","REPORTED (Results, colonization paragraph)",FALSE
+"Same model, cuttings permuted freely (no genotype structure)","Tree-level, free",4999,65,"1, 55",0.971,0.6756,0.533,"results/02_main_models/main_models_followup_output.txt (p_trees_free)","",FALSE
+"Continuous ancestry, population + drought + soil (marginal)","Genotype-level engine: soil permuted within genotype",4999,78,"1, 69",2.4621,2.158,0.0302,"results/02_main_models/main_models_followup_output.txt; r_code/02b_main_models_followup.R","formatted_results_main_models_df.md",TRUE
+"Same model, cuttings permuted freely","Tree-level, free",4999,78,"1, 69",2.4621,2.158,0.112,"results/02_main_models/main_models_followup_output.txt (p_trees_free)","",FALSE
+"Cross type (3 focal), adonis2 sequential","Tree-level, strata = inoculum",999,65,"1, 55",0.971,0.6756,0.502,"results/02_main_models/main_models_output.txt; r_code/02a_main_models.R","",FALSE
+"Cross type (3 focal), adonis2 marginal","Tree-level, strata = inoculum",999,65,"1, 55",0.971,0.6756,0.544,"results/02_main_models/main_models_output.txt; r_code/02a_main_models.R","",FALSE
+"Continuous ancestry, adonis2 sequential","Tree-level, strata = inoculum",999,78,"1, 69",2.462,2.158,0.106,"results/02_main_models/main_models_output.txt; r_code/02a_main_models.R","",FALSE
+"Continuous ancestry, adonis2 marginal","Tree-level, strata = inoculum",999,78,"1, 69",2.462,2.158,0.098,"results/02_main_models/main_models_output.txt; r_code/02a_main_models.R","",FALSE
+"Continuous ancestry, 78 plants (soil-check engine)","Within genotype",9999,78,"1, 69",2.46,2.158,0.0329,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",TRUE
+"Continuous ancestry, cuttings permuted freely","Tree-level, free",9999,78,"1, 69",2.46,2.158,0.1062,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",FALSE
+"Cross type (3 focal)","Within genotype",9999,65,"1, 55",0.97,0.6756,0.4443,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",FALSE
+"Continuous ancestry, 3 focal cross types only","Within genotype",9999,65,"1, 56",0.75,0.5186,0.5473,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",FALSE
+"5-level cross type, 78 plants","Within genotype",9999,78,"1, 66",2.68,2.3193,0.0242,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",TRUE
+"Continuous + inoculum covariate","Within genotype",9999,78,"1, 66",1.98,1.9459,0.0606,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",FALSE
+"Continuous + initial diameter covariate","Within genotype",9999,78,"1, 68",2.3,2.0306,0.0436,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",TRUE
+"Continuous, soil permuted within genotype × inoculum","Within genotype × inoculum",9999,78,"1, 69",2.46,2.158,0.1172,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",FALSE
+"Continuous, no population term","Within genotype",9999,78,"1, 74",2.42,2.1023,0.0312,"results/11_soil_legacy_permanova/output.txt section 3; r_code/11_soil_legacy_permanova.R","",TRUE
+"Genotype as fixed blocking term: geno_id + soil","adonis2, permutations within genotype blocks",9999,78,"1, 40",4.8302,4.4515,0.0083,"results/11_soil_legacy_permanova/output.txt section 4; r_code/11_soil_legacy_permanova.R","",TRUE
+"Genotype as fixed blocking term: geno_id + treatment + soil","adonis2, permutations within genotype blocks",9999,78,"1, 39",4.9694,4.5228,0.0069,"results/11_soil_legacy_permanova/output.txt section 4; r_code/11_soil_legacy_permanova.R","",TRUE
+"Genotype as fixed blocking term: geno_id + treatment + myco_cat + soil","adonis2, permutations within genotype blocks",9999,78,"1, 36",2.7517,2.6073,0.0759,"results/11_soil_legacy_permanova/output.txt section 4; r_code/11_soil_legacy_permanova.R","",FALSE

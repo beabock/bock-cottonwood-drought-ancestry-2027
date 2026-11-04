@@ -1,0 +1,390 @@
+MAIN MODELS FOLLOW-UP run: 
+
+
+==============================================================================
+1. Colonization subset (the 78 trees): trees and genotypes per crosstype
+==============================================================================
+             new_class trees genotypes
+1           Narrowleaf    29        15
+2 Backcross Narrowleaf     7         2
+3            F1 Hybrid    10         4
+4    Backcross Fremont     6         2
+5              Fremont    26        14
+Total:  78 trees, 37 genotypes. Trees per genotype:
+
+ 1  2  3  4 
+12 15  4  6 
+Focal three crosstypes: 65 trees, 33 genotypes
+
+
+==============================================================================
+2a. Genotype-level PERMANOVA (whole genotypes permuted; trees within genotype fixed together)
+==============================================================================
+permute::how(plots = genotype) check:
+  adonis2 with plots = genotype -> Design must be balanced if permuting 'strata'. 
+  (genotypes have 1-4 trees each; the custom engine below implements the same permutation)
+
+Sanity check: engine marginal R2 / F vs adonis2 by = 'margin'
+      model      term engine_R2 engine_F adonis_R2 adonis_F
+ cross type new_class  0.139718   4.8608  0.139718   4.8608
+ cross type       pop  0.069964   0.9736  0.069964   0.9736
+ cross type treatment  0.001791   0.1246  0.001791   0.1246
+ cross type      soil  0.009710   0.6756  0.009710   0.6756
+ continuous     per_f  0.124654  10.9259  0.124654  10.9259
+ continuous       pop  0.064925   1.1381  0.064925   1.1381
+ continuous treatment  0.008192   0.7181  0.008192   0.7181
+ continuous      soil  0.024621   2.1580  0.024621   2.1580
+
+--- Cross type version: marginal terms, n = 65 trees, 33 genotypes (Narrowleaf, F1 Hybrid, Fremont) ---
+      term df       R2      F p_genotype_level p_trees_free
+ new_class  2 0.139718 4.8608           0.0022       0.0028
+       pop  5 0.069964 0.9736           0.5120       0.4748
+ treatment  1 0.001791 0.1246           0.9338       0.9328
+      soil  1 0.009710 0.6756           0.4464       0.5330
+
+--- Continuous ancestry version: marginal terms, n = 78 trees, 37 genotypes ---
+      term df       R2       F p_genotype_level p_trees_free
+     per_f  1 0.124654 10.9259           0.0002       0.0002
+       pop  5 0.064925  1.1381           0.3492       0.3288
+ treatment  1 0.008192  0.7181           0.5316       0.5082
+      soil  1 0.024621  2.1580           0.0302       0.1120
+p_genotype_level: whole genotypes permuted (ancestry within population; population among genotypes); drought and soil permuted within genotype.
+p_trees_free: same statistic, trees permuted freely (no genotype structure, no inoculum strata) for comparison.
+
+
+==============================================================================
+2b. PERMANOVA on genotype means of AMF, EMF, DSE (genotypes exchangeable; 9999 permutations)
+==============================================================================
+genotype means: 37 genotypes (all),  33 genotypes (focal); trees per genotype 1- 4 
+   new_class genotypes trees
+1 Narrowleaf        15    29
+2  F1 Hybrid         4    10
+3    Fremont        14    26
+
+--- genotype means, cross type only ---
+sequential:
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "terms")
+          Df SumOfSqs      R2      F Pr(>F)   
+new_class  2   1634.7 0.25417 5.1119 0.0025 **
+Residual  30   4796.9 0.74583                 
+Total     32   6431.7 1.00000                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+marginal:
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "margin")
+          Df SumOfSqs      R2      F Pr(>F)   
+new_class  2   1634.7 0.25417 5.1119 0.0017 **
+Residual  30   4796.9 0.74583                 
+Total     32   6431.7 1.00000                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+--- genotype means, cross type + population ---
+sequential:
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "terms")
+          Df SumOfSqs      R2      F Pr(>F)   
+new_class  2   1634.7 0.25417 5.4550 0.0016 **
+pop        5   1050.9 0.16340 1.4027 0.2018   
+Residual  25   3746.0 0.58243                 
+Total     32   6431.7 1.00000                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+marginal:
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "margin")
+          Df SumOfSqs      R2      F Pr(>F)    
+new_class  2   1907.4 0.29656 6.3648 0.0006 ***
+pop        5   1050.9 0.16340 1.4027 0.1995    
+Residual  25   3746.0 0.58243                  
+Total     32   6431.7 1.00000                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+--- genotype means, continuous ancestry only ---
+sequential:
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "terms")
+         Df SumOfSqs      R2      F Pr(>F)    
+per_f     1   1685.5 0.24319 11.247  1e-04 ***
+Residual 35   5245.3 0.75681                  
+Total    36   6930.8 1.00000                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+marginal:
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "margin")
+         Df SumOfSqs      R2      F Pr(>F)    
+per_f     1   1685.5 0.24319 11.247  4e-04 ***
+Residual 35   5245.3 0.75681                  
+Total    36   6930.8 1.00000                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+--- genotype means, continuous ancestry + population ---
+sequential:
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "terms")
+         Df SumOfSqs      R2       F Pr(>F)    
+per_f     1   1685.5 0.24319 11.9901 0.0001 ***
+pop       5   1028.1 0.14834  1.4627 0.1730    
+Residual 30   4217.2 0.60848                   
+Total    36   6930.8 1.00000                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+marginal:
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = dat, permutations = 9999, method = "euclidean", by = "margin")
+         Df SumOfSqs      R2       F Pr(>F)    
+per_f     1   1935.3 0.27924 13.7674 0.0002 ***
+pop       5   1028.1 0.14834  1.4627 0.1748    
+Residual 30   4217.2 0.60848                   
+Total    36   6930.8 1.00000                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Pairwise crosstype on genotype means (Bonferroni):
+                    pairs Df  SumsOfSqs   F.Model         R2 p.value p.adjusted
+1   Fremont vs Narrowleaf  1 1572.38290 9.5695535 0.26168089   0.001      0.003
+2    Fremont vs F1 Hybrid  1  377.43588 2.7823155 0.14813485   0.056      0.168
+3 Narrowleaf vs F1 Hybrid  1   81.76299 0.4653497 0.02664417   0.663      1.000
+  sig
+1   *
+2    
+3    
+
+
+==============================================================================
+3. log(por_avg) ~ linear + quadratic ancestry + drought + linear ancestry x drought + covariates
+==============================================================================
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: log(por_avg) ~ per_fc * treatment + I(per_fc^2) + og_drc_mm +  
+    soil + myco_cat + (1 | pop) + (1 | pop:geno_id)
+   Data: ds
+
+REML criterion at convergence: 388.7
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.7400 -0.6783  0.0321  0.6116  3.2008 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ pop:geno_id (Intercept) 0.07174  0.2678  
+ pop         (Intercept) 0.00000  0.0000  
+ Residual                0.25868  0.5086  
+Number of obs: 203, groups:  pop:geno_id, 41; pop, 6
+
+Fixed effects:
+                          Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)             -1.969e+00  2.359e-01  9.718e+01  -8.347 4.83e-13 ***
+per_fc                  -8.514e-03  1.624e-03  7.167e+01  -5.241 1.54e-06 ***
+treatmentDrought        -1.105e-01  7.997e-02  1.760e+02  -1.381   0.1689    
+I(per_fc^2)             -1.569e-04  6.930e-05  3.664e+01  -2.264   0.0296 *  
+og_drc_mm               -2.763e-02  4.640e-02  1.581e+02  -0.595   0.5524    
+soilTam Legacy           7.051e-02  7.675e-02  1.793e+02   0.919   0.3594    
+myco_catAM               8.611e-02  1.014e-01  1.800e+02   0.849   0.3969    
+myco_catEM              -5.910e-02  1.034e-01  1.757e+02  -0.572   0.5683    
+myco_catBoth            -7.851e-02  1.078e-01  1.796e+02  -0.728   0.4673    
+per_fc:treatmentDrought  4.288e-03  1.844e-03  1.741e+02   2.325   0.0212 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) per_fc trtmnD I(_^2) og_dr_ slTmLg myc_AM myc_EM myc_cB
+per_fc       0.271                                                        
+trtmntDrght -0.097  0.151                                                 
+I(per_fc^2) -0.420  0.081  0.074                                          
+og_drc_mm   -0.726 -0.437 -0.071 -0.177                                   
+soilTamLgcy -0.147  0.054 -0.176  0.005 -0.008                            
+myco_catAM  -0.231 -0.025  0.050 -0.038  0.052 -0.012                     
+myco_catEM  -0.131  0.029  0.030 -0.009 -0.083  0.048  0.445              
+myco_catBth -0.280 -0.050  0.048  0.011  0.082  0.056  0.450  0.441       
+pr_fc:trtmD -0.029 -0.453 -0.097  0.001  0.107 -0.117  0.007 -0.062  0.023
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+n = 203 | genotypes: 41 | singular: TRUE 
+por_avg non-NA: 205 | non-positive values (cannot be logged): 1 | tree(s): OCF117 | value(s): -0.0022 
+
+Ancestry slope on the log scale per 1% Fremont ancestry, back-transformed. Because the quadratic is symmetric about 50%,
+the linear coefficient is also the average slope from 0% to 100% (Fremont end vs narrowleaf end ratio = exp(100 x slope)).
+             slope_log      se pct_per_10        lo       hi ratio_100_vs_0
+well-watered  -0.00851 0.00162   -8.16189 -11.03991 -5.19076        0.42680
+drought       -0.00423 0.00182   -4.13795  -7.50493 -0.64840        0.65534
+                r_lo    r_hi
+well-watered 0.31042 0.58682
+drought      0.45834 0.93702
+
+Predicted gsw (back-transformed, covariates at means / equal-weighted levels):
+treatment = Well-watered:
+ per_fc response      SE  df asymp.LCL asymp.UCL
+    -50   0.1311 0.01530 Inf    0.1042    0.1648
+      0   0.1267 0.01900 Inf    0.0944    0.1701
+     50   0.0559 0.00583 Inf    0.0456    0.0686
+
+treatment = Drought:
+ per_fc response      SE  df asymp.LCL asymp.UCL
+    -50   0.0947 0.01160 Inf    0.0744    0.1205
+      0   0.1135 0.01700 Inf    0.0846    0.1522
+     50   0.0621 0.00805 Inf    0.0481    0.0800
+
+Results are averaged over the levels of: soil, myco_cat 
+Degrees-of-freedom method: asymptotic 
+Confidence level used: 0.95 
+Intervals are back-transformed from the log scale 
+
+
+==============================================================================
+4. Survival: LRT for the two ancestry x drought terms (glmer)
+==============================================================================
+Data: ds
+Models:
+surv_red4: alive_01_10_2021 ~ pf50 + treatment + I(pf50^2) + pop + og_drc_mm + soil + myco_cat + (1 | geno_id)
+surv_full4: alive_01_10_2021 ~ pf50 * treatment + I(pf50^2) * treatment + pop + og_drc_mm + soil + myco_cat + (1 | geno_id)
+           npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(>Chisq)
+surv_red4    15 526.51 591.51 -248.25    496.51                     
+surv_full4   17 530.04 603.71 -248.02    496.04 0.4654  2     0.7924
+
+
+==============================================================================
+5. Aggregated survival with stats::glm (ancestry-controlled and naive)
+==============================================================================
+
+Call:
+glm(formula = formula(agg_glm_pf), family = binomial, data = sdf, 
+    weights = n_total)
+
+Coefficients:
+                                   Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                      -1.3815096  3.5588350  -0.388   0.6979  
+scale(mean_emf)                   0.7105945  0.6354047   1.118   0.2634  
+scale(mean_dse)                  -0.3177075  0.2857613  -1.112   0.2662  
+scale(mean_amf)                   0.2478606  0.5080798   0.488   0.6257  
+treatmentDrought                  0.0623383  0.8674875   0.072   0.9427  
+mean_per_fc                       0.0003989  0.0093015   0.043   0.9658  
+I(mean_per_fc^2)                  0.0017096  0.0014755   1.159   0.2466  
+mean_drc_mm                      -0.1073439  0.4032689  -0.266   0.7901  
+soilTam Legacy                    1.4381350  0.8424198   1.707   0.0878 .
+myco_catAM                       -0.4134313  1.2274951  -0.337   0.7363  
+myco_catEM                       -1.7311662  0.9058946  -1.911   0.0560 .
+myco_catBoth                     -0.8503801  0.9356562  -0.909   0.3634  
+scale(mean_emf):treatmentDrought -3.2688475  1.6419495  -1.991   0.0465 *
+scale(mean_dse):treatmentDrought -3.7890156  2.1121810  -1.794   0.0728 .
+scale(mean_amf):treatmentDrought -1.9345219  0.8436364  -2.293   0.0218 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 47.108  on 34  degrees of freedom
+Residual deviance: 28.508  on 20  degrees of freedom
+  (41 observations deleted due to missingness)
+AIC: 87.881
+
+Number of Fisher Scoring iterations: 5
+
+
+Call:
+glm(formula = survival_rate ~ (scale(mean_emf) + scale(mean_dse) + 
+    scale(mean_amf)) * treatment + mean_drc_mm + soil + myco_cat, 
+    family = binomial, data = sdf, weights = n_total)
+
+Coefficients:
+                                 Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                       2.32474    1.79747   1.293   0.1959  
+scale(mean_emf)                   0.71302    0.54623   1.305   0.1918  
+scale(mean_dse)                  -0.27150    0.26297  -1.032   0.3019  
+scale(mean_amf)                   0.25644    0.49778   0.515   0.6064  
+treatmentDrought                 -0.01496    0.82770  -0.018   0.9856  
+mean_drc_mm                      -0.03885    0.35646  -0.109   0.9132  
+soilTam Legacy                    1.17019    0.74437   1.572   0.1159  
+myco_catAM                       -0.54272    1.15587  -0.470   0.6387  
+myco_catEM                       -1.72369    0.89779  -1.920   0.0549 .
+myco_catBoth                     -0.77854    0.91851  -0.848   0.3967  
+scale(mean_emf):treatmentDrought -2.77204    1.51678  -1.828   0.0676 .
+scale(mean_dse):treatmentDrought -3.12338    1.85295  -1.686   0.0919 .
+scale(mean_amf):treatmentDrought -1.67113    0.73944  -2.260   0.0238 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 47.108  on 34  degrees of freedom
+Residual deviance: 29.544  on 22  degrees of freedom
+  (41 observations deleted due to missingness)
+AIC: 84.917
+
+Number of Fisher Scoring iterations: 5
+
+
+Groups (of 35 ) whose colonization mean rests on a single scored tree: EMF 19 , AMF 31 , DSE 31 
+
+
+==============================================================================
+Fig 5 caption check: refit without the tree with |z| > 3
+==============================================================================
+excluded tree: SFN117 (z = -3.71 ); n = 76 
+                            Estimate t value Pr(>|t|)
+treatmentDrought:scale(emf)  -0.3552 -2.4252   0.0184
+scale(amf):treatmentDrought  -0.0689 -0.5154   0.6085
+treatmentDrought:scale(dse)  -0.1103 -0.7112   0.4800
+
+
+==============================================================================
+6. Writing results/02_main_models/formatted_results_main_models.md
+==============================================================================
+Wrote 57 strings; 5 flagged as significance changes
+  location             
+1 P1 / Fig 2 caption   
+2 P2                   
+3 Survival associations
+4 Survival associations
+5 Stomatal conductance 
+  statistic                                                    
+1 Biomass drought (reduced)                                    
+2 (G) Continuous version: soil legacy, permuted within genotype
+3 EMF and DSE x drought                                        
+4 EMF x drought detail                                         
+5 Ancestry x drought                                           
+  flag                                                      
+1 **SIGNIFICANCE CHANGED** (manuscript p 0.045 -> p = 0.081)
+2 **SIGNIFICANCE CHANGED** (manuscript p 0.27 -> p = 0.030) 
+3 **SIGNIFICANCE CHANGED** (manuscript p 0.179 -> p = 0.046)
+4 **SIGNIFICANCE CHANGED** (manuscript p 0.179 -> p = 0.046)
+5 **SIGNIFICANCE CHANGED** (manuscript p 0.073 -> p = 0.021)

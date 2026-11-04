@@ -1,0 +1,151 @@
+SOIL CHECK run: 
+
+
+==============================================================================
+0. Was inoculum used as strata in the genotype-level scheme?
+==============================================================================
+No. In r_code/02b_main_models_followup.R the genotype-level permutations (whole genotypes for ancestry and population; trees within genotype
+for drought and soil) use no inoculum strata, and neither does the genotype-means PERMANOVA. Inoculum strata (strata = myco_cat) were used
+only in the tree-level (T) rows from 02a_main_models.R. The 'p_trees_free' column in the follow-up output is also unstratified.
+Inoculum composition within genotypes of the 78 trees (genotypes with trees in >1 inoculum category): 19 of 37 
+
+
+==============================================================================
+1. How much within-genotype soil contrast exists?
+==============================================================================
+genotypes: 37 | singletons (no within-genotype information): 12 | genotypes with BOTH soils (informative): 17 covering 50 of 78 trees
+Number of distinct within-genotype soil arrangements (permutation space): 9.56e+07 
+Soil split overall: No Tam Legacy 45 / Tam Legacy 33 
+
+
+==============================================================================
+2. Replication: Monte Carlo error and seeds (continuous ancestry, within-genotype permutation of soil)
+==============================================================================
+      seed 1 seed 2 seed 3 seed 4 seed 5
+R2    0.0246 0.0246 0.0246 0.0246 0.0246
+F     2.1580 2.1580 2.1580 2.1580 2.1580
+p     0.0311 0.0306 0.0336 0.0314 0.0290
+mc_se 0.0015 0.0015 0.0015 0.0015 0.0015
+p range across seeds: 0.029 to 0.0336 | Monte Carlo SE at B = 19999 is about 0.0012 
+
+
+==============================================================================
+3. Same term under other specifications (within-genotype permutation, B = 9999 unless noted)
+==============================================================================
+                                                         R2      F      p
+continuous ancestry, 78 trees (reported)             0.0246 2.1580 0.0329
+tree-level free permutation, same model              0.0246 2.1580 0.1062
+cross type (3 focal; reported)                       0.0097 0.6756 0.4443
+continuous ancestry, 3 focal cross types only        0.0075 0.5186 0.5473
+5-level cross type, 78 trees                         0.0268 2.3193 0.0242
+continuous + inoculum category as covariate          0.0198 1.9459 0.0606
+continuous + initial diameter as covariate           0.0230 2.0306 0.0436
+continuous, soil permuted within genotype x inoculum 0.0246 2.1580 0.1172
+continuous, no population term                       0.0242 2.1023 0.0312
+                                                      mc_se
+continuous ancestry, 78 trees (reported)             0.0022
+tree-level free permutation, same model              0.0022
+cross type (3 focal; reported)                       0.0022
+continuous ancestry, 3 focal cross types only        0.0022
+5-level cross type, 78 trees                         0.0022
+continuous + inoculum category as covariate          0.0022
+continuous + initial diameter as covariate           0.0022
+continuous, soil permuted within genotype x inoculum 0.0022
+continuous, no population term                       0.0022
+
+
+==============================================================================
+4. Genotype as a fixed blocking term (test of soil within genotype only; permutations within genotype)
+==============================================================================
+
+ Ym ~ geno_id + soil 
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Blocks:  factor(d78$geno_id) 
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = d78, permutations = how(blocks = factor(d78$geno_id), nperm = 9999), method = "euclidean", by = "margin")
+     Df SumOfSqs       R2      F Pr(>F)   
+soil  1   1053.8 0.048302 4.4515 0.0083 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+ Ym ~ geno_id + treatment + soil 
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Blocks:  factor(d78$geno_id) 
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = d78, permutations = how(blocks = factor(d78$geno_id), nperm = 9999), method = "euclidean", by = "margin")
+     Df SumOfSqs       R2      F Pr(>F)   
+soil  1   1084.2 0.049694 4.5228 0.0069 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+ Ym ~ geno_id + treatment + myco_cat + soil 
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Blocks:  factor(d78$geno_id) 
+Permutation: free
+Number of permutations: 9999
+
+adonis2(formula = f, data = d78, permutations = how(blocks = factor(d78$geno_id), nperm = 9999), method = "euclidean", by = "margin")
+     Df SumOfSqs       R2      F Pr(>F)  
+soil  1   600.36 0.027517 2.6073 0.0759 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+==============================================================================
+5. Leave-one-genotype-out: does p depend on a single genotype? (B = 1999 each)
+==============================================================================
+ dropped n_trees_dropped     R2      F      p
+  SF_F_2               2 0.0211 1.7930 0.0955
+  BR_F_2               4 0.0204 1.6537 0.0750
+  JC_F_3               2 0.0211 1.8171 0.0750
+  OC_N_4               3 0.0196 1.6443 0.0750
+  LC_H_2               2 0.0221 1.8963 0.0740
+  SF_N_2               3 0.0209 1.7362 0.0695
+  OC_F_7               2 0.0233 2.0519 0.0605
+  OC_N_3               2 0.0214 1.8128 0.0575
+p range over 37 leave-one-genotype-out fits: 0.013 to 0.096 | fits with p >= 0.05: 13 | median p: 0.037 
+
+
+==============================================================================
+6. Which fungus drives it, and is it visible in univariate models?
+==============================================================================
+Raw means by soil (all 78 trees):
+               n  AMF   EMF  DSE
+No Tam Legacy 45 8.28 35.04 6.59
+Tam Legacy    33 9.99 32.03 6.49
+
+Within-genotype soil differences (Tam Legacy minus No Tam Legacy; genotypes with both soils; mean of genotype-level differences):
+  AMF: mean diff 3.48 (SE 2.44), paired t p = 0.173, n genotypes = 17
+  EMF: mean diff -8.06 (SE 3.18), paired t p = 0.022, n genotypes = 17
+  DSE: mean diff 0.42 (SE 2.24), paired t p = 0.855, n genotypes = 17
+
+Univariate mixed models, y ~ per_f + treatment + soil + (1|pop) + (1|pop:geno_id):
+  AMF: soil beta = 2.03, t = 1.01, p = 0.317
+  EMF: soil beta = -5.14, t = -1.87, p = 0.065
+  DSE: soil beta = -0.32, t = -0.22, p = 0.827
+
+Long-format LMM: soil main effect (averaged over fungi) p = 0.33 
+Soil x fungal type interaction (does soil shift the AMF/EMF/DSE mix?):
+Data: dl
+Models:
+l0: colonization ~ per_f * fungal_type + treatment + soil + (1 | pop) + (1 | pop:geno_id) + (1 | tree_id)
+l1: colonization ~ per_f * fungal_type + treatment + soil * fungal_type + (1 | pop) + (1 | pop:geno_id) + (1 | tree_id)
+   npar    AIC    BIC  logLik -2*log(L) Chisq Df Pr(>Chisq)  
+l0   12 1717.8 1759.3 -846.92    1693.8                      
+l1   14 1717.2 1765.6 -844.61    1689.2 4.624  2    0.09907 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+==============================================================================
+7. Multiplicity
+==============================================================================
+The genotype-level tables contain 8 tests (4 terms x 2 versions). Soil p = 0.031 would be 0.25 after Bonferroni over all 8 and 0.063 over the 2 soil tests.
+Soil is not a hypothesis stated in the Introduction (it is a covariate/nuisance factor), so it is exploratory.

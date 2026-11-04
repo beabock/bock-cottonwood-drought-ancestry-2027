@@ -1,0 +1,21 @@
+﻿"response","n","term","string","p"
+"Survival",563,"AMF vs. control","β = –0.386, z = –1.15, P = 0.249",0.24922457637929693
+"Survival",563,"EMF vs. control","β = –0.576, z = –1.76, P = 0.079",0.07903532268915585
+"Survival",563,"Dual vs. control","β = –0.519, z = –1.58, P = 0.114",0.11398190993684383
+"Survival",563,"Inoculum (main effect)","LRT χ²(3) = 3.77, P = 0.288",0.2876062779451742
+"Survival",563,"Inoculum × drought","LRT χ²(3) = 2.52, P = 0.471",0.47105448247731413
+"New stem biomass (log)",425,"AMF vs. control","β = 0.0323, t = 0.38, df = 388.1, P = 0.705",0.7048681249996347
+"New stem biomass (log)",425,"EMF vs. control","β = 0.143, t = 1.64, df = 389.7, P = 0.102",0.10243952739692834
+"New stem biomass (log)",425,"Dual vs. control","β = 0.0136, t = 0.16, df = 388.8, P = 0.874",0.8736647257925458
+"New stem biomass (log)",425,"Inoculum (main effect)","F = 1.05, df = 3, 389.7, P = 0.369",0.36855657829885535
+"New stem biomass (log)",425,"Inoculum × drought","F = 0.56, df = 3, 389.8, P = 0.639",0.6391664704634205
+"Total new biomass (log), (a) estimated root mass",414,"AMF vs. control","β = –0.0780, t = –1.39, df = 376.1, P = 0.166",0.16638694974002796
+"Total new biomass (log), (a) estimated root mass",414,"EMF vs. control","β = –0.0651, t = –1.12, df = 379.2, P = 0.262",0.26244709371841357
+"Total new biomass (log), (a) estimated root mass",414,"Dual vs. control","β = –0.100, t = –1.77, df = 376.8, P = 0.077",0.07674710136705172
+"Total new biomass (log), (a) estimated root mass",414,"Inoculum (main effect)","F = 1.19, df = 3, 378.7, P = 0.312",0.31193156861575944
+"Total new biomass (log), (a) estimated root mass",414,"Inoculum × drought","F = 3.38, df = 3, 377.3, P = 0.018",0.018472241001508932
+"Total new biomass (log), (b) measured root mass only",242,"AMF vs. control","β = –0.141, t = –1.77, df = 212, P = 0.079",0.07869666821611081
+"Total new biomass (log), (b) measured root mass only",242,"EMF vs. control","β = –0.158, t = –1.89, df = 211.5, P = 0.060",0.06029913620632239
+"Total new biomass (log), (b) measured root mass only",242,"Dual vs. control","β = –0.156, t = –2.00, df = 206.9, P = 0.047",0.04692043692971156
+"Total new biomass (log), (b) measured root mass only",242,"Inoculum (main effect)","F = 1.90, df = 3, 212.6, P = 0.130",0.13013996825262109
+"Total new biomass (log), (b) measured root mass only",242,"Inoculum × drought","F = 3.77, df = 3, 216.5, P = 0.011",0.011396652569034075

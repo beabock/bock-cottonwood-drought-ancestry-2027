@@ -1,0 +1,78 @@
+Soil, missing stems, survival weights run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+Soil levels (first = reference): No Tam Legacy, Tam Legacy 
+
+
+==============================================================================
+6a. Soil legacy (tamarisk-legacy vs. control soil) in the reduced models
+==============================================================================
+  [6a] Survival (binomial GLMM) | reduced model of record | n = 563 | Soil legacy (Tam Legacy): β = 0.235, z = 1.03, P = 0.305; odds ratio 1.27
+  [6a] New stem biomass (log) | reduced model of record | n = 425 | Soil legacy (Tam Legacy): β = 0.0980, t = 1.58, df = 395, P = 0.115; ratio 1.10
+  [6a] Total new biomass (log), (a) estimated root mass | reduced model of record | n = 414 | Soil legacy (Tam Legacy): β = 0.0755, t = 1.83, df = 383.4, P = 0.068; ratio 1.08
+  [6a] Total new biomass (log), (b) measured root mass only | reduced model of record | n = 242 | Soil legacy (Tam Legacy): β = 0.0402, t = 0.67, df = 215.7, P = 0.501; ratio 1.04
+  [6a] Leafless at harvest (binomial GLMM) | reduced model of record | n = 425 | Soil legacy (Tam Legacy): β = –0.178, z = –0.61, P = 0.544; odds ratio 0.84
+
+
+==============================================================================
+6b. Survivors without a recorded new stem mass
+==============================================================================
+Survivors: 441 | missing new stem mass: 15 | ancestry tercile cut points: 2.1, 94.3 % Fremont
+           factor         level survivors missing pct_missing  fisher_P
+         watering  Well-watered       255       8         3.1 0.7930139
+         watering       Drought       186       7         3.8 0.7930139
+         inoculum          None       124       5         4.0 0.7172228
+         inoculum            AM       111       5         4.5 0.7172228
+         inoculum            EM        99       3         3.0 0.7172228
+         inoculum          Both       107       2         1.9 0.7172228
+             soil No Tam Legacy       218       6         2.8 0.6012285
+             soil    Tam Legacy       223       9         4.0 0.6012285
+       population            BR        62       3         4.8 0.3784862
+       population            IC        64       4         6.2 0.3784862
+       population            JC        84       4         4.8 0.3784862
+       population            LC        78       2         2.6 0.3784862
+       population            OC        96       2         2.1 0.3784862
+       population            SF        57       0         0.0 0.3784862
+ ancestry_tercile   lower third       164       5         3.0 0.9478305
+ ancestry_tercile  middle third       135       5         3.7 0.9478305
+ ancestry_tercile   upper third       142       5         3.5 0.9478305
+  [6b] Survivors without new stem mass | 441 survivors | n = 441 | Missingness by watering: Well-watered 8/255, Drought 7/186; Fisher exact P = 0.793
+  [6b] Survivors without new stem mass | 441 survivors | n = 441 | Missingness by inoculum: None 5/124, AM 5/111, EM 3/99, Both 2/107; Fisher exact P = 0.717
+  [6b] Survivors without new stem mass | 441 survivors | n = 441 | Missingness by soil: No Tam Legacy 6/218, Tam Legacy 9/223; Fisher exact P = 0.601
+  [6b] Survivors without new stem mass | 441 survivors | n = 441 | Missingness by population: BR 3/62, IC 4/64, JC 4/84, LC 2/78, OC 2/96, SF 0/57; Fisher exact P = 0.378
+  [6b] Survivors without new stem mass | 441 survivors | n = 441 | Missingness by ancestry tercile: lower third 5/164, middle third 5/135, upper third 5/142; Fisher exact P = 0.948
+
+Logistic regression of missingness (all factors together):
+                 Estimate Std. Error z value Pr(>|z|)
+(Intercept)       -3.5528     0.6982 -5.0885   0.0000
+per_f              0.0008     0.0060  0.1311   0.8957
+treatmentDrought   0.2046     0.5300  0.3861   0.6994
+soilTam Legacy     0.4251     0.5385  0.7894   0.4299
+myco_catAM         0.1698     0.6506  0.2610   0.7941
+myco_catEM        -0.2857     0.7439 -0.3841   0.7009
+myco_catBoth      -0.7741     0.8489 -0.9119   0.3618
+Notes recorded for these plants are in results/09_allocation_survival_followup/table_unharvested_survivors.csv.
+
+
+==============================================================================
+6c. Inverse-probability-of-survival weights
+==============================================================================
+Stabilized weights among survivors: conditional 0.79–3.92, population-level 0.79–5.47
+  [6c] New stem biomass (log) | unweighted (reported) | n = 425 | Linear ancestry (per 1%): β = –0.00524, t = –4.56, df = 37.5, P < 0.001
+  [6c] New stem biomass (log) | unweighted (reported) | n = 425 | Quadratic ancestry: β = –0.000145, t = –2.30, df = 31.6, P = 0.028
+  [6c] New stem biomass (log) | unweighted (reported) | n = 425 | Drought: β = –0.110, t = –1.75, df = 395.6, P = 0.081 (–10.5%)
+  [6c] New stem biomass (log) | IPW, fitted survival probability (with genotype effect) | n = 425 | Linear ancestry (per 1%): β = –0.00486, t = –4.46, df = 34.4, P < 0.001
+  [6c] New stem biomass (log) | IPW, fitted survival probability (with genotype effect) | n = 425 | Quadratic ancestry: β = –0.000123, t = –2.05, df = 30, P = 0.050
+  [6c] New stem biomass (log) | IPW, fitted survival probability (with genotype effect) | n = 425 | Drought: β = –0.122, t = –1.92, df = 398, P = 0.055 (–11.5%)
+  [6c] New stem biomass (log) | IPW, population-level survival probability | n = 425 | Linear ancestry (per 1%): β = –0.00484, t = –4.39, df = 34.3, P < 0.001
+  [6c] New stem biomass (log) | IPW, population-level survival probability | n = 425 | Quadratic ancestry: β = –0.000124, t = –2.03, df = 30.4, P = 0.051
+  [6c] New stem biomass (log) | IPW, population-level survival probability | n = 425 | Drought: β = –0.119, t = –1.86, df = 399.7, P = 0.063 (–11.2%)
+  [6c] Total new biomass (log), (a) estimated root mass | unweighted (reported) | n = 414 | Linear ancestry (per 1%): β = 0.00201, t = 2.52, df = 39.3, P = 0.016
+  [6c] Total new biomass (log), (a) estimated root mass | unweighted (reported) | n = 414 | Quadratic ancestry: β = –0.0000346, t = –0.83, df = 36.2, P = 0.413
+  [6c] Total new biomass (log), (a) estimated root mass | unweighted (reported) | n = 414 | Drought: β = –0.220, t = –5.27, df = 382.8, P < 0.001 (–19.8%)
+  [6c] Total new biomass (log), (a) estimated root mass | IPW, fitted survival probability (with genotype effect) | n = 414 | Linear ancestry (per 1%): β = 0.00210, t = 2.61, df = 37.7, P = 0.013
+  [6c] Total new biomass (log), (a) estimated root mass | IPW, fitted survival probability (with genotype effect) | n = 414 | Quadratic ancestry: β = –0.0000371, t = –0.87, df = 36.3, P = 0.391
+  [6c] Total new biomass (log), (a) estimated root mass | IPW, fitted survival probability (with genotype effect) | n = 414 | Drought: β = –0.223, t = –5.36, df = 384.2, P < 0.001 (–20.0%)
+  [6c] Total new biomass (log), (a) estimated root mass | IPW, population-level survival probability | n = 414 | Linear ancestry (per 1%): β = 0.00212, t = 2.66, df = 37.5, P = 0.012
+  [6c] Total new biomass (log), (a) estimated root mass | IPW, population-level survival probability | n = 414 | Quadratic ancestry: β = –0.0000359, t = –0.84, df = 36.7, P = 0.405
+  [6c] Total new biomass (log), (a) estimated root mass | IPW, population-level survival probability | n = 414 | Drought: β = –0.224, t = –5.40, df = 385.7, P < 0.001 (–20.1%)
+
+Done.

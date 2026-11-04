@@ -1,0 +1,20 @@
+"model","converged","singular","messages","genotype_sd","pop_sd"
+"colonization lmer (+pop, myco_cat, pop:geno_id, tree_id)",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",0,1.24115605936655
+"biomass full",TRUE,FALSE,"",0.226499035950808,0.441554767451165
+"biomass reduced",TRUE,FALSE,"",0.224701455715389,0.438648680839525
+"survival full (pop fixed, geno_id)",TRUE,FALSE,"",0.472004008158622,NA
+"survival reduced (pop fixed, geno_id)",TRUE,FALSE,"",0.477767731141363,NA
+"survival full (pop random + pop:geno_id)",TRUE,FALSE,"",0.613698502828141,0.583862749685451
+"survival reduced (pop random + pop:geno_id)",TRUE,FALSE,"",0.616849886489602,0.585897026106009
+"colonization-biomass ancestry-controlled",TRUE,FALSE,"",0.232249053170031,0.391066463241433
+"colonization-biomass naive",TRUE,FALSE,"",0.24088489167332,0.359785957049399
+"aggregated survival ancestry-controlled (1|pop)",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",NA,0
+"aggregated survival naive (1|pop)",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",NA,0
+"stomatal M",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",0.0223791280756972,0
+"stomatal A",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",0.0223962916879448,0
+"stomatal R",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",0.0217003843107746,0
+"stomatal L",TRUE,FALSE,"",0.0229143840650812,0.00369689310962064
+"stomatal LR",TRUE,FALSE,"",0.0222253354632165,0.00380886535430189
+"Supp Fig 2 mixed model",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",1.8142235811114,0.98941854428277
+"allocation lmf_A full",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",0.0198956573089194,0
+"allocation lmf_B full",TRUE,TRUE,"boundary (singular) fit: see help('isSingular')",0.0345395464771891,0

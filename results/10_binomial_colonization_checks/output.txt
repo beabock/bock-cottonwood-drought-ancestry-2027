@@ -1,0 +1,52 @@
+BINOMIAL COLONIZATION CHECKS run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | glmmTMB 1.1.15.2 
+
+
+==============================================================================
+A. Colonization as binomial counts (grid-line intersects)
+==============================================================================
+Plants: 78 | intersects per plant: AMF/DSE slides median 102 ( 90-129 ); EMF median 100 ( 92-125 )
+Max |100 x count / total - analysed percentage|: amf = 4.8e-14; dse = 4.62e-14; emf = 4.97e-14 (0 = counts reproduce the percentages)
+Note: AMF and DSE are scored as mutually exclusive categories at each intersect on the same slides, so their counts share one denominator.
+
+Overdispersion without an observation-level random effect: Pearson chi2/df = 5.2, so the reported binomial GLMM includes one (1 | obs).
+Binomial GLMM (logit link) with observation-level random effect: singular = TRUE | convergence messages:  
+ Groups      Name        Std.Dev.
+ obs         (Intercept) 0.907645
+ tree_id     (Intercept) 0.000000
+ pop:geno_id (Intercept) 0.000000
+ pop         (Intercept) 0.027347
+ myco_cat    (Intercept) 0.000000
+Beta-binomial GLMM (glmmTMB): converged = TRUE 
+
+Binomial GLMM + observation-level RE (lme4), n = 78 plants (234 rows)
+  EMF vs. AMF ancestry slope, well-watered (interaction, per 1% Fremont, logit scale): β = –0.0106, z = –2.03, P = 0.042
+  AMF ancestry slope (averaged over watering treatments): β = 0.000540, z = 0.19, P = 0.852; odds ratio per 10 points of Fremont ancestry 1.005 (95% CI 0.950-1.064)
+  DSE ancestry slope (averaged over watering treatments): β = 0.00497, z = 1.56, P = 0.118; odds ratio per 10 points of Fremont ancestry 1.051 (95% CI 0.987-1.118)
+  EMF ancestry slope (averaged over watering treatments): β = –0.00591, z = –2.24, P = 0.025; odds ratio per 10 points of Fremont ancestry 0.943 (95% CI 0.895-0.993)
+
+Beta-binomial GLMM (glmmTMB), n = 78 plants (234 rows)
+  EMF vs. AMF ancestry slope, well-watered (interaction, per 1% Fremont, logit scale): β = –0.00911, z = –1.94, P = 0.052
+  AMF ancestry slope (averaged over watering treatments): β = –0.000393, z = –0.13, P = 0.895; odds ratio per 10 points of Fremont ancestry 0.996 (95% CI 0.939-1.056)
+  DSE ancestry slope (averaged over watering treatments): β = 0.00417, z = 1.49, P = 0.137; odds ratio per 10 points of Fremont ancestry 1.043 (95% CI 0.987-1.101)
+  EMF ancestry slope (averaged over watering treatments): β = –0.00550, z = –3.29, P = 0.001; odds ratio per 10 points of Fremont ancestry 0.947 (95% CI 0.916-0.978)
+
+Reported Gaussian LMM for comparison (Figure 3): EMF slope –0.124 percentage points per 1% (t = –4.80, P < 0.001); ancestry × EMF t = –3.51, P < 0.001; AMF and DSE slopes P = 0.68 and 0.62.
+
+
+==============================================================================
+B. Survival GLMM: population fixed (reported) vs. random
+==============================================================================
+
+Population fixed (reported): n = 563 | AIC = 526.5 | singular = FALSE | random-effect SDs: geno_id = 0.478
+  ancestry x drought (linear + quadratic) LRT χ²(2) = 0.47, P = 0.792
+  Linear ancestry (per 1%)   β = –0.0112, z = –3.14, P = 0.002
+  Quadratic ancestry         β = 0.0000248, z = 0.13, P = 0.893
+  Drought                    β = –1.20, z = –5.04, P < 0.001
+
+Population random: n = 563 | AIC = 532.7 | singular = FALSE | random-effect SDs: pop:geno_id = 0.617; pop = 0.586
+  ancestry x drought (linear + quadratic) LRT χ²(2) = 0.47, P = 0.791
+  Linear ancestry (per 1%)   β = –0.0110, z = –2.89, P = 0.004
+  Quadratic ancestry         β = 0.0000833, z = 0.42, P = 0.675
+  Drought                    β = –1.21, z = –5.12, P < 0.001
+
+Population SD with population random: 0.586 (6 populations). Population fixed-effect LRT in the reported model: χ²(5) = 18.07, P = 0.003

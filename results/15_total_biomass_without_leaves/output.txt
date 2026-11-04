@@ -1,0 +1,41 @@
+TOTAL BIOMASS WITHOUT LEAVES run: | R version 4.6.1 (2026-06-24 ucrt) 
+
+ sample                      response                                        
+ (a) estimated root mass     Total new biomass (reported; stem + leaf + root)
+ (a) estimated root mass     Total new biomass (reported; stem + leaf + root)
+ (a) estimated root mass     Total new biomass (reported; stem + leaf + root)
+ (a) estimated root mass     New stem + root (leaves excluded)               
+ (a) estimated root mass     New stem + root (leaves excluded)               
+ (a) estimated root mass     New stem + root (leaves excluded)               
+ (b) measured root mass only Total new biomass (reported; stem + leaf + root)
+ (b) measured root mass only Total new biomass (reported; stem + leaf + root)
+ (b) measured root mass only Total new biomass (reported; stem + leaf + root)
+ (b) measured root mass only New stem + root (leaves excluded)               
+ (b) measured root mass only New stem + root (leaves excluded)               
+ (b) measured root mass only New stem + root (leaves excluded)               
+ n   term                     string                                         
+ 414 Linear ancestry (per 1%) β = 0.00201, t = 2.52, df = 39.3, P = 0.016    
+ 414 Quadratic ancestry       β = –0.0000346, t = –0.83, df = 36.2, P = 0.413
+ 414 Drought                  β = –0.220, t = –5.27, df = 382.8, P < 0.001   
+ 414 Linear ancestry (per 1%) β = 0.00102, t = 1.16, df = 37.9, P = 0.255    
+ 414 Quadratic ancestry       β = –0.0000399, t = –0.85, df = 36.4, P = 0.398
+ 414 Drought                  β = –0.128, t = –3.33, df = 378.2, P < 0.001   
+ 242 Linear ancestry (per 1%) β = 0.00120, t = 1.16, df = 45.2, P = 0.253    
+ 242 Quadratic ancestry       β = –0.0000682, t = –1.37, df = 33.4, P = 0.181
+ 242 Drought                  β = –0.266, t = –4.45, df = 218.3, P < 0.001   
+ 242 Linear ancestry (per 1%) β = 0.000397, t = 0.37, df = 43.9, P = 0.712   
+ 242 Quadratic ancestry       β = –0.0000642, t = –1.21, df = 34.7, P = 0.234
+ 242 Drought                  β = –0.110, t = –2.12, df = 212.2, P = 0.035   
+ back_transformed         lrt_ancestry_x_drought 
+                          χ²(2) = 0.11, P = 0.947
+                          χ²(2) = 0.11, P = 0.947
+ drought × 0.802 (–19.8%) χ²(2) = 0.11, P = 0.947
+                          χ²(2) = 0.81, P = 0.666
+                          χ²(2) = 0.81, P = 0.666
+ drought × 0.880 (–12.0%) χ²(2) = 0.81, P = 0.666
+                          χ²(2) = 0.24, P = 0.888
+                          χ²(2) = 0.24, P = 0.888
+ drought × 0.767 (–23.3%) χ²(2) = 0.24, P = 0.888
+                          χ²(2) = 0.64, P = 0.727
+                          χ²(2) = 0.64, P = 0.727
+ drought × 0.896 (–10.4%) χ²(2) = 0.64, P = 0.727

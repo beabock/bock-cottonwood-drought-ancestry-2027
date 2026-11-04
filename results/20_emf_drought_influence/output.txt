@@ -1,0 +1,126 @@
+EMF x drought influence run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+
+
+==============================================================================
+1a. The reported 77-plant model: plants and genotypes by watering
+==============================================================================
+    treatment plants genotypes
+ Well-watered     37        27
+      Drought     40        27
+Genotypes in total: 37 | in both watering treatments: 17 
+  [1a] EMF × drought, new stem (reported model) | colonization plants with new stem mass | n = 77 | Plants (genotypes) by watering: well-watered 37 (27 genotypes); drought 40 (27 genotypes); 37 genotypes in all
+  [1a] EMF × drought, new stem (reported model) | reported | n = 77 | EMF × drought (per SD of EMF): β = –0.444, t = –2.84, df = 57.3, P = 0.006
+  [1a] EMF × drought, new stem (reported model) | reported | n = 77 | EMF slope, well-watered: 11.1% per 10 percentage points of EMF (95% CI –6.0 to 31.2%), β = 0.105, t = 1.26, df = 58.6, P = 0.213 (β per 10 points, log scale)
+  [1a] EMF × drought, new stem (reported model) | reported | n = 77 | EMF slope, drought: –19.4% per 10 percentage points of EMF (95% CI –32.8 to –3.3%), β = –0.216, t = –2.38, df = 52, P = 0.021 (β per 10 points, log scale)
+
+
+==============================================================================
+1b. Influence: Cook's distance and leave-one-out refits
+==============================================================================
+Cook's distance threshold 4/n = 0.052 | plants above it: 8 
+Top 8 plants by Cook's distance:
+ tree_idold geno_id    treatment per_f   emf dryshoot_new   int_b  int_t int_df
+     OCN402  OC_N_4      Drought 34.62 29.46        0.230 -0.4566 -2.922  56.06
+     SFN117  SF_N_1      Drought  0.82 57.00        0.010 -0.3573 -2.425  57.84
+     LCF502  LC_F_5      Drought 98.87 11.54        0.980 -0.3158 -2.022  52.87
+     SFN218  SF_N_2      Drought  1.24 38.00        0.260 -0.4792 -3.307  57.99
+    BRN1010 BR_N_10 Well-watered  2.07 38.78        0.270 -0.4650 -3.001  54.60
+     JCN314  JC_N_3      Drought  1.09 47.00        0.426 -0.4682 -3.099  57.41
+     LCH106  LC_H_1      Drought 55.41 49.00        0.449 -0.5298 -3.302  59.28
+     SFH208  SF_H_2      Drought 32.23 54.00        0.080 -0.4733 -3.006  54.97
+    int_p    ww_b   ww_p    dr_b     dr_p    cook singular
+ 0.005003 0.11720 0.1680 -0.2128 0.022900 0.32070    FALSE
+ 0.018440 0.10610 0.1740 -0.1521 0.084680 0.21630    FALSE
+ 0.048300 0.09853 0.2249 -0.1297 0.161000 0.14420    FALSE
+ 0.001625 0.11460 0.1409 -0.2318 0.008758 0.11280    FALSE
+ 0.004049 0.13610 0.1105 -0.2000 0.027700 0.09071    FALSE
+ 0.003004 0.10510 0.1963 -0.2334 0.010630 0.08815    FALSE
+ 0.001628 0.11520 0.1678 -0.2677 0.006009 0.07962    FALSE
+ 0.003984 0.10870 0.1938 -0.2334 0.014000 0.07673    FALSE
+
+Leave one plant out (77 refits):
+  EMF × drought (per SD)                       estimate –0.530 to –0.316 | P 0.00162 to 0.0483 | P < 0.05 in 77 of 77
+  [1b] Influence: Leave one plant out | 77-plant model | n = 77 | EMF × drought (per SD): estimate –0.530 to –0.316; P 0.002 to 0.048; P < 0.05 in 77 of 77 refits (reported: P = 0.006)
+  EMF slope, well-watered (log per 10 points)   estimate 0.0703 to 0.140 | P 0.11 to  0.4 | P < 0.05 in 0 of 77
+  [1b] Influence: Leave one plant out | 77-plant model | n = 77 | EMF slope, well-watered (log per 10 points): estimate 0.0703 to 0.140; P 0.110 to 0.400; P < 0.05 in 0 of 77 refits (reported: P = 0.213)
+  EMF slope, drought (log per 10 points)        estimate –0.268 to –0.130 | P 0.00601 to 0.161 | P < 0.05 in 75 of 77
+  [1b] Influence: Leave one plant out | 77-plant model | n = 77 | EMF slope, drought (log per 10 points): estimate –0.268 to –0.130; P 0.006 to 0.161; P < 0.05 in 75 of 77 refits (reported: P = 0.021)
+
+Leave one genotype out (37 refits):
+  EMF × drought (per SD)                       estimate –0.534 to –0.312 | P 0.00206 to 0.0522 | P < 0.05 in 36 of 37
+  [1b] Influence: Leave one genotype out | 77-plant model | n = 77 | EMF × drought (per SD): estimate –0.534 to –0.312; P 0.002 to 0.052; P < 0.05 in 36 of 37 refits (reported: P = 0.006)
+  EMF slope, well-watered (log per 10 points)   estimate 0.0665 to 0.137 | P 0.124 to 0.435 | P < 0.05 in 0 of 37
+  [1b] Influence: Leave one genotype out | 77-plant model | n = 77 | EMF slope, well-watered (log per 10 points): estimate 0.0665 to 0.137; P 0.124 to 0.435; P < 0.05 in 0 of 37 refits (reported: P = 0.213)
+  EMF slope, drought (log per 10 points)        estimate –0.270 to –0.130 | P 0.00853 to 0.163 | P < 0.05 in 35 of 37
+  [1b] Influence: Leave one genotype out | 77-plant model | n = 77 | EMF slope, drought (log per 10 points): estimate –0.270 to –0.130; P 0.009 to 0.163; P < 0.05 in 35 of 37 refits (reported: P = 0.021)
+
+Genotype removals that change significance of the interaction or the drought slope:
+ geno_id n_removed   int_b  int_t int_df   int_p    ww_b   ww_p    dr_b    dr_p
+  SF_N_1         1 -0.3573 -2.425  57.84 0.01844 0.10610 0.1740 -0.1521 0.08468
+  LC_F_5         2 -0.3124 -1.987  52.05 0.05221 0.09605 0.2407 -0.1297 0.16350
+   cook singular
+ 0.2163    FALSE
+ 0.1551    FALSE
+Plant removals that change significance of the interaction or the drought slope:
+ tree_idold geno_id treatment per_f   emf dryshoot_new   int_b  int_t int_df
+     SFN117  SF_N_1   Drought  0.82 57.00         0.01 -0.3573 -2.425  57.84
+     LCF502  LC_F_5   Drought 98.87 11.54         0.98 -0.3158 -2.022  52.87
+   int_p    ww_b   ww_p    dr_b    dr_p   cook singular
+ 0.01844 0.10610 0.1740 -0.1521 0.08468 0.2163    FALSE
+ 0.04830 0.09853 0.2249 -0.1297 0.16100 0.1442    FALSE
+Refits whose well-watered slope reaches P < 0.05: 0 plants; 0 genotypes
+
+Figure 4 high point: LCF502 (genotype LC_F_5, Drought, 98.9% Fremont, EMF 11.5%, AMF 15.5%, DSE 0.0%, new stem 0.98 g, inoculum EM, soil Tam Legacy); next-largest new stem among the 77: 0.48 g
+Its Cook's distance: 0.144 (rank 3 of 77)
+  [1b] Without LCF502 (Figure 4 point at 0.98 g, 11.5% EMF, drought) | 76 plants | n = 76 | EMF × drought (per SD): β = –0.316, t = –2.02, df = 52.9, P = 0.048
+  [1b] Without LCF502 | 76 plants | n = 76 | EMF slope, well-watered: 10.4% per 10 percentage points of EMF (95% CI –6.0 to 29.6%), t = 1.23, df = 55.4, P = 0.225
+  [1b] Without LCF502 | 76 plants | n = 76 | EMF slope, drought: –12.2% per 10 percentage points of EMF (95% CI –26.9 to 5.5%), t = –1.43, df = 43.6, P = 0.161
+
+
+==============================================================================
+1c. Multiplicity
+==============================================================================
+                 AMF         EMF       DSE
+unadjusted 0.5255378 0.006184411 0.9141629
+holm       1.0000000 0.018553232 1.0000000
+  [1c] Guild × drought, Holm across the three guilds | reported | n = 77 | EMF × drought: P = 0.006 unadjusted; Holm P = 0.019 (AMF Holm P = 1.000; DSE Holm P = 1.000)
+  [1c] EMF simple slopes, Holm within the model (2 slopes) | reported | n = 77 | Drought / well-watered slope: drought P = 0.021 (Holm P = 0.042); well-watered P = 0.213 (Holm P = 0.213)
+Bonferroni across the 2 slopes and 3 guilds (6 tests), drought slope: P = 0.127 
+
+
+==============================================================================
+1d. The same model for total new biomass and for new stem + root mass
+==============================================================================
+All 77 plants were scored for colonization, so their root mass is estimated (fresh mass x predicted dry:fresh ratio);
+a measured-root-only version of these models is not possible.
+  [1d] Total new biomass (root mass estimated) | colonization plants | n = 77 | EMF × drought (per SD): β = –0.172, t = –1.93, df = 58.6, P = 0.059
+  [1d] Total new biomass (root mass estimated) | colonization plants | n = 77 | EMF slope, well-watered: 8.7% per 10 percentage points of EMF (95% CI –1.2 to 19.7%), t = 1.74, df = 59.5, P = 0.087
+  [1d] Total new biomass (root mass estimated) | colonization plants | n = 77 | EMF slope, drought: –4.0% per 10 percentage points of EMF (95% CI –13.3 to 6.4%), t = –0.79, df = 55.2, P = 0.432
+  [1d] New stem + root mass (root mass estimated) | colonization plants | n = 77 | EMF × drought (per SD): β = –0.181, t = –1.67, df = 60.2, P = 0.099
+  [1d] New stem + root mass (root mass estimated) | colonization plants | n = 77 | EMF slope, well-watered: 6.9% per 10 percentage points of EMF (95% CI –4.9 to 20.2%), t = 1.15, df = 61.1, P = 0.256
+  [1d] New stem + root mass (root mass estimated) | colonization plants | n = 77 | EMF slope, drought: –6.2% per 10 percentage points of EMF (95% CI –17.1 to 6.2%), t = –1.03, df = 56.6, P = 0.308
+
+
+==============================================================================
+2c. EMF only (no AMF or DSE terms), every EMF-scored survivor with new stem mass
+==============================================================================
+  [2c] EMF-only model, new stem | all EMF-scored survivors (well-watered 103, drought 58; 41 genotypes) | n = 161 | EMF × drought (per SD): β = –0.228, t = –1.74, df = 144.8, P = 0.084
+  [2c] EMF-only model, new stem | all EMF-scored survivors (well-watered 103, drought 58; 41 genotypes) | n = 161 | EMF slope, well-watered: 4.8% per 10 percentage points of EMF (95% CI –6.3 to 17.2%), t = 0.83, df = 144.4, P = 0.411
+  [2c] EMF-only model, new stem | all EMF-scored survivors (well-watered 103, drought 58; 41 genotypes) | n = 161 | EMF slope, drought: –11.2% per 10 percentage points of EMF (95% CI –25.4 to 5.7%), t = –1.34, df = 146.9, P = 0.182
+  singular: FALSE 
+  [2c] EMF-only model, new stem | the 77 plants of the reported model (well-watered 37, drought 40; 37 genotypes) | n = 77 | EMF × drought (per SD): β = –0.405, t = –2.78, df = 58.5, P = 0.007
+  [2c] EMF-only model, new stem | the 77 plants of the reported model (well-watered 37, drought 40; 37 genotypes) | n = 77 | EMF slope, well-watered: 5.9% per 10 percentage points of EMF (95% CI –8.5 to 22.7%), t = 0.79, df = 56.4, P = 0.435
+  [2c] EMF-only model, new stem | the 77 plants of the reported model (well-watered 37, drought 40; 37 genotypes) | n = 77 | EMF slope, drought: –20.9% per 10 percentage points of EMF (95% CI –33.8 to –5.6%), t = –2.65, df = 56.5, P = 0.011
+  singular: FALSE 
+EMF-scored survivors without new stem mass or initial diameter (not in the model): 3 
+
+
+==============================================================================
+9c. Narrowleaf plants only (linear ancestry only; r_code/09_allocation_survival_followup.R)
+==============================================================================
+  [9c] EMF × drought, new stem, narrowleaf only | narrowleaf plants (well-watered 15, drought 14; 15 genotypes) | n = 29 | EMF × drought (per SD): β = –0.476, t = –0.95, df = 15, P = 0.356
+  [9c] EMF × drought, new stem, narrowleaf only | narrowleaf plants (well-watered 15, drought 14; 15 genotypes) | n = 29 | EMF slope, well-watered: 3.2% per 10 percentage points of EMF (95% CI –34.9 to 63.6%), t = 0.15, df = 15, P = 0.886
+  [9c] EMF × drought, new stem, narrowleaf only | narrowleaf plants (well-watered 15, drought 14; 15 genotypes) | n = 29 | EMF slope, drought: –26.8% per 10 percentage points of EMF (95% CI –65.4 to 54.6%), t = –0.89, df = 15, P = 0.388
+  singular: TRUE | residual df for 13 fixed effects: 15 
+
+Done.

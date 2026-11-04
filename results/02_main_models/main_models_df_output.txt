@@ -1,0 +1,75 @@
+MAIN MODELS WITH DF run: 
+
+
+==============================================================================
+1. formatted_results_main_models_df.md written
+==============================================================================
+44 strings; 4 flagged
+
+
+==============================================================================
+2. Aggregated survival sensitivity (AMF, EMF, DSE x drought)
+==============================================================================
+'scored plants' = survivors with AMF, EMF and DSE all scored. Colonization predictors are z-scored over the groups in each model.
+The 'current grouping, all groups' row therefore differs slightly from the reported model, which z-scored over all 83 candidate groups.
+
+  analysis                                                                   
+1 current grouping (pop x cross type x drought x inoculum x soil), all groups
+2 current grouping, >= 2 scored plants                                       
+3 current grouping, >= 3 scored plants                                       
+4 (a) pop x cross type x drought; inoculum and soil as group proportions     
+5 (a) with >= 2 scored plants                                                
+6 (a) with >= 3 scored plants                                                
+  n_groups n_trees scored_median scored_range groups_by_treatment
+1 35       126      1            0–2          22/13              
+2  3        11      2            2–2          3/0                
+3  0         0     NA                         0/0                
+4 34       547      2            1–5          17/17              
+5 25       436      2            2–5          11/14              
+6 11       203      4            3–5          4/7                
+  AMF_x_drought                    EMF_x_drought                   
+1 β = –1.96, z = –2.29, P = 0.022  β = –2.65, z = –1.99, P = 0.046 
+2 <NA>                             <NA>                            
+3 <NA>                             <NA>                            
+4 β = –0.573, z = –1.98, P = 0.048 β = –0.274, z = –0.94, P = 0.348
+5 β = –1.11, z = –2.18, P = 0.030  β = –0.581, z = –1.63, P = 0.103
+6 <NA>                             <NA>                            
+  DSE_x_drought                    AMF_quasi               
+1 β = –3.84, z = –1.79, P = 0.073  t(20) = –2.02, P = 0.056
+2 <NA>                             <NA>                    
+3 <NA>                             <NA>                    
+4 β = –0.866, z = –2.93, P = 0.003 t(19) = –1.58, P = 0.131
+5 β = –1.61, z = –3.08, P = 0.002  t(10) = –1.74, P = 0.112
+6 <NA>                             <NA>                    
+  EMF_quasi                DSE_quasi                dispersion n_par
+1 t(20) = –1.76, P = 0.094 t(20) = –1.58, P = 0.129 1.28       15   
+2 <NA>                     <NA>                       NA       NA   
+3 <NA>                     <NA>                       NA       NA   
+4 t(19) = –0.75, P = 0.463 t(19) = –2.34, P = 0.031 1.57       15   
+5 t(10) = –1.31, P = 0.221 t(10) = –2.46, P = 0.034 1.56       15   
+6 <NA>                     <NA>                       NA       NA   
+  note                                                                      
+1                                                                           
+2 not estimable: 3 groups (model has 15+ parameters; both treatments needed)
+3 not estimable: 0 groups (model has 15+ parameters; both treatments needed)
+4                                                                           
+5                                                                           
+6 not estimable: 11 groups (model has 15 parameters; both treatments needed)
+
+
+==============================================================================
+4. dry_shoottotal (dry_stem in mega_ds.csv): total aboveground or stem only?
+==============================================================================
+Raw columns: tree_identification, tree_idold, pop, type, geno, indiv, wet_stem, flush, branch_rs, dryleaf_weight, dry_shoottotal, dryshoot_new 
+Metadata definition (metadata_ghcottieproject_summer2021.xlsx, sheet gh_drybiomass_aboveground):
+  dry_shoottotal = 'Mass (g) of dry stem biomass as defined as no leaves or roots'
+  wet_stem       = 'Mass (g) of wet stem as defined as no leaves or roots'
+  dryleaf_weight = 'Mass (g) of dry leaf biomass'; dryshoot_new = 'Mass (g) of NEW biomass as measured from bud scars'
+
+Rows with dry_shoottotal: 426 | with wet_stem too: 290 
+dry_shoottotal / wet_stem: median 0.462 IQR 0.434-0.492 | rows where dry_shoottotal > wet_stem: 0 
+(dry_shoottotal - dryleaf) / wet_stem (the stem dry-matter fraction IF leaves were included): median 0.35 
+lm(dry_shoottotal ~ wet_stem + dryleaf_weight): leaf coefficient = 0.156 (SE 0.057 ); about 1 expected if leaves were included, about 0 if not; wet_stem coefficient = 0.43 
+Rows where dry_shoottotal < dryleaf_weight: 1 of 359 
+Rows where dryshoot_new > dry_shoottotal: 0 | dryshoot_new > dryleaf_weight: 17 of 359 
+Median dry leaf / (leaf + dry_shoottotal): 0.202 

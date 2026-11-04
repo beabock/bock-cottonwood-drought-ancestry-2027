@@ -1,0 +1,11 @@
+"cross_type","treatment","zero_leaf","n","pct"
+"Narrowleaf","Well-watered",12,106,11.3
+"Narrowleaf","Drought",33,88,37.5
+"Backcross Narrowleaf","Well-watered",1,11,9.1
+"Backcross Narrowleaf","Drought",2,11,18.2
+"F1 Hybrid","Well-watered",3,26,11.5
+"F1 Hybrid","Drought",2,17,11.8
+"Backcross Fremont","Well-watered",0,13,0
+"Backcross Fremont","Drought",1,9,11.1
+"Fremont","Well-watered",3,90,3.3
+"Fremont","Drought",11,54,20.4

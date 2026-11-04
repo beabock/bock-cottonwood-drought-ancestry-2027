@@ -1,0 +1,201 @@
+Allocation log ratios run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+
+
+==============================================================================
+4a. Pairwise log ratios among plants with leaves
+==============================================================================
+  [4a] log(root:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Linear ancestry (per 1%): β = 0.00774, t = 5.32, df = 38.2, P < 0.001; 8.0% per 10 points
+  [4a] log(root:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Drought: β = 0.00890, t = 0.10, df = 323.9, P = 0.918; drought × 1.009
+  [4a] log(root:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Quadratic ancestry: β = 0.000150, t = 1.89, df = 32.2, P = 0.067
+  [4a] log(root:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Ancestry × drought (LRT, 2 df): χ²(2) = 0.06, P = 0.969
+  [4a] log(leaf:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Linear ancestry (per 1%): β = 0.00759, t = 6.56, df = 35.8, P < 0.001; 7.9% per 10 points
+  [4a] log(leaf:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Drought: β = 0.0306, t = 0.37, df = 329.4, P = 0.713; drought × 1.031
+  [4a] log(leaf:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Quadratic ancestry: β = 0.000152, t = 2.47, df = 27.8, P = 0.020
+  [4a] log(leaf:new stem) (plants with leaves) | (a) estimated root mass | n = 348 | Ancestry × drought (LRT, 2 df): χ²(2) = 0.50, P = 0.778
+  [4a] log(leaf:root) (plants with leaves) | (a) estimated root mass | n = 348 | Linear ancestry (per 1%): β = –0.0000925, t = –0.09, df = 37.3, P = 0.927; –0.1% per 10 points
+  [4a] log(leaf:root) (plants with leaves) | (a) estimated root mass | n = 348 | Drought: β = 0.0178, t = 0.31, df = 322.5, P = 0.756; drought × 1.018
+  [4a] log(leaf:root) (plants with leaves) | (a) estimated root mass | n = 348 | Quadratic ancestry: β = 0.00000690, t = 0.13, df = 35, P = 0.897
+  [4a] log(leaf:root) (plants with leaves) | (a) estimated root mass | n = 348 | Ancestry × drought (LRT, 2 df): χ²(2) = 0.85, P = 0.652
+  [4a] log(root:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Linear ancestry (per 1%): β = 0.00787, t = 4.05, df = 37.7, P < 0.001; 8.2% per 10 points
+  [4a] log(root:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Drought: β = 0.124, t = 1.03, df = 158.9, P = 0.304; drought × 1.132
+  [4a] log(root:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Quadratic ancestry: β = 0.000129, t = 1.32, df = 27, P = 0.199
+  [4a] log(root:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Ancestry × drought (LRT, 2 df): χ²(2) = 2.03, P = 0.363
+  [4a] log(leaf:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Linear ancestry (per 1%): β = 0.00683, t = 4.20, df = 31.4, P < 0.001; 7.1% per 10 points
+  [4a] log(leaf:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Drought: β = 0.0434, t = 0.39, df = 162.1, P = 0.694; drought × 1.044
+  [4a] log(leaf:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Quadratic ancestry: β = 0.000104, t = 1.30, df = 21.4, P = 0.209
+  [4a] log(leaf:new stem) (plants with leaves) | (b) measured root mass only | n = 177 | Ancestry × drought (LRT, 2 df): χ²(2) = 1.81, P = 0.405
+  [4a] log(leaf:root) (plants with leaves) | (b) measured root mass only | n = 177 | Linear ancestry (per 1%): β = –0.000602, t = –0.48, df = 45, P = 0.632; –0.6% per 10 points
+  [4a] log(leaf:root) (plants with leaves) | (b) measured root mass only | n = 177 | Drought: β = –0.0824, t = –0.97, df = 163.2, P = 0.333; drought × 0.921
+  [4a] log(leaf:root) (plants with leaves) | (b) measured root mass only | n = 177 | Quadratic ancestry: β = –0.0000262, t = –0.44, df = 34.7, P = 0.664
+  [4a] log(leaf:root) (plants with leaves) | (b) measured root mass only | n = 177 | Ancestry × drought (LRT, 2 df): χ²(2) = 3.03, P = 0.220
+Check against alr_models.csv:  8 of 8 strings identical
+
+
+==============================================================================
+4b. Predicted dry mass (g) at 0% and 100% Fremont ancestry
+==============================================================================
+                      sample   n n_leafy     ancestry     watering new_stem_g
+     (a) estimated root mass 414     348   0% Fremont Well-watered      0.179
+     (a) estimated root mass 414     348   0% Fremont      Drought      0.159
+     (a) estimated root mass 414     348   0% Fremont     averaged      0.168
+     (a) estimated root mass 414     348 100% Fremont Well-watered      0.105
+     (a) estimated root mass 414     348 100% Fremont      Drought      0.093
+     (a) estimated root mass 414     348 100% Fremont     averaged      0.099
+ (b) measured root mass only 242     177   0% Fremont Well-watered      0.193
+ (b) measured root mass only 242     177   0% Fremont      Drought      0.157
+ (b) measured root mass only 242     177   0% Fremont     averaged      0.174
+ (b) measured root mass only 242     177 100% Fremont Well-watered      0.114
+ (b) measured root mass only 242     177 100% Fremont      Drought      0.092
+ (b) measured root mass only 242     177 100% Fremont     averaged      0.102
+ new_stem_lo new_stem_hi root_g root_lo root_hi leaf_if_leafy_g leaf_lo leaf_hi
+       0.121       0.264  0.561   0.473   0.664           0.474   0.420   0.535
+       0.107       0.235  0.494   0.417   0.587           0.432   0.378   0.493
+       0.114       0.249  0.526   0.444   0.624           0.452   0.398   0.514
+       0.071       0.156  0.724   0.605   0.867           0.593   0.522   0.674
+       0.062       0.139  0.639   0.530   0.770           0.540   0.468   0.623
+       0.066       0.147  0.680   0.566   0.817           0.566   0.494   0.648
+       0.132       0.283  0.524   0.434   0.632           0.486   0.424   0.557
+       0.107       0.230  0.473   0.390   0.573           0.401   0.338   0.476
+       0.119       0.255  0.498   0.411   0.602           0.441   0.379   0.515
+       0.075       0.172  0.652   0.519   0.820           0.561   0.461   0.681
+       0.061       0.139  0.589   0.470   0.738           0.463   0.382   0.560
+       0.068       0.154  0.620   0.494   0.778           0.509   0.420   0.617
+ p_leafless leaf_expected_g stem_plus_leaf_plus_root_g
+      0.107           0.423                      1.162
+      0.373           0.271                      0.924
+      0.240           0.344                      1.038
+      0.037           0.571                      1.400
+      0.162           0.453                      1.185
+      0.100           0.510                      1.289
+      0.163           0.407                      1.124
+      0.518           0.193                      0.824
+      0.340           0.291                      0.963
+      0.075           0.518                      1.284
+      0.309           0.320                      1.001
+      0.192           0.411                      1.134
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (a) estimated root mass | n = 414 | New stem: 0% → 100% Fremont: 0.168 g (95% CI 0.114–0.249) → 0.099 g (95% CI 0.066–0.147)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (a) estimated root mass | n = 348 | Leaf, plants with leaves: 0% → 100% Fremont: 0.452 g (95% CI 0.398–0.514) → 0.566 g (95% CI 0.494–0.648)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (a) estimated root mass | n = 414 | Leaf × P(has leaves): 0% → 100% Fremont: 0.344 g (P leafless 0.24) → 0.510 g (P leafless 0.10)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (a) estimated root mass | n = 414 | Root: 0% → 100% Fremont: 0.526 g (95% CI 0.444–0.624) → 0.680 g (95% CI 0.566–0.817)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (b) measured root mass only | n = 242 | New stem: 0% → 100% Fremont: 0.174 g (95% CI 0.119–0.255) → 0.102 g (95% CI 0.068–0.154)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (b) measured root mass only | n = 177 | Leaf, plants with leaves: 0% → 100% Fremont: 0.441 g (95% CI 0.379–0.515) → 0.509 g (95% CI 0.420–0.617)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (b) measured root mass only | n = 242 | Leaf × P(has leaves): 0% → 100% Fremont: 0.291 g (P leafless 0.34) → 0.411 g (P leafless 0.19)
+  [4b] Predicted dry mass, averaged over watering (geometric-mean scale) | (b) measured root mass only | n = 242 | Root: 0% → 100% Fremont: 0.498 g (95% CI 0.411–0.602) → 0.620 g (95% CI 0.494–0.778)
+
+
+==============================================================================
+4d. Why the dry:fresh ratio comes from 116 plants
+==============================================================================
+ scored has_dry has_fresh   n
+  FALSE    TRUE      TRUE 116
+  FALSE    TRUE     FALSE 127
+  FALSE   FALSE      TRUE   5
+  FALSE   FALSE     FALSE   6
+   TRUE    TRUE      TRUE 167
+   TRUE   FALSE      TRUE   5
+
+Unscored plants with measured dry root mass: 243 | with fresh root mass too (ratio training set): 116 | without: 127 
+In allocation sample (b) (unscored, all model covariates): 242 
+
+Fresh root mass recorded, by treatment (FALSE / TRUE):
+              
+               FALSE TRUE
+  Well-watered    84   46
+  Drought         43   70
+  Fisher exact P = 3.85e-05 
+
+Fresh root mass recorded, by pop (FALSE / TRUE):
+    
+     FALSE TRUE
+  BR    21   13
+  IC    18   18
+  JC    23   25
+  LC    24   17
+  OC    28   26
+  SF    13   17
+  Fisher exact P = 0.661 
+
+Fresh root mass recorded, by myco_cat (FALSE / TRUE):
+      
+       FALSE TRUE
+  None    28   42
+  AM      33   27
+  EM      27   22
+  Both    39   25
+  Fisher exact P = 0.0923 
+
+Fresh root mass recorded, by new_class (FALSE / TRUE):
+                      
+                       FALSE TRUE
+  Narrowleaf              93   44
+  Backcross Narrowleaf     9    4
+  F1 Hybrid               11   14
+  Backcross Fremont        1    9
+  Fremont                 13   45
+  Fisher exact P = 1e-05 
+
+Logistic: fresh mass recorded ~ ancestry + drought:
+                 Estimate Std. Error z value Pr(>|z|)
+(Intercept)       -1.3948     0.2457 -5.6764    0e+00
+per_f              0.0221     0.0037  5.8989    0e+00
+treatmentDrought   1.1551     0.2948  3.9175    1e-04
+  [4d] Dry:fresh root ratio training set | unscored harvested survivors | n = 243 | Plants with dry root mass / with fresh mass too: 243 unscored plants have measured dry root mass (242 in allocation sample b after covariates); only 116 of them also have a whole-root fresh mass, which the ratio needs; 127 have no fresh mass recorded
+
+
+==============================================================================
+4e. Total new biomass with one pooled dry:fresh ratio
+==============================================================================
+Pooled mean ratio: 0.1295 (n = 116 )
+  [4e] Total new biomass, predicted ratio (reported) | (a) all 414 plants | n = 414 | Linear ancestry (per 1%): β = 0.00201, t = 2.52, df = 39.3, P = 0.016
+  [4e] Total new biomass, predicted ratio (reported) | (a) all 414 plants | n = 414 | Quadratic ancestry: β = –0.0000346, t = –0.83, df = 36.2, P = 0.413
+  [4e] Total new biomass, predicted ratio (reported) | (a) all 414 plants | n = 414 | Drought: β = –0.220, t = –5.27, df = 382.8, P < 0.001 (–19.8%)
+  [4e] Total new biomass, pooled ratio | (a) all 414 plants | n = 414 | Linear ancestry (per 1%): β = 0.00226, t = 2.82, df = 39.2, P = 0.007
+  [4e] Total new biomass, pooled ratio | (a) all 414 plants | n = 414 | Quadratic ancestry: β = –0.0000314, t = –0.75, df = 36.1, P = 0.458
+  [4e] Total new biomass, pooled ratio | (a) all 414 plants | n = 414 | Drought: β = –0.233, t = –5.58, df = 382.7, P < 0.001 (–20.8%)
+  [4e] New stem + root, predicted ratio | (a) all 414 plants | n = 414 | Linear ancestry (per 1%): β = 0.00102, t = 1.16, df = 37.9, P = 0.255
+  [4e] New stem + root, predicted ratio | (a) all 414 plants | n = 414 | Quadratic ancestry: β = –0.0000399, t = –0.85, df = 36.4, P = 0.398
+  [4e] New stem + root, predicted ratio | (a) all 414 plants | n = 414 | Drought: β = –0.128, t = –3.33, df = 378.2, P < 0.001 (–12.0%)
+  [4e] New stem + root, pooled ratio | (a) all 414 plants | n = 414 | Linear ancestry (per 1%): β = 0.00141, t = 1.58, df = 37.7, P = 0.121
+  [4e] New stem + root, pooled ratio | (a) all 414 plants | n = 414 | Quadratic ancestry: β = –0.0000352, t = –0.75, df = 36.3, P = 0.458
+  [4e] New stem + root, pooled ratio | (a) all 414 plants | n = 414 | Drought: β = –0.149, t = –3.89, df = 378.1, P < 0.001 (–13.9%)
+ response                                      n   term                    
+ Total new biomass, predicted ratio (reported) 414 Linear ancestry (per 1%)
+ Total new biomass, predicted ratio (reported) 414 Quadratic ancestry      
+ Total new biomass, predicted ratio (reported) 414 Drought                 
+ Total new biomass, pooled ratio               414 Linear ancestry (per 1%)
+ Total new biomass, pooled ratio               414 Quadratic ancestry      
+ Total new biomass, pooled ratio               414 Drought                 
+ New stem + root, predicted ratio              414 Linear ancestry (per 1%)
+ New stem + root, predicted ratio              414 Quadratic ancestry      
+ New stem + root, predicted ratio              414 Drought                 
+ New stem + root, pooled ratio                 414 Linear ancestry (per 1%)
+ New stem + root, pooled ratio                 414 Quadratic ancestry      
+ New stem + root, pooled ratio                 414 Drought                 
+ string                                          P            back  
+ β = 0.00201, t = 2.52, df = 39.3, P = 0.016     1.603042e-02       
+ β = –0.0000346, t = –0.83, df = 36.2, P = 0.413 4.131600e-01       
+ β = –0.220, t = –5.27, df = 382.8, P < 0.001    2.292413e-07 –19.8%
+ β = 0.00226, t = 2.82, df = 39.2, P = 0.007     7.495671e-03       
+ β = –0.0000314, t = –0.75, df = 36.1, P = 0.458 4.575958e-01       
+ β = –0.233, t = –5.58, df = 382.7, P < 0.001    4.533101e-08 –20.8%
+ β = 0.00102, t = 1.16, df = 37.9, P = 0.255     2.548357e-01       
+ β = –0.0000399, t = –0.85, df = 36.4, P = 0.398 3.984737e-01       
+ β = –0.128, t = –3.33, df = 378.2, P < 0.001    9.375851e-04 –12.0%
+ β = 0.00141, t = 1.58, df = 37.7, P = 0.121     1.213299e-01       
+ β = –0.0000352, t = –0.75, df = 36.3, P = 0.458 4.576899e-01       
+ β = –0.149, t = –3.89, df = 378.1, P < 0.001    1.200674e-04 –13.9%
+ lrt                    
+ χ²(2) = 0.11, P = 0.947
+ χ²(2) = 0.11, P = 0.947
+ χ²(2) = 0.11, P = 0.947
+ χ²(2) = 0.28, P = 0.868
+ χ²(2) = 0.28, P = 0.868
+ χ²(2) = 0.28, P = 0.868
+ χ²(2) = 0.81, P = 0.666
+ χ²(2) = 0.81, P = 0.666
+ χ²(2) = 0.81, P = 0.666
+ χ²(2) = 0.65, P = 0.723
+ χ²(2) = 0.65, P = 0.723
+ χ²(2) = 0.65, P = 0.723
+
+Done.

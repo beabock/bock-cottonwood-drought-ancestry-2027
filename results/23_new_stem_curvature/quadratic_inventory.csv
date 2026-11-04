@@ -1,0 +1,29 @@
+﻿"model","sample","term","string","P","source","P_lt_0.05"
+"Survival (binomial GLMM)","563 cuttings","Quadratic ancestry","β = 0.0000248, z = 0.13, P = 0.893",0.8929457147657356,"refit here (r_code/09_allocation_survival_followup.R)",FALSE
+"Survival (binomial GLMM)","563 cuttings","Quadratic ancestry × drought","β = –0.000178, z = –0.66, P = 0.512",0.512106137722419,"refit here (02a_main_models.R full model)",FALSE
+"New stem biomass (log)","425 plants","Quadratic ancestry","β = –0.000145, t = –2.30, df = 31.6, P = 0.028",0.028002836252643413,"refit here (02a_main_models.R bio_red4)",TRUE
+"New stem biomass (log)","425 plants","Quadratic ancestry × drought","β = 0.0000891, t = 1.15, df = 392.1, P = 0.250",0.2503035763412509,"refit here (02a_main_models.R bio_full4)",FALSE
+"log total new biomass","414 (estimated root mass)","Quadratic ancestry","β = –0.0000346, t = –0.83, df = 36.2, P = 0.413",0.413160026605147,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"log total new biomass","242 (measured root mass only)","Quadratic ancestry","β = –0.0000682, t = –1.37, df = 33.4, P = 0.181",0.181354662932199,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"Stem mass fraction","414 (estimated root mass)","Quadratic ancestry","β = –0.000113, z = –1.95, P = 0.052",0.0516142826561141,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"Stem mass fraction","242 (measured root mass only)","Quadratic ancestry","β = –0.0000844, z = –1.24, P = 0.214",0.21443704893784,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"Leaf mass fraction","414 (estimated root mass)","Quadratic ancestry","β = 0.0000381, z = 1.02, P = 0.308",0.308382269962403,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"Leaf mass fraction","242 (measured root mass only)","Quadratic ancestry","β = 0.00000830, z = 0.21, P = 0.835",0.834944079356695,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"Root mass fraction","414 (estimated root mass)","Quadratic ancestry","β = 0.0000730, z = 1.37, P = 0.171",0.170725427162351,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"Root mass fraction","242 (measured root mass only)","Quadratic ancestry","β = 0.000126, z = 2.17, P = 0.030",0.0300051933413569,"results/07_allocation_appendix_S7/appendix_S7_source.csv",TRUE
+"log root:shoot","414 (estimated root mass)","Quadratic ancestry","β = 0.0000826, t = 1.35, df = 34.1, P = 0.186",0.186194880027527,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"log root:shoot","242 (measured root mass only)","Quadratic ancestry","β = 0.000143, t = 2.04, df = 23.6, P = 0.053",0.0525231514447544,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"log root:new-stem ratio","414 (estimated root mass)","Quadratic ancestry","β = 0.000145, t = 2.03, df = 33, P = 0.051",0.05075780774337348,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"log root:new-stem ratio","242 (measured root mass only)","Quadratic ancestry","β = 0.000118, t = 1.41, df = 31.2, P = 0.168",0.16763276653595827,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"P(no leaves at harvest)","425 (estimated root mass)","Quadratic ancestry","β = 0.000225, z = 0.99, P = 0.323",0.322812124131848,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"P(no leaves at harvest)","253 (measured root mass only)","Quadratic ancestry","β = 0.000216, z = 0.89, P = 0.372",0.372168985036714,"results/07_allocation_appendix_S7/appendix_S7_source.csv",FALSE
+"log(root:new stem) (plants with leaves)","348 (a) estimated root mass","Quadratic ancestry","β = 0.000150, t = 1.89, df = 32.2, P = 0.067",0.0672267584213726,"results/22_allocation_log_ratios/strings.csv (Appendix S7 log ratios)",FALSE
+"log(leaf:new stem) (plants with leaves)","348 (a) estimated root mass","Quadratic ancestry","β = 0.000152, t = 2.47, df = 27.8, P = 0.020",0.01979075704428548,"results/22_allocation_log_ratios/strings.csv (Appendix S7 log ratios)",TRUE
+"log(root:new stem) (plants with leaves)","177 (b) measured root mass only","Quadratic ancestry","β = 0.000129, t = 1.32, df = 27, P = 0.199",0.19910801990521115,"results/22_allocation_log_ratios/strings.csv (Appendix S7 log ratios)",FALSE
+"log(leaf:new stem) (plants with leaves)","177 (b) measured root mass only","Quadratic ancestry","β = 0.000104, t = 1.30, df = 21.4, P = 0.209",0.20887266453333708,"results/22_allocation_log_ratios/strings.csv (Appendix S7 log ratios)",FALSE
+"Whole-leaf conductance: Reported model (plant means)","203 plants","Quadratic ancestry","β = –0.000157, t = –2.26, df = 36.6, P = 0.030",0.0295986049570493,"results/19_conductance_models_of_record/conductance_models.csv",TRUE
+"Whole-leaf conductance: Reading-level model (plant-day means; phase and day pair as fixed effects)","203 plants","Quadratic ancestry","β = –0.000137, t = –1.85, df = 37, P = 0.072",0.0715925695749476,"results/19_conductance_models_of_record/conductance_models.csv",FALSE
+"Whole-leaf conductance: Plants measured on 17/22 Sep only (plant means)","56 plants","Quadratic ancestry","β = –0.0000198, t = –0.26, df = 15.5, P = 0.795",0.794916553424532,"results/19_conductance_models_of_record/conductance_models.csv",FALSE
+"Adaxial conductance (plant means)","203 / 200 plants","Quadratic ancestry","β = –0.000175, t = –2.34, df = 36.6, P = 0.025",0.0251023074453589,"results/04_conductance_surfaces/surface_sensitivity.csv",TRUE
+"Abaxial conductance (plant means)","203 / 200 plants","Quadratic ancestry","β = –0.000241, t = –1.94, df = 25.7, P = 0.063",0.0630293075742773,"results/04_conductance_surfaces/surface_sensitivity.csv",FALSE
+"New stem biomass, colonization model (covariate)","77 plants","Quadratic ancestry","β = –0.0000792, t = –0.86, df = 15.4, P = 0.401",0.4009467460176741,"refit here (r_code/08_sample_flow_extra_tests.R)",FALSE

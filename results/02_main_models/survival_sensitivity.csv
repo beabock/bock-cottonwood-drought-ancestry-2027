@@ -1,0 +1,7 @@
+"analysis","n_groups","n_trees","scored_median","scored_range","groups_by_treatment","AMF_x_drought","EMF_x_drought","DSE_x_drought","AMF_quasi","EMF_quasi","DSE_quasi","AMF_P","dispersion","n_par","note"
+"current grouping (pop x cross type x drought x inoculum x soil), all groups",35,126,1,"0–2","22/13","β = –1.96, z = –2.29, P = 0.022","β = –2.65, z = –1.99, P = 0.046","β = –3.84, z = –1.79, P = 0.073","t(20) = –2.02, P = 0.056","t(20) = –1.76, P = 0.094","t(20) = –1.58, P = 0.129",0.0218436644084561,1.28,15,""
+"current grouping, >= 2 scored plants",3,11,2,"2–2","3/0",NA,NA,NA,NA,NA,NA,NA,NA,NA,"not estimable: 3 groups (model has 15+ parameters; both treatments needed)"
+"current grouping, >= 3 scored plants",0,0,NA,"","0/0",NA,NA,NA,NA,NA,NA,NA,NA,NA,"not estimable: 0 groups (model has 15+ parameters; both treatments needed)"
+"(a) pop x cross type x drought; inoculum and soil as group proportions",34,547,2,"1–5","17/17","β = –0.573, z = –1.98, P = 0.048","β = –0.274, z = –0.94, P = 0.348","β = –0.866, z = –2.93, P = 0.003","t(19) = –1.58, P = 0.131","t(19) = –0.75, P = 0.463","t(19) = –2.34, P = 0.031",0.0475667327241338,1.57,15,""
+"(a) with >= 2 scored plants",25,436,2,"2–5","11/14","β = –1.11, z = –2.18, P = 0.030","β = –0.581, z = –1.63, P = 0.103","β = –1.61, z = –3.08, P = 0.002","t(10) = –1.74, P = 0.112","t(10) = –1.31, P = 0.221","t(10) = –2.46, P = 0.034",0.0295712123889721,1.56,15,""
+"(a) with >= 3 scored plants",11,203,4,"3–5","4/7",NA,NA,NA,NA,NA,NA,NA,NA,NA,"not estimable: 11 groups (model has 15 parameters; both treatments needed)"

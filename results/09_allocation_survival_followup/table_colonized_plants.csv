@@ -1,0 +1,10 @@
+﻿"table","group","Well-watered","Drought","Total"
+"inoculum x drought","None",8,13,21
+"inoculum x drought","AM",11,10,21
+"inoculum x drought","EM",13,11,24
+"inoculum x drought","Both",6,6,12
+"cross type x drought","Narrowleaf",15,14,29
+"cross type x drought","Backcross Narrowleaf",1,6,7
+"cross type x drought","F1 Hybrid",4,6,10
+"cross type x drought","Backcross Fremont",3,3,6
+"cross type x drought","Fremont",15,11,26

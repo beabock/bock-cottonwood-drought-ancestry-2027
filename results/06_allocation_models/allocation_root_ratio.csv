@@ -1,0 +1,11 @@
+"new_class","treatment","per_fc","predicted_ratio","n_unscored"
+"Narrowleaf","Well-watered",-48.0779653679654,0.13471671152728,11
+"Narrowleaf","Drought",-48.0779653679654,0.134534921011837,33
+"Backcross Narrowleaf","Well-watered",-16.6496875,0.137556527558667,2
+"Backcross Narrowleaf","Drought",-16.6496875,0.124249968796676,2
+"F1 Hybrid","Well-watered",4.17263157894737,0.134810496780471,6
+"F1 Hybrid","Drought",4.17263157894737,0.122974487905831,8
+"Backcross Fremont","Well-watered",32.6071794871795,0.125103403503266,4
+"Backcross Fremont","Drought",32.6071794871795,0.128362840235608,5
+"Fremont","Well-watered",48.0928372093023,0.116924035663245,23
+"Fremont","Drought",48.0928372093023,0.134759781294359,22

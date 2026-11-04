@@ -1,0 +1,131 @@
+Conductance counts run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
+ stage                                                          n  
+ Plants with porometer readings                                 205
+   whole-leaf mean > 0                                          204
+   ... and initial diameter recorded (whole-leaf model)         203
+ Non-positive adaxial mean, among all 205 plants with readings    1
+ Non-positive adaxial mean, among the 203 analyzed plants         0
+ Non-positive abaxial mean, among all 205 plants with readings    4
+ Non-positive abaxial mean, among the 203 analyzed plants         3
+ Excluded whole-leaf plant: negative readings / all readings      8
+ Analyzed plants measured on both days                          170
+ Analyzed plants measured on one day                             33
+ Plants with one day only, among all 205 with readings           33
+ Plant-days among the 203 analyzed plants                       373
+   plant-day means <= 0 (excluded from the reading-level model)   1
+   plant-days in the reading-level model                        372
+ Surface reading level: adaxial plant-days > 0 / plants         372
+ Surface reading level: abaxial plant-days > 0 / plants         366
+ note                                                  
+                                                       
+ OCF117                                                
+ JCH211                                                
+ OCF117                                                
+                                                       
+ OCF117, OCH502, OCN301, OCN315                        
+ OCH502, OCN301, OCN315                                
+ OCF117: whole-leaf mean -0.0022; 8 of 12 readings <= 0
+                                                       
+                                                       
+                                                       
+ = 2 x 170 + 33                                        
+ OCN301 2021-09-26 (-0.0051)                           
+                                                       
+ 203 plants                                            
+ 202 plants                                            
+  [8c] Conductance counts | porometer plants | n = NA | Plants with porometer readings: 205
+  [8c] Conductance counts | porometer plants | n = NA | whole-leaf mean > 0: 204 (OCF117)
+  [8c] Conductance counts | porometer plants | n = NA | ... and initial diameter recorded (whole-leaf model): 203 (JCH211)
+  [8c] Conductance counts | porometer plants | n = NA | Non-positive adaxial mean, among all 205 plants with readings: 1 (OCF117)
+  [8c] Conductance counts | porometer plants | n = NA | Non-positive adaxial mean, among the 203 analyzed plants: 0
+  [8c] Conductance counts | porometer plants | n = NA | Non-positive abaxial mean, among all 205 plants with readings: 4 (OCF117, OCH502, OCN301, OCN315)
+  [8c] Conductance counts | porometer plants | n = NA | Non-positive abaxial mean, among the 203 analyzed plants: 3 (OCH502, OCN301, OCN315)
+  [8c] Conductance counts | porometer plants | n = NA | Excluded whole-leaf plant: negative readings / all readings: 8 (OCF117: whole-leaf mean -0.0022; 8 of 12 readings <= 0)
+  [8c] Conductance counts | porometer plants | n = NA | Analyzed plants measured on both days: 170
+  [8c] Conductance counts | porometer plants | n = NA | Analyzed plants measured on one day: 33
+  [8c] Conductance counts | porometer plants | n = NA | Plants with one day only, among all 205 with readings: 33
+  [8c] Conductance counts | porometer plants | n = NA | Plant-days among the 203 analyzed plants: 373 (= 2 x 170 + 33)
+  [8c] Conductance counts | porometer plants | n = NA | plant-day means <= 0 (excluded from the reading-level model): 1 (OCN301 2021-09-26 (-0.0051))
+  [8c] Conductance counts | porometer plants | n = NA | plant-days in the reading-level model: 372
+  [8c] Conductance counts | porometer plants | n = NA | Surface reading level: adaxial plant-days > 0 / plants: 372 (203 plants)
+  [8c] Conductance counts | porometer plants | n = NA | Surface reading level: abaxial plant-days > 0 / plants: 366 (202 plants)
+
+
+==============================================================================
+8b. Surface-specific values and the surface difference, by model
+==============================================================================
+ surface                         n_plants n_obs
+ adaxial                         203      372  
+ adaxial                         203      372  
+ adaxial                         203      372  
+ abaxial                         202      366  
+ abaxial                         202      366  
+ abaxial                         202      366  
+ adaxial − abaxial (joint model) 203      738  
+ term                                                                 
+ Ancestry slope, averaged over watering                               
+ Drought, averaged over ancestry (at mean ancestry)                   
+ Ancestry × drought (reported, not interpreted)                       
+ Ancestry slope, averaged over watering                               
+ Drought, averaged over ancestry (at mean ancestry)                   
+ Ancestry × drought (reported, not interpreted)                       
+ Difference in ancestry slope between surfaces, averaged over watering
+ string                                                                                  
+ –10.0% per 10 percentage points (95% CI –13.7 to –6.1%), t = –4.91, df = 77.2, P < 0.001
+ –36.6% (95% CI –56.9 to –6.6%), t = –2.30, df = 177.2, P = 0.022                        
+ β = 0.00290, t = 0.88, df = 178.7, P = 0.379                                            
+ 12.3% per 10 percentage points (95% CI 5.5 to 19.5%), t = 3.64, df = 66.3, P < 0.001    
+ –35.6% (95% CI –61.6 to 7.9%), t = –1.67, df = 169.7, P = 0.097                         
+ β = –0.00427, t = –0.96, df = 175.8, P = 0.338                                          
+ β = –0.0207, t = –16.89, df = 360.8, P < 0.001                                          
+ model                                                                                   
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Reading level (model of record): plant-day means, phase and day pair fixed, plant random
+ Plant-mean joint model (Table S5.2)                                                     
+ Plant-mean joint model (Table S5.2)                                                     
+ surface                        
+ adaxial                        
+ adaxial                        
+ adaxial                        
+ abaxial                        
+ abaxial                        
+ abaxial                        
+ adaxial − abaxial (joint model)
+ adaxial − abaxial              
+ adaxial − abaxial              
+ term                                                                 
+ Ancestry slope, averaged over watering                               
+ Drought, averaged over ancestry (at mean ancestry)                   
+ Ancestry × drought (reported, not interpreted)                       
+ Ancestry slope, averaged over watering                               
+ Drought, averaged over ancestry (at mean ancestry)                   
+ Ancestry × drought (reported, not interpreted)                       
+ Difference in ancestry slope between surfaces, averaged over watering
+ Difference in ancestry slope, well-watered (Table S5.2 row)          
+ Difference in ancestry slope, averaged over watering                 
+ string                                                                                  
+ –10.0% per 10 percentage points (95% CI –13.7 to –6.1%), t = –4.91, df = 77.2, P < 0.001
+ –36.6% (95% CI –56.9 to –6.6%), t = –2.30, df = 177.2, P = 0.022                        
+ β = 0.00290, t = 0.88, df = 178.7, P = 0.379                                            
+ 12.3% per 10 percentage points (95% CI 5.5 to 19.5%), t = 3.64, df = 66.3, P < 0.001    
+ –35.6% (95% CI –61.6 to 7.9%), t = –1.67, df = 169.7, P = 0.097                         
+ β = –0.00427, t = –0.96, df = 175.8, P = 0.338                                          
+ β = –0.0207, t = –16.89, df = 360.8, P < 0.001                                          
+ β = –0.0237, t = –13.72, df = 197.8, P < 0.001                                          
+ β = –0.0201, t = –13.96, df = 198.7, P < 0.001                                          
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | adaxial | n = 203 plants, 372 obs | Ancestry slope, averaged over watering: –10.0% per 10 percentage points (95% CI –13.7 to –6.1%), t = –4.91, df = 77.2, P < 0.001
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | adaxial | n = 203 plants, 372 obs | Drought, averaged over ancestry (at mean ancestry): –36.6% (95% CI –56.9 to –6.6%), t = –2.30, df = 177.2, P = 0.022
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | adaxial | n = 203 plants, 372 obs | Ancestry × drought (reported, not interpreted): β = 0.00290, t = 0.88, df = 178.7, P = 0.379
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | abaxial | n = 202 plants, 366 obs | Ancestry slope, averaged over watering: 12.3% per 10 percentage points (95% CI 5.5 to 19.5%), t = 3.64, df = 66.3, P < 0.001
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | abaxial | n = 202 plants, 366 obs | Drought, averaged over ancestry (at mean ancestry): –35.6% (95% CI –61.6 to 7.9%), t = –1.67, df = 169.7, P = 0.097
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | abaxial | n = 202 plants, 366 obs | Ancestry × drought (reported, not interpreted): β = –0.00427, t = –0.96, df = 175.8, P = 0.338
+  [8b] Reading level (model of record): plant-day means, phase and day pair fixed, plant random | adaxial − abaxial (joint model) | n = 203 plants, 738 obs | Difference in ancestry slope between surfaces, averaged over watering: β = –0.0207, t = –16.89, df = 360.8, P < 0.001
+  [8b] Plant-mean joint model (Table S5.2) | adaxial − abaxial | n = 203 plants, 403 obs | Difference in ancestry slope, well-watered (Table S5.2 row): β = –0.0237, t = –13.72, df = 197.8, P < 0.001
+  [8b] Plant-mean joint model (Table S5.2) | adaxial − abaxial | n = 203 plants, 403 obs | Difference in ancestry slope, averaged over watering: β = –0.0201, t = –13.96, df = 198.7, P < 0.001
+
+Done.

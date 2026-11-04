@@ -1,0 +1,40 @@
+﻿"section","analysis","sample","n","term","string","p"
+"1","log root:new-stem ratio","(a) estimated root mass",414,"Ancestry × drought (LRT, 2 df)","χ²(2) = 0.23, P = 0.890",0.8901626665355341
+"1","log root:new-stem ratio","(a) estimated root mass",414,"Linear ancestry","β = 0.00767, t = 5.85, df = 39.2, P < 0.001",8.308801060905658e-7
+"1","log root:new-stem ratio","(a) estimated root mass",414,"Quadratic ancestry","β = 0.000145, t = 2.03, df = 33, P = 0.051",0.05075780774337348
+"1","log root:new-stem ratio","(a) estimated root mass",414,"Drought","β = –0.0149, t = –0.20, df = 386.2, P = 0.844",0.8435731590958222
+"1","log root:new-stem ratio","(b) measured root mass only",242,"Ancestry × drought (LRT, 2 df)","χ²(2) = 1.68, P = 0.432",0.4319491523714263
+"1","log root:new-stem ratio","(b) measured root mass only",242,"Linear ancestry","β = 0.00715, t = 4.44, df = 41.5, P < 0.001",6.474661982404069e-5
+"1","log root:new-stem ratio","(b) measured root mass only",242,"Quadratic ancestry","β = 0.000118, t = 1.41, df = 31.2, P = 0.168",0.16763276653595827
+"1","log root:new-stem ratio","(b) measured root mass only",242,"Drought","β = 0.0964, t = 1.04, df = 218.1, P = 0.302",0.30157234633231444
+"1","log total new biomass (Figure 2A model)","(a) estimated root mass",414,"Ancestry × drought (LRT, 2 df)","χ²(2) = 0.11, P = 0.947",0.9465874315622811
+"1","log total new biomass (Figure 2A model)","(a) estimated root mass",414,"Linear ancestry","β = 0.00201, t = 2.52, df = 39.3, P = 0.016",0.016030423631878423
+"1","log total new biomass (Figure 2A model)","(a) estimated root mass",414,"Quadratic ancestry","β = –0.0000346, t = –0.83, df = 36.2, P = 0.413",0.41316002660120643
+"1","log total new biomass (Figure 2A model)","(a) estimated root mass",414,"Drought","β = –0.220, t = –5.27, df = 382.8, P < 0.001",2.2924126847897143e-7
+"1","Root:new-stem ratio, model mean","(a) estimated root mass",414,"Well-watered / drought (95% CI)","3.18 (1.74–5.81) / 3.13 (1.71–5.73); drought × 0.99",NA
+"1","Root:new-stem ratio, model mean","(b) measured root mass only",242,"Well-watered / drought (95% CI)","2.71 (1.48–4.95) / 2.98 (1.62–5.48); drought × 1.10",NA
+"3","log whole-leaf conductance","plants with conductance and colonization",71,"EMF colonization (per 10 percentage points)","β = –0.0459, t = –0.84, df = 60, P = 0.404; –4.5% change in conductance (95% CI –14.2 to 6.3%)",0.403747972193806
+"3","log whole-leaf conductance","plants with conductance and colonization",71,"EMF colonization (per 10 percentage points) × drought","β = 0.124, t = 1.17, df = 59, P = 0.247",0.24732751573301154
+"3","log whole-leaf conductance","plants with conductance and colonization",70,"Root mass fraction (per 0.1; approximate)","β = –0.00108, t = –0.02, df = 59, P = 0.981; –0.1% change in conductance (95% CI –8.8 to 9.4%)",0.9814133134804679
+"3","log whole-leaf conductance","plants with conductance and colonization",70,"Root mass fraction (per 0.1; approximate) × drought","β = –0.100, t = –1.11, df = 58, P = 0.270",0.27046794243809497
+"4","Predicted survival","survival model, n = 563",563,"0% Fremont, Well-watered","94.2% (95% CI 89.6–96.8%)",NA
+"4","Predicted survival","survival model, n = 563",563,"0% Fremont, Drought","82.9% (95% CI 73.7–89.4%)",NA
+"4","Predicted survival","survival model, n = 563",563,"100% Fremont, Well-watered","84.1% (95% CI 75.4–90.1%)",NA
+"4","Predicted survival","survival model, n = 563",563,"100% Fremont, Drought","61.3% (95% CI 48.7–72.4%)",NA
+"5","Colonization LMM","reported (inoculum random)",78,"EMF vs. AMF ancestry slope, well-watered","β = –0.171, t = –3.51, df = 209.5, P < 0.001",5.409705601604341e-4
+"5","Colonization LMM","reported (inoculum random)",78,"EMF ancestry slope (averaged over treatments)","β = –0.124, t = –4.80, df = 215.6, P < 0.001",3.0298789826113018e-6
+"5","Colonization LMM","reported (inoculum random)",78,"AMF ancestry slope (averaged over treatments)","β = 0.0108, t = 0.42, df = 215.6, P = 0.678",0.6784451415374373
+"5","Colonization LMM","reported (inoculum random)",78,"DSE ancestry slope (averaged over treatments)","β = 0.0127, t = 0.49, df = 215.6, P = 0.623",0.6233918609607039
+"5","Colonization LMM","inoculum fixed + inoculum x fungal type",78,"EMF vs. AMF ancestry slope, well-watered","β = –0.163, t = –3.44, df = 203, P < 0.001",7.031290896700209e-4
+"5","Colonization LMM","inoculum fixed + inoculum x fungal type",78,"EMF ancestry slope (averaged over treatments)","β = –0.121, t = –4.87, df = 207.2, P < 0.001",2.1774537087555946e-6
+"5","Colonization LMM","inoculum fixed + inoculum x fungal type",78,"AMF ancestry slope (averaged over treatments)","β = 0.0105, t = 0.42, df = 207.2, P = 0.673",0.6728192758817695
+"5","Colonization LMM","inoculum fixed + inoculum x fungal type",78,"DSE ancestry slope (averaged over treatments)","β = 0.0137, t = 0.55, df = 207.2, P = 0.584",0.5839643496575015
+"5","Colonization LMM","inoculum fixed + inoculum x fungal type",78,"Inoculum","F = 1.13, df = 3, 198.4, P = 0.339",0.33872556504905377
+"5","Colonization LMM","inoculum fixed + inoculum x fungal type",78,"Inoculum × fungal type","F = 4.67, df = 6, 203, P < 0.001",1.798575161225911e-4
+"6","Colonization-biomass model","log new stem biomass (reported)",77,"EMF × drought (per SD of EMF, 13.8 percentage points)","β = –0.444, t = –2.84, df = 57.3, P = 0.006",0.006184410570706987
+"6","Colonization-biomass model","log total new biomass (root mass estimated; approximate)",77,"EMF × drought (per SD of EMF, 13.8 percentage points)","β = –0.172, t = –1.93, df = 58.6, P = 0.059",0.05861802868897443
+"6","Colonization-biomass model","log root:new-stem ratio (root mass estimated; approximate)",77,"EMF × drought (per SD of EMF, 13.8 percentage points)","β = 0.307, t = 1.63, df = 54.9, P = 0.110",0.10972942568265824
+"6","Colonization-biomass model","log new stem biomass, narrowleaf plants only (linear ancestry only)",29,"EMF × drought (per SD of EMF, 13.8 percentage points)","β = –0.476, t = –0.95, df = 15, P = 0.356",0.35576143928501136
+"7","Conductance: drought effect by ancestry","reported whole-leaf model",203,"Drought at 0% Fremont ancestry","β = –0.325, t = –2.54, df = 176, P = 0.012; –27.7% conductance under drought",0.01187581546319587
+"7","Conductance: drought effect by ancestry","reported whole-leaf model",203,"Drought at 50% Fremont ancestry","β = –0.110, t = –1.38, df = 176, P = 0.169; –10.5% conductance under drought",0.1688849839875314
+"7","Conductance: drought effect by ancestry","reported whole-leaf model",203,"Drought at 100% Fremont ancestry","β = 0.104, t = 0.90, df = 176, P = 0.372; 11.0% conductance under drought",0.3716368060914632

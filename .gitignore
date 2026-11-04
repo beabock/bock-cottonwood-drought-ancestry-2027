@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+~*.tmp
+*.docx
+*.html
+# per-run timing log written by run_all.R
+run_all_log.txt

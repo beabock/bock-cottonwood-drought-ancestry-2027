@@ -1,0 +1,9 @@
+﻿"model","n","AIC","term","string","p"
+"Population fixed (reported)",563,526.5080338382512,"Ancestry × drought (LRT, 2 df)","χ²(2) = 0.47, P = 0.792",0.792392196247928
+"Population fixed (reported)",563,526.5080338382512,"Linear ancestry (per 1%)","β = –0.0112, z = –3.14, P = 0.002",0.0016719363866487377
+"Population fixed (reported)",563,526.5080338382512,"Quadratic ancestry","β = 0.0000248, z = 0.13, P = 0.893",0.8929457147657356
+"Population fixed (reported)",563,526.5080338382512,"Drought","β = –1.20, z = –5.04, P < 0.001",4.7072323645214683e-7
+"Population random",563,532.6848491886694,"Ancestry × drought (LRT, 2 df)","χ²(2) = 0.47, P = 0.791",0.7908076272911309
+"Population random",563,532.6848491886694,"Linear ancestry (per 1%)","β = –0.0110, z = –2.89, P = 0.004",0.003901433918328849
+"Population random",563,532.6848491886694,"Quadratic ancestry","β = 0.0000833, z = 0.42, P = 0.675",0.6754030584803714
+"Population random",563,532.6848491886694,"Drought","β = –1.21, z = –5.12, P < 0.001",3.0168183738157117e-7
