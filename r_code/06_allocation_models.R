@@ -83,6 +83,11 @@ cmp <- sc %>% filter(!is.na(root_est), !is.na(root_dryweight))
 cat("Estimated vs recorded dry root mass in scored plants: median ratio", round(median(cmp$root_est / cmp$root_dryweight), 3),
     "(implies ~", round(100 * (1 - median(cmp$root_dryweight / cmp$root_est)), 1), "% of root mass removed as subsample);",
     "estimate < recorded in", sum(cmp$root_est < cmp$root_dryweight), "of", nrow(cmp), "plants\n")
+# share of root mass removed as the colonization subsample, by watering treatment (1 - recorded / estimated dry mass)
+sub_tr <- cmp %>% mutate(removed = 1 - root_dryweight / root_est) %>% group_by(treatment) %>%
+  summarise(n = n(), median_pct = round(100 * median(removed), 1), mean_pct = round(100 * mean(removed), 1), .groups = "drop")
+cat("Share of root mass removed as subsample by watering treatment (%):\n"); print(as.data.frame(sub_tr), row.names = FALSE)
+cat("All scored plants: median", round(100 * median(1 - cmp$root_dryweight / cmp$root_est), 1), "%, mean", round(100 * mean(1 - cmp$root_dryweight / cmp$root_est), 1), "%\n")
 
 al <- harv %>% mutate(total_new = root_est + leaf + dryshoot_new, log_total_new = log(total_new),
                       LMF = leaf / total_new, RMF = root_est / total_new, SMF = dryshoot_new / total_new,

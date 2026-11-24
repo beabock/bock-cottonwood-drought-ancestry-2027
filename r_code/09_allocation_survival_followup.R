@@ -151,7 +151,7 @@ cat("Colonized plants by cross type x drought:\n"); print(as.data.frame(ct2), ro
 readr::write_excel_csv(bind_rows(ct1 %>% rename(group = myco_cat) %>% mutate(table = "inoculum x drought"), ct2 %>% rename(group = new_class) %>% mutate(table = "cross type x drought")) %>%
                          relocate(table) %>% mutate(group = as.character(group)), file.path(out, "table_colonized_plants.csv"))
 
-# reported survival GLMM (population fixed, genotype random), predicted at 0% and 100% Fremont ancestry
+# reported survival GLMM (population fixed, genotype random), predicted at 0%, 50% and 100% Fremont ancestry
 ctl <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5))
 marg_x <- function(fe_terms, nd, cols) colMeans(model.matrix(fe_terms, data = nd)[, cols, drop = FALSE])
 curve_by_treatment <- function(beta, V, fe_terms, base, xgrid, xvar, xfun = identity) {
@@ -163,9 +163,9 @@ surv_red <- glmer(alive_01_10_2021 ~ pf50 + treatment + I(pf50^2) + pop + og_drc
 sp <- ds %>% filter(if_all(c(alive_01_10_2021, pf50, treatment, pop, og_drc_mm, soil, myco_cat, geno_id), ~ !is.na(.x)))
 stopifnot(nrow(sp) == nobs(surv_red))
 c1 <- curve_by_treatment(fixef(surv_red), as.matrix(vcov(surv_red)), delete.response(terms(~ pf50 + treatment + I(pf50^2) + pop + og_drc_mm + soil + myco_cat)),
-                         sp %>% select(pop, og_drc_mm, soil, myco_cat, treatment), c(0, 100), "pf50", function(g) (g - 50) / 50) %>%
+                         sp %>% select(pop, og_drc_mm, soil, myco_cat, treatment), c(0, 50, 100), "pf50", function(g) (g - 50) / 50) %>%
   mutate(y = plogis(fit), lower = plogis(fit - 1.96 * se), upper = plogis(fit + 1.96 * se))
-ps <- c1 %>% filter(x %in% c(0, 100)) %>% transmute(fremont_ancestry = paste0(x, "%"), treatment, survival_pct = 100 * y, lower = 100 * lower, upper = 100 * upper)
+ps <- c1 %>% filter(x %in% c(0, 50, 100)) %>% transmute(fremont_ancestry = paste0(x, "%"), treatment, survival_pct = 100 * y, lower = 100 * lower, upper = 100 * upper)
 cat("\nPredicted survival (reported survival GLMM, averaged over population, inoculum, soil and diameter; 95% CI):\n"); print(as.data.frame(ps %>% mutate(across(where(is.numeric), ~ round(., 1)))), row.names = FALSE)
 for (i in seq_len(nrow(ps))) add("4", "Predicted survival", "survival model, n = 563", nobs(surv_red), paste(ps$fremont_ancestry[i], "Fremont,", ps$treatment[i]),
                                  sprintf("%.1f%% (95%% CI %.1f–%.1f%%)", ps$survival_pct[i], ps$lower[i], ps$upper[i]))

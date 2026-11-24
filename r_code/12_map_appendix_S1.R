@@ -7,10 +7,11 @@
 # Coordinates are degree-decimal-minute strings (N38° 04.184') converted to decimal degrees here;
 # the workbook's decimal Lat/Lon columns (on other sheets) are misentered and not used.
 # Elevations: elevatr::get_elev_point (USGS Elevation Point Query Service; network access needed).
-# Map: elevatr terrain tiles, Natural Earth rivers and USGS NHD flowlines (network access needed).
+# Map: elevatr terrain tiles, Natural Earth rivers and USGS NHD flowlines (network access needed). Overlapping
+# collection points are offset on the map so every point is visible (true coordinates are in the CSVs).
 # ==============================================================================
 # Run from the project root (R 4.6.1):  Rscript r_code/12_map_appendix_S1.R
-# Writes: results/appendices/appendix_S1_collection_points.csv, appendix_S1_elevation_ranges.csv,
+# Writes: results/appendices/appendix_S1_collection_points.csv, appendix_S1_elevation_ranges.csv, appendix_S1_map_offsets.csv,
 #         figures/AppendixS1_map.pdf/.png
 # ==============================================================================
 suppressPackageStartupMessages({
@@ -59,6 +60,36 @@ cat("\nCollection points:\n"); print(as.data.frame(cp %>% select(Code, `Cross ty
 cat("\nElevation range by population (m):\n"); print(as.data.frame(rng), row.names = FALSE)
 cat(sprintf("Overall: %d-%d m (collection points)\n", min(pts$elevation_m), max(pts$elevation_m)))
 
+# ---- offsets so every collection point is visible ----
+# Minimal-displacement repulsion: any two points closer than DMIN_MM on the printed map (symbol about 1.7 mm across plus
+# a small gap) are pushed apart along the line joining them by half the shortfall each; points that coincide are pushed
+# in a random direction drawn with a fixed seed. Repeated until no pair is closer than DMIN_MM. Distances are in display
+# units (longitude x cos(mean latitude), as coord_sf draws EPSG:4326). Labels and leader lines still use the true positions.
+set.seed(2027)
+DMIN_MM <- 2.2
+pad0 <- 0.35; xl0 <- range(pts$lon) + c(-pad0, pad0); yl0 <- range(pts$lat) + c(-pad0, pad0)
+kx <- cos(mean(yl0) * pi / 180)
+panel_mm <- (8.9 - 1.3) * 10                                   # panel width: figure width less the latitude labels
+deg_per_mm <- diff(xl0) * kx / panel_mm; dmin <- DMIN_MM * deg_per_mm
+xy <- cbind(pts$lon * kx, pts$lat)
+for (it in 1:2000) {
+  moved <- FALSE
+  for (i in 1:(nrow(xy) - 1)) for (j in (i + 1):nrow(xy)) {
+    d <- xy[j, ] - xy[i, ]; L <- sqrt(sum(d^2))
+    if (L < dmin * 0.9999) {
+      u <- if (L < 1e-9) { a <- runif(1, 0, 2 * pi); c(cos(a), sin(a)) } else d / L
+      sh <- (dmin - L) / 2 * 1.0001; xy[i, ] <- xy[i, ] - sh * u; xy[j, ] <- xy[j, ] + sh * u; moved <- TRUE } }
+  if (!moved) break }
+stopifnot(min(dist(xy)) >= dmin * 0.999)
+pj <- pts %>% mutate(lon_j = xy[, 1] / kx, lat_j = xy[, 2])
+off_m <- as.numeric(st_distance(st_as_sf(pj, coords = c("lon", "lat"), crs = 4326), st_as_sf(pj, coords = c("lon_j", "lat_j"), crs = 4326), by_element = TRUE))
+pj$offset_m <- round(off_m); pj$offset_deg <- sqrt((pj$lon_j - pj$lon)^2 + (pj$lat_j - pj$lat)^2)
+cat(sprintf("Minimum separation on the map: %.2f mm = %.4f display degrees\n", DMIN_MM, dmin))
+print(as.data.frame(pj %>% transmute(code, cross_type, lat = round(lat, 5), lon = round(lon, 5), lat_j = round(lat_j, 5), lon_j = round(lon_j, 5), offset_m, offset_deg = round(offset_deg, 4))), row.names = FALSE)
+cat(sprintf("Points moved: %d of %d | maximum offset %.0f m (%.3f degrees) | median offset of moved points %.0f m\n",
+            sum(pj$offset_m > 0), nrow(pj), max(pj$offset_m), max(pj$offset_deg), median(pj$offset_m[pj$offset_m > 0])))
+readr::write_excel_csv(pj %>% select(site, code, cross_type, lat, lon, lat_j, lon_j, offset_m, offset_deg), file.path(out, "appendix_S1_map_offsets.csv"))
+
 # ---- map (no title) ----
 CM <- 1 / 2.54; FONT <- "Arial"
 pad <- 0.35
@@ -103,7 +134,7 @@ mp <- ggplot() +
   geom_sf(data = rivers, aes(linewidth = lw), colour = "#2E6F95", alpha = 0.8, inherit.aes = FALSE, show.legend = FALSE) + scale_linewidth_identity() +
   geom_sf(data = states, fill = NA, colour = "grey20", linewidth = 0.35, inherit.aes = FALSE) +
   geom_segment(data = lab, aes(x = lx, y = ly, xend = lon, yend = lat), colour = "grey30", linewidth = 0.3) +
-  geom_point(data = pts, aes(lon, lat, fill = site, shape = cross_type), colour = "black", size = 1.8, stroke = 0.4) +
+  geom_point(data = pj, aes(lon_j, lat_j, fill = site, shape = cross_type), colour = "black", size = 1.8, stroke = 0.4) +
   geom_label(data = lab, aes(lx, ly, label = site, colour = site), fill = "white", alpha = 0.9, fontface = "bold", size = 2.4,
              family = FONT, label.size = 0, label.padding = unit(0.12, "lines"), show.legend = FALSE) +
   scale_fill_manual(values = site_cols, guide = "none") + scale_colour_manual(values = site_cols, guide = "none") +

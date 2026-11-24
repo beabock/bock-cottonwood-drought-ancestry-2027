@@ -33,6 +33,11 @@ Predicted dry:fresh ratio by cross type x drought (at each cross type's mean anc
 
 Scored harvested plants: 172 | with fresh root mass (estimable): 172 | without fresh root mass (root mass missing): 0 
 Estimated vs recorded dry root mass in scored plants: median ratio 1.173 (implies ~ 14.7 % of root mass removed as subsample); estimate < recorded in 38 of 167 plants
+Share of root mass removed as subsample by watering treatment (%):
+    treatment   n median_pct mean_pct
+ Well-watered 108       17.0     18.1
+      Drought  59        7.5      9.0
+All scored plants: median 14.7 %, mean 14.9 %
 Sample (a) estimated root mass for scored plants: n = 414 (zero-leaf plants 66; estimated root mass 172)
 Sample (b) scored plants excluded: n = 242 (zero-leaf plants 65; estimated root mass 0)
 

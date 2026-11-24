@@ -43,8 +43,10 @@ laptop; most of it is the 9999-permutation PERMANOVAs in step 11 (about 6 minute
 Service), terrain tiles (`elevatr`), Natural Earth rivers and USGS NHD flowlines to build the Appendix S1 map and the
 collection-point elevations. The elevation service sometimes times out; the script queries failed points again up to
 five times. To run offline, use `Rscript run_all.R --skip-map`; the committed
-`results/appendices/appendix_S1_collection_points.csv`, `appendix_S1_elevation_ranges.csv` and
-`figures/AppendixS1_map.*` are then used as they are.
+`results/appendices/appendix_S1_collection_points.csv`, `appendix_S1_elevation_ranges.csv`,
+`appendix_S1_map_offsets.csv` and `figures/AppendixS1_map.*` are then used as they are. On the map, overlapping
+collection points are offset so every point is visible; `appendix_S1_map_offsets.csv` gives the true and plotted
+coordinates of each point.
 
 ### Run order
 

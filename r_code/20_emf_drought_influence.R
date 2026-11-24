@@ -68,6 +68,25 @@ cat("Plant removals that change significance of the interaction or the drought s
 print(as.data.frame(loo %>% filter(int_p >= 0.05 | dr_p >= 0.05) %>% mutate(across(where(is.double), ~ signif(.x, 4)))), row.names = FALSE)
 cat("Refits whose well-watered slope reaches P < 0.05:", sum(loo$ww_p < 0.05), "plants;", sum(log$ww_p < 0.05), "genotypes\n")
 
+hdr("1c. Outlier and influence criteria (Methods: Bonferroni P < 0.05 or Cook's distance > 1)")
+# Bonferroni outlier test on externally studentized conditional residuals (car::outlierTest logic):
+#   t_i = e_i / (sigma_(i) * sqrt(1 - h_i)), e_i = conditional residual, h_i = conditional hat value (lme4::hatvalues),
+#   sigma_(i) = residual SD of the refit without plant i; two-sided P from t with n - p - 1 df; Bonferroni P = n * P.
+# Cook's distance is the leave-one-plant-out D_i of section 1b.
+m4 <- lme4::lmer(f_rep, data = zz); n <- nobs(m4); e <- residuals(m4); h <- hatvalues(m4)
+sig_i <- map_dbl(seq_len(n), function(i) sigma(suppressMessages(lme4::lmer(f_rep, data = zz[-i, ]))))
+t_ext <- e / (sig_i * sqrt(1 - h)); p_bonf <- pmin(1, n * 2 * pt(-abs(t_ext), n - p - 1))
+ot <- zz %>% transmute(tree_idold, treatment, stud_resid_external = as.numeric(t_ext), outlier_P_bonferroni = as.numeric(p_bonf)) %>%
+  left_join(loo %>% select(tree_idold, cook), by = "tree_idold") %>% arrange(outlier_P_bonferroni)
+cat("Largest |studentized residual|:", ot$tree_idold[1], sprintf("t = %.2f, Bonferroni P = %.3g", ot$stud_resid_external[1], ot$outlier_P_bonferroni[1]),
+    "| largest Cook's distance:", sprintf("%.3f (%s)", max(loo$cook), loo$tree_idold[1]), "\n")
+n_flag <- sum(ot$outlier_P_bonferroni < 0.05 | ot$cook > 1)
+cat("Plants meeting either criterion:", n_flag, "\n")
+rec(1, "c", "Outlier and influence criteria", "77-plant model", n, "Bonferroni outlier test and Cook's distance",
+    sprintf("smallest Bonferroni P = %s (%s); largest Cook's distance = %s (%s); plants meeting either criterion: %d",
+            formatC(ot$outlier_P_bonferroni[1], format = "g", digits = 3), ot$tree_idold[1], num(max(loo$cook)), loo$tree_idold[1], n_flag),
+    min(ot$outlier_P_bonferroni), src)
+
 # the Figure 4 plant at about 0.98 g new stem and 12% EMF
 hi <- zz %>% filter(abs(dryshoot_new - 0.98) < 0.005, abs(emf - 12) < 1)
 stopifnot(nrow(hi) == 1)

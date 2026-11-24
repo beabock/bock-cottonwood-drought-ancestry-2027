@@ -138,10 +138,14 @@ Predicted survival (reported survival GLMM, averaged over population, inoculum, 
  fremont_ancestry    treatment survival_pct lower upper
                0% Well-watered         94.2  89.6  96.8
                0%      Drought         82.9  73.7  89.4
+              50% Well-watered         89.7  79.4  95.1
+              50%      Drought         72.3  54.7  84.9
              100% Well-watered         84.1  75.4  90.1
              100%      Drought         61.3  48.7  72.4
   [4] Predicted survival | survival model, n = 563 | n = 563 | 0% Fremont, Well-watered: 94.2% (95% CI 89.6–96.8%)
   [4] Predicted survival | survival model, n = 563 | n = 563 | 0% Fremont, Drought: 82.9% (95% CI 73.7–89.4%)
+  [4] Predicted survival | survival model, n = 563 | n = 563 | 50% Fremont, Well-watered: 89.7% (95% CI 79.4–95.1%)
+  [4] Predicted survival | survival model, n = 563 | n = 563 | 50% Fremont, Drought: 72.3% (95% CI 54.7–84.9%)
   [4] Predicted survival | survival model, n = 563 | n = 563 | 100% Fremont, Well-watered: 84.1% (95% CI 75.4–90.1%)
   [4] Predicted survival | survival model, n = 563 | n = 563 | 100% Fremont, Drought: 61.3% (95% CI 48.7–72.4%)
 
