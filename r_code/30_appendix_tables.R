@@ -156,7 +156,7 @@ why <- function(x) paste(sprintf("%s (%d)", names(x)[x > 0], x[x > 0]), collapse
 r165 <- c("Initial cutting diameter missing" = sum(is.na(e$og_drc_mm)), "Other covariate missing" = sum(!cov_ok & !is.na(e$og_drc_mm)))
 r161 <- c("Died or survival status missing" = sum(!e$alive_01_10_2021 %in% 1), "Survivor without new stem mass" = sum(e$alive_01_10_2021 %in% 1 & is.na(e$dryshoot_new)),
           "Initial cutting diameter missing" = sum(e$alive_01_10_2021 %in% 1 & !is.na(e$dryshoot_new) & is.na(e$og_drc_mm)))
-r43 <- c("Inoculated (AMF, EMF or dual)" = sum(e$myco_cat != "None"), "Covariate missing" = sum(e$myco_cat == "None" & !cov_ok))
+r43 <- c("Inoculated (AMF, EMF, or dual)" = sum(e$myco_cat != "None"), "Covariate missing" = sum(e$myco_cat == "None" & !cov_ok))
 stopifnot(sum(r165) == nrow(e) - 165, sum(r161) == nrow(e) - 161, sum(r43) == nrow(e) - 43)
 s6 <- s6 %>% mutate(`Reasons for exclusion (plants)` = ifelse(Analysis == "Conductance, whole leaf",
                       sprintf("Non-positive mean (cannot be logged) (%d), leaving %d with a positive mean; Initial cutting diameter missing (1)", n_any - n_pos, n_pos), `Reasons for exclusion (plants)`))
@@ -177,8 +177,16 @@ s6 <- bind_rows(s6,
   s6_row("Conductance vs. root mass fraction", "LMM", "Plants in the whole-leaf model", 203, ce$n[grepl("^Root", ce$predictor)],
          sprintf("Not scored for all three guilds (%d); No root mass fraction (%d)", 203 - ce$n[grepl("^EMF", ce$predictor)], ce$n[grepl("^EMF", ce$predictor)] - ce$n[grepl("^Root", ce$predictor)])),
   s6_row("EMF colonization vs. ancestry, all EMF-scored plants", "LMM", "Plants scored for EMF", nrow(e), sum(cov_ok), why(r165)),
-  s6_row("EMF-only colonization–biomass, EMF-scored survivors", "LMM", "Plants scored for EMF", nrow(e), sum(fit161), why(r161)),
+  s6_row("New stem biomass vs. EMF colonization, EMF-scored survivors", "LMM", "Plants scored for EMF", nrow(e), sum(fit161), why(r161)),
   s6_row("EMF colonization vs. ancestry, control plants only", "LMM", "Plants scored for EMF", nrow(e), sum(cov_ok & e$myco_cat == "None"), why(r43)))
+# leaf-surface rows describe the reading-level surface models of Table S5.2 (r_code/19), not the plant-mean models of r_code/08
+surf <- sm %>% distinct(surface, n_plants, n_obs) %>% filter(surface %in% c("adaxial", "abaxial"))
+surf_row <- function(sf) { r <- surf[surf$surface == sf, ]
+  s6_row(paste("Conductance,", sf), "LMM", "Plants in the whole-leaf model", 203, r$n_plants,
+         if (r$n_plants == 203) sprintf("None; %d of %d plant-day means used (non-positive %s plant-day mean (%d))", r$n_obs, n_pd, sf, n_pd - r$n_obs)
+         else sprintf("Non-positive %s mean on every measurement day (%d); %d of %d plant-day means used", sf, 203 - r$n_plants, r$n_obs, n_pd)) }
+stopifnot(sum(s6$Analysis %in% c("Conductance, adaxial", "Conductance, abaxial")) == 2)
+s6[s6$Analysis == "Conductance, adaxial", ] <- surf_row("adaxial"); s6[s6$Analysis == "Conductance, abaxial", ] <- surf_row("abaxial")
 write_tab(s6, "appendix_S6_table2_sample_sizes.csv")
 
 # ------------------------------------------------------------------------------
