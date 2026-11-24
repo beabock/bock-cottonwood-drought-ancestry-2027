@@ -357,7 +357,7 @@ Groups (of 35 ) whose colonization mean rests on a single scored tree: EMF 19 , 
 
 
 ==============================================================================
-Fig 5 caption check: refit without the tree with |z| > 3
+Refit without the tree with |z| > 3
 ==============================================================================
 excluded tree: SFN117 (z = -3.71 ); n = 76 
                             Estimate t value Pr(>|t|)
@@ -369,22 +369,4 @@ treatmentDrought:scale(dse)  -0.1103 -0.7112   0.4800
 ==============================================================================
 6. Writing results/02_main_models/formatted_results_main_models.md
 ==============================================================================
-Wrote 57 strings; 5 flagged as significance changes
-  location             
-1 P1 / Fig 2 caption   
-2 P2                   
-3 Survival associations
-4 Survival associations
-5 Stomatal conductance 
-  statistic                                                    
-1 Biomass drought (reduced)                                    
-2 (G) Continuous version: soil legacy, permuted within genotype
-3 EMF and DSE x drought                                        
-4 EMF x drought detail                                         
-5 Ancestry x drought                                           
-  flag                                                      
-1 **SIGNIFICANCE CHANGED** (manuscript p 0.045 -> p = 0.081)
-2 **SIGNIFICANCE CHANGED** (manuscript p 0.27 -> p = 0.030) 
-3 **SIGNIFICANCE CHANGED** (manuscript p 0.179 -> p = 0.046)
-4 **SIGNIFICANCE CHANGED** (manuscript p 0.179 -> p = 0.046)
-5 **SIGNIFICANCE CHANGED** (manuscript p 0.073 -> p = 0.021)
+Wrote 57 strings

@@ -5,7 +5,6 @@
 # ==============================================================================
 # Run from the project root:  Rscript r_code/02b_main_models_followup.R
 # Writes: results/02_main_models/main_models_followup_output.txt, results/02_main_models/formatted_results_main_models.md
-# Does not modify the manuscript or any existing script.
 #
 # Why a custom permutation engine: permute::how(plots = genotype) requires every
 # genotype to have the same number of trees, and adonis2 stops with "Design must
@@ -161,7 +160,7 @@ agg_glm_naive <- glm(survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(
 print(summary(agg_glm_stats)); print(summary(agg_glm_naive))
 cat("\nGroups (of", nrow(use), ") whose colonization mean rests on a single scored tree: EMF", sum(use$n_emf == 1), ", AMF", sum(use$n_amf == 1),
     ", DSE", sum(use$n_dse == 1), "\n")
-hdr("Fig 5 caption check: refit without the tree with |z| > 3")
+hdr("Refit without the tree with |z| > 3")
 fb_pf4_x <- lmerTest::lmer(formula(fb_pf4), data = ds %>% filter(tree_idold != zt$tree_idold[1]))
 cat("excluded tree:", zt$tree_idold[1], "(z =", round(zt$z[1], 2), "); n =", nobs(fb_pf4_x), "\n")
 print(round(coef(summary(fb_pf4_x))[c("treatmentDrought:scale(emf)", "scale(amf):treatmentDrought", "treatmentDrought:scale(dse)"), c("Estimate", "t value", "Pr(>|t|)")], 4))
@@ -179,163 +178,114 @@ bet <- function(m, t, tc = "t") { r <- cmx(m, t); sprintf("%s = %s, %s = %s, %s"
 pv <- function(m, t) unname(cmx(m, t)[grep("^Pr", colnames(coef(summary(m))))[1]])
 ssr <- tidy_surv(surv_red4); ssf <- tidy_surv(surv_full4)
 rows <- list()
-add <- function(section, loc, stat, string, ms_p = NA, p = NA, note = "") {
-  flag <- if (!is.na(ms_p) && !is.na(p) && ((ms_p < 0.05) != (p < 0.05))) paste0("**SIGNIFICANCE CHANGED** (manuscript p ", ifelse(ms_p < 0.001, "< 0.001", ms_p), " -> ", fp(p), ")") else ""
-  rows[[length(rows) + 1]] <<- data.frame(section = section, location = loc, statistic = stat, string = string, flag = flag, note = note)
+add <- function(section, stat, string, p = NA, note = "") {
+  rows[[length(rows) + 1]] <<- data.frame(section = section, statistic = stat, string = string, note = note)
 }
 S1 <- "Results: Biomass and Survival Vary with Host Ancestry"
-add(S1, "P1 / Fig 1 caption", "Survival ancestry x drought, full model",
-    sprintf("linear and quadratic ancestry %s drought terms, p = %.2f and p = %.2f", TIMES, ssf["per_fc:treatmentDrought", "Pr(>|z|)"], ssf["treatmentDrought:I(per_fc^2)", "Pr(>|z|)"]),
-    0.89, ssf["per_fc:treatmentDrought", "Pr(>|z|)"], "glmer, genotype random intercept; both terms non-significant (manuscript 0.89 and 0.47)")
-add(S1, "P1 / Fig 2 caption", "Biomass LRT ancestry x drought",
-    sprintf("likelihood ratio test [LRT] for ancestry %s drought treatment, %s = %s, df = %d, p = %.2f", TIMES, CHI2, fz(bio_lrt4$Chisq[2]), bio_lrt4$Df[2], bio_lrt4$`Pr(>Chisq)`[2]),
-    0.58, bio_lrt4$`Pr(>Chisq)`[2], "full vs reduced model")
-add(S1, "P1 / Fig 1 caption", "Survival joint LRT for both interaction terms (new)",
-    sprintf("%s = %s, df = %d, p = %.2f", CHI2, fz(surv_lrt$Chisq[2]), surv_lrt$Df[2], surv_lrt$`Pr(>Chisq)`[2]), NA, NA, "optional; mirrors the biomass LRT")
-add(S1, "P1 / Fig 1 caption", "Survival linear ancestry (reduced)", sprintf("%s = %s, z = %s, %s", BETA, fb(ssr["per_fc", "Estimate"]), fz(ssr["per_fc", "z value"]), fp(ssr["per_fc", "Pr(>|z|)"])),
-    0.028, ssr["per_fc", "Pr(>|z|)"], "manuscript's -2.21 / 0.028 were the full model's well-watered term; reduced-model values shown")
-add(S1, "P1", "Survival quadratic ancestry (reduced)", sprintf("%s = %s, z = %s, %s", BETA, fb(ssr["I(per_fc^2)", "Estimate"], 2), fz(ssr["I(per_fc^2)", "z value"]), fp(ssr["I(per_fc^2)", "Pr(>|z|)"])),
-    0.40, ssr["I(per_fc^2)", "Pr(>|z|)"])
-add(S1, "P1 / Fig 1 caption", "Survival drought (reduced)", sprintf("%s = %s, z = %s, %s", BETA, fb(ssr["treatmentDrought", "Estimate"], 4), fz(ssr["treatmentDrought", "z value"]), fp(ssr["treatmentDrought", "Pr(>|z|)"])),
-    0.0005, ssr["treatmentDrought", "Pr(>|z|)"])
-add(S1, "P1 / Fig 2 caption", "Biomass linear ancestry (reduced)", paste0("linear term: ", bet(bio_red4, "per_fc")), 0.0005, pv(bio_red4, "per_fc"))
-add(S1, "P1 / Fig 2 caption", "Biomass quadratic ancestry (reduced)", paste0("quadratic term: ", bet(bio_red4, "I(per_fc^2)")), 0.0005, pv(bio_red4, "I(per_fc^2)"),
-    "still significant, but p is no longer < 0.001")
-add(S1, "P1 / Fig 2 caption", "Biomass drought (reduced)", bet(bio_red4, "treatmentDrought"), 0.045, pv(bio_red4, "treatmentDrought"),
-    "wording such as 'drought reduced biomass gain overall' (Abstract, Results, Fig 2 caption, Discussion, Conclusions) is no longer supported at p < 0.05")
-add(S1, "Abstract / P1 / Fig 2 / Conclusions", "Biomass peak (31%)", "Not reported (CI extends outside 0-100%). Vertex = 31.8%; bootstrap 95% CI -32.2 to 42.4 (results/02_main_models/main_models_output.txt)", NA, NA, "the CI includes values outside 0-100%")
+add(S1, "Survival ancestry x drought, full model", sprintf("linear and quadratic ancestry %s drought terms, p = %.2f and p = %.2f", TIMES, ssf["per_fc:treatmentDrought", "Pr(>|z|)"], ssf["treatmentDrought:I(per_fc^2)", "Pr(>|z|)"]), ssf["per_fc:treatmentDrought", "Pr(>|z|)"])
+add(S1, "Biomass LRT ancestry x drought", sprintf("likelihood ratio test [LRT] for ancestry %s drought treatment, %s = %s, df = %d, p = %.2f", TIMES, CHI2, fz(bio_lrt4$Chisq[2]), bio_lrt4$Df[2], bio_lrt4$`Pr(>Chisq)`[2]), bio_lrt4$`Pr(>Chisq)`[2], "full vs reduced model")
+add(S1, "Survival joint LRT for both interaction terms", sprintf("%s = %s, df = %d, p = %.2f", CHI2, fz(surv_lrt$Chisq[2]), surv_lrt$Df[2], surv_lrt$`Pr(>Chisq)`[2]))
+add(S1, "Survival linear ancestry (reduced)", sprintf("%s = %s, z = %s, %s", BETA, fb(ssr["per_fc", "Estimate"]), fz(ssr["per_fc", "z value"]), fp(ssr["per_fc", "Pr(>|z|)"])), ssr["per_fc", "Pr(>|z|)"])
+add(S1, "Survival quadratic ancestry (reduced)", sprintf("%s = %s, z = %s, %s", BETA, fb(ssr["I(per_fc^2)", "Estimate"], 2), fz(ssr["I(per_fc^2)", "z value"]), fp(ssr["I(per_fc^2)", "Pr(>|z|)"])), ssr["I(per_fc^2)", "Pr(>|z|)"])
+add(S1, "Survival drought (reduced)", sprintf("%s = %s, z = %s, %s", BETA, fb(ssr["treatmentDrought", "Estimate"], 4), fz(ssr["treatmentDrought", "z value"]), fp(ssr["treatmentDrought", "Pr(>|z|)"])), ssr["treatmentDrought", "Pr(>|z|)"])
+add(S1, "Biomass linear ancestry (reduced)", paste0("linear term: ", bet(bio_red4, "per_fc")), pv(bio_red4, "per_fc"))
+add(S1, "Biomass quadratic ancestry (reduced)", paste0("quadratic term: ", bet(bio_red4, "I(per_fc^2)")), pv(bio_red4, "I(per_fc^2)"))
+add(S1, "Biomass drought (reduced)", bet(bio_red4, "treatmentDrought"), pv(bio_red4, "treatmentDrought"))
+add(S1, "Biomass peak", sprintf("Vertex = %.1f%% Fremont ancestry; parametric bootstrap 95%% percentile CI %.1f to %.1f (2000 simulations)", v_hat, quantile(vb, 0.025), quantile(vb, 0.975)), NA, "the CI includes values outside 0-100%")
 
 S2 <- "Results: Host Ancestry, Not Drought, Structures Fungal Colonization (PERMANOVA)"
 Gc <- function(t) eng_foc[eng_foc$term == t, ]; Ga <- function(t) eng_all[eng_all$term == t, ]
 Tc <- function(t) as.data.frame(permA)[t, ]; Ta <- function(t) as.data.frame(permB)[t, ]
-add(S2, "P2", "(G) Cross type, whole-genotype permutations",
-    sprintf("Host cross type explained %s%% of variance in fungal composition and was the only significant predictor (PERMANOVA with whole-genotype permutations, %d genotypes: F = %s, %s)",
-            fr(100 * Gc("new_class")$R2), n_distinct(foc$geno_id), fz(Gc("new_class")$F), fp(Gc("new_class")$p_genotype_level)),
-    0.003, Gc("new_class")$p_genotype_level, "marginal R2 / F; population, drought and soil in the same model")
-add(S2, "P2", "(T) Cross type, tree-level permutations (model A)",
-    sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Tc("new_class")$R2), fz(Tc("new_class")$F), fp(Tc("new_class")$`Pr(>F)`)), 0.003, Tc("new_class")$`Pr(>F)`,
-    "permutations within inoculum category, trees exchangeable")
-add(S2, "P2", "(G) Continuous ancestry, whole-genotype permutations",
-    sprintf("A parallel model using continuous percent Fremont ancestry across the full sample, including backcrosses (n = %d trees, %d genotypes), gave a consistent result (%s = %s%%, F = %s, %s)",
-            nrow(d78), n_distinct(d78$geno_id), R2, fr(100 * Ga("per_f")$R2), fz(Ga("per_f")$F), fp(Ga("per_f")$p_genotype_level)),
-    0.001, Ga("per_f")$p_genotype_level)
-add(S2, "P2", "(T) Continuous ancestry, tree-level (model B)", sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Ta("per_f")$R2), fz(Ta("per_f")$F), fp(Ta("per_f")$`Pr(>F)`)), 0.001, Ta("per_f")$`Pr(>F)`)
-add(S2, "P2", "(G) Population, same model as cross type",
-    sprintf("Population explained %s%% of variance (%s)", fr(100 * Gc("pop")$R2), fp(Gc("pop")$p_genotype_level)), 0.352, Gc("pop")$p_genotype_level, "population is now tested in the same model as cross type")
-add(S2, "P2", "(T) Population, tree-level", sprintf("%s = %s%%, %s", R2, fr(100 * Tc("pop")$R2), fp(Tc("pop")$`Pr(>F)`)), 0.352, Tc("pop")$`Pr(>F)`)
-add(S2, "P2 / Supp Fig 3", "(G) Drought, permuted within genotype",
-    sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Gc("treatment")$R2), fz(Gc("treatment")$F), fp(Gc("treatment")$p_genotype_level)), 0.79, Gc("treatment")$p_genotype_level)
-add(S2, "P2", "(G) Soil legacy, permuted within genotype",
-    sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Gc("soil")$R2), fz(Gc("soil")$F), fp(Gc("soil")$p_genotype_level)), 0.27, Gc("soil")$p_genotype_level)
-add(S2, "P2", "(G) Continuous version: soil legacy, permuted within genotype",
-    sprintf("%s = %s%%, F = %s, %s (tree-level permutation: %s)", R2, fr(100 * Ga("soil")$R2), fz(Ga("soil")$F), fp(Ga("soil")$p_genotype_level), fp(Ga("soil")$p_trees_free)),
-    0.27, Ga("soil")$p_genotype_level, "NOT ROBUST: P < 0.05 only in some specifications (see results/11_soil_legacy_permanova/output.txt and results/16_soil_legacy_specifications/soil_specifications.csv); treat as exploratory")
-add(S2, "P2", "(G) Continuous version: drought, permuted within genotype",
-    sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Ga("treatment")$R2), fz(Ga("treatment")$F), fp(Ga("treatment")$p_genotype_level)), 0.79, Ga("treatment")$p_genotype_level)
-add(S2, "P2 / Supp Fig 3 caption", "(T) Drought and soil, tree-level (model A)",
-    sprintf("drought: %s = %s%%, F = %s, %s; soil: %s = %s%%, F = %s, %s", R2, fr(100 * Tc("treatment")$R2), fz(Tc("treatment")$F), fp(Tc("treatment")$`Pr(>F)`),
-            R2, fr(100 * Tc("soil")$R2), fz(Tc("soil")$F), fp(Tc("soil")$`Pr(>F)`)), 0.79, Tc("treatment")$`Pr(>F)`, "Supp Fig 3 caption still says p = 0.784")
+add(S2, "(G) Cross type, whole-genotype permutations", sprintf("Host cross type explained %s%% of variance in fungal composition and was the only significant predictor (PERMANOVA with whole-genotype permutations, %d genotypes: F = %s, %s)",
+            fr(100 * Gc("new_class")$R2), n_distinct(foc$geno_id), fz(Gc("new_class")$F), fp(Gc("new_class")$p_genotype_level)), Gc("new_class")$p_genotype_level, "marginal R2 / F; population, drought and soil in the same model")
+add(S2, "(T) Cross type, tree-level permutations (model A)", sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Tc("new_class")$R2), fz(Tc("new_class")$F), fp(Tc("new_class")$`Pr(>F)`)), Tc("new_class")$`Pr(>F)`, "permutations within inoculum category, trees exchangeable")
+add(S2, "(G) Continuous ancestry, whole-genotype permutations", sprintf("A parallel model using continuous percent Fremont ancestry across the full sample, including backcrosses (n = %d trees, %d genotypes), gave a consistent result (%s = %s%%, F = %s, %s)",
+            nrow(d78), n_distinct(d78$geno_id), R2, fr(100 * Ga("per_f")$R2), fz(Ga("per_f")$F), fp(Ga("per_f")$p_genotype_level)), Ga("per_f")$p_genotype_level)
+add(S2, "(T) Continuous ancestry, tree-level (model B)", sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Ta("per_f")$R2), fz(Ta("per_f")$F), fp(Ta("per_f")$`Pr(>F)`)), Ta("per_f")$`Pr(>F)`)
+add(S2, "(G) Population, same model as cross type", sprintf("Population explained %s%% of variance (%s)", fr(100 * Gc("pop")$R2), fp(Gc("pop")$p_genotype_level)), Gc("pop")$p_genotype_level)
+add(S2, "(T) Population, tree-level", sprintf("%s = %s%%, %s", R2, fr(100 * Tc("pop")$R2), fp(Tc("pop")$`Pr(>F)`)), Tc("pop")$`Pr(>F)`)
+add(S2, "(G) Drought, permuted within genotype", sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Gc("treatment")$R2), fz(Gc("treatment")$F), fp(Gc("treatment")$p_genotype_level)), Gc("treatment")$p_genotype_level)
+add(S2, "(G) Soil legacy, permuted within genotype", sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Gc("soil")$R2), fz(Gc("soil")$F), fp(Gc("soil")$p_genotype_level)), Gc("soil")$p_genotype_level)
+add(S2, "(G) Continuous version: soil legacy, permuted within genotype", sprintf("%s = %s%%, F = %s, %s (tree-level permutation: %s)", R2, fr(100 * Ga("soil")$R2), fz(Ga("soil")$F), fp(Ga("soil")$p_genotype_level), fp(Ga("soil")$p_trees_free)), Ga("soil")$p_genotype_level, "NOT ROBUST: P < 0.05 only in some specifications (see results/11_soil_legacy_permanova/output.txt and results/16_soil_legacy_specifications/soil_specifications.csv); treat as exploratory")
+add(S2, "(G) Continuous version: drought, permuted within genotype", sprintf("%s = %s%%, F = %s, %s", R2, fr(100 * Ga("treatment")$R2), fz(Ga("treatment")$F), fp(Ga("treatment")$p_genotype_level)), Ga("treatment")$p_genotype_level)
+add(S2, "(T) Drought and soil, tree-level (model A)", sprintf("drought: %s = %s%%, F = %s, %s; soil: %s = %s%%, F = %s, %s", R2, fr(100 * Tc("treatment")$R2), fz(Tc("treatment")$F), fp(Tc("treatment")$`Pr(>F)`),
+            R2, fr(100 * Tc("soil")$R2), fz(Tc("soil")$F), fp(Tc("soil")$`Pr(>F)`)), Tc("treatment")$`Pr(>F)`)
 gmr <- function(res, term) res$seq[term, ]
-add(S2, "P2 (alternative)", "(M) Genotype means, cross type only",
-    sprintf("PERMANOVA on genotype means (%d genotypes): %s = %s%%, F = %s, %s", nrow(gmf), R2, fr(100 * gmr(gb_cls1, "new_class")$R2), fz(gmr(gb_cls1, "new_class")$F), fp(gmr(gb_cls1, "new_class")$`Pr(>F)`)),
-    0.003, gmr(gb_cls1, "new_class")$`Pr(>F)`)
-add(S2, "P2 (alternative)", "(M) Genotype means, cross type + population",
-    sprintf("cross type: %s = %s%%, F = %s, %s; population: %s = %s%%, %s", R2, fr(100 * gmr(gb_cls2, "new_class")$R2), fz(gmr(gb_cls2, "new_class")$F), fp(gmr(gb_cls2, "new_class")$`Pr(>F)`),
-            R2, fr(100 * gmr(gb_cls2, "pop")$R2), fp(gmr(gb_cls2, "pop")$`Pr(>F)`)), 0.003, gmr(gb_cls2, "new_class")$`Pr(>F)`, "sequential; marginal tests in results/02_main_models/main_models_followup_output.txt")
-add(S2, "P2 (alternative)", "(M) Genotype means, continuous ancestry",
-    sprintf("continuous ancestry (%d genotypes): %s = %s%%, F = %s, %s", nrow(gm), R2, fr(100 * gmr(gb_pf1, "per_f")$R2), fz(gmr(gb_pf1, "per_f")$F), fp(gmr(gb_pf1, "per_f")$`Pr(>F)`)),
-    0.001, gmr(gb_pf1, "per_f")$`Pr(>F)`)
+add(S2, "(M) Genotype means, cross type only", sprintf("PERMANOVA on genotype means (%d genotypes): %s = %s%%, F = %s, %s", nrow(gmf), R2, fr(100 * gmr(gb_cls1, "new_class")$R2), fz(gmr(gb_cls1, "new_class")$F), fp(gmr(gb_cls1, "new_class")$`Pr(>F)`)), gmr(gb_cls1, "new_class")$`Pr(>F)`)
+add(S2, "(M) Genotype means, cross type + population", sprintf("cross type: %s = %s%%, F = %s, %s; population: %s = %s%%, %s", R2, fr(100 * gmr(gb_cls2, "new_class")$R2), fz(gmr(gb_cls2, "new_class")$F), fp(gmr(gb_cls2, "new_class")$`Pr(>F)`),
+            R2, fr(100 * gmr(gb_cls2, "pop")$R2), fp(gmr(gb_cls2, "pop")$`Pr(>F)`)), gmr(gb_cls2, "new_class")$`Pr(>F)`, "sequential; marginal tests in results/02_main_models/main_models_followup_output.txt")
+add(S2, "(M) Genotype means, continuous ancestry", sprintf("continuous ancestry (%d genotypes): %s = %s%%, F = %s, %s", nrow(gm), R2, fr(100 * gmr(gb_pf1, "per_f")$R2), fz(gmr(gb_pf1, "per_f")$F), fp(gmr(gb_pf1, "per_f")$`Pr(>F)`)), gmr(gb_pf1, "per_f")$`Pr(>F)`)
 pwp <- gm_pw$p.adjusted
-add(S2, "P3 pairwise", "(M) Pairwise on genotype means (Bonferroni)",
-    sprintf("Fremont vs narrowleaf p = %.3f; Fremont vs F1 hybrids p = %.3f; narrowleaf vs F1 hybrids p = %.2f", pwp[1], pwp[2], pwp[3]), 0.051, pwp[2],
-    "genotype counts: 15 narrowleaf, 4 F1, 15 Fremont")
-add(S2, "P3 pairwise", "(T) Pairwise on trees (unchanged model)",
-    sprintf("Fremont vs narrowleaf p = %.3f; Fremont vs F1 hybrids p = %.3f; narrowleaf vs F1 hybrids p = %.2f", pw$p.adjusted[1], pw$p.adjusted[2], pw$p.adjusted[3]), 0.051, pw$p.adjusted[2],
-    "permutation noise; run in a different RNG state than the manuscript's 0.051")
+add(S2, "(M) Pairwise on genotype means (Bonferroni)", sprintf("Fremont vs narrowleaf p = %.3f; Fremont vs F1 hybrids p = %.3f; narrowleaf vs F1 hybrids p = %.2f", pwp[1], pwp[2], pwp[3]), pwp[2], "genotype counts: 15 narrowleaf, 4 F1, 15 Fremont")
+add(S2, "(T) Pairwise on trees (unchanged model)", sprintf("Fremont vs narrowleaf p = %.3f; Fremont vs F1 hybrids p = %.3f; narrowleaf vs F1 hybrids p = %.2f", pw$p.adjusted[1], pw$p.adjusted[2], pw$p.adjusted[3]), pw$p.adjusted[2])
 ct4 <- coef(summary(col4)); nl <- summary(col4n)$tTable
-add(S2, "P3 / Fig 3 caption", "EMF x ancestry (lmer + tree_id + genotype)",
-    sprintf("Fremont ancestry %s EMF interaction, t = %s, %s", TIMES, fz(ct4["per_f:fungal_typeemf", "t value"]), fp(ct4["per_f:fungal_typeemf", "Pr(>|t|)"])), 0.0005, ct4["per_f:fungal_typeemf", "Pr(>|t|)"],
-    "tree and genotype variances are 0, so identical to the model without them")
-add(S2, "P3 / Methods", "EMF x ancestry (nlme sensitivity)",
-    sprintf("t = %s, %s (nlme, unstructured correlation among fungal types within trees, separate variance per fungal type, genotype nested in population)", fz(nl["per_f:fungal_typeemf", "t-value"]), fp(nl["per_f:fungal_typeemf", "p-value"])),
-    0.0005, nl["per_f:fungal_typeemf", "p-value"])
+add(S2, "EMF x ancestry (lmer + tree_id + genotype)", sprintf("Fremont ancestry %s EMF interaction, t = %s, %s", TIMES, fz(ct4["per_f:fungal_typeemf", "t value"]), fp(ct4["per_f:fungal_typeemf", "Pr(>|t|)"])), ct4["per_f:fungal_typeemf", "Pr(>|t|)"], "tree and genotype variances are 0, so identical to the model without them")
+add(S2, "EMF x ancestry (nlme sensitivity)", sprintf("t = %s, %s (nlme, unstructured correlation among fungal types within trees, separate variance per fungal type, genotype nested in population)", fz(nl["per_f:fungal_typeemf", "t-value"]), fp(nl["per_f:fungal_typeemf", "p-value"])), nl["per_f:fungal_typeemf", "p-value"])
 sl <- summary(emtrends(col4, ~ fungal_type, var = "per_f", lmer.df = "satterthwaite"), infer = c(TRUE, TRUE))
-add(S2, "Fig 3 caption", "Ancestry slope by fungal type (lmer)",
-    sprintf("EMF slope = %s per 1%% Fremont ancestry (%s); AMF = %s (%s); DSE = %s (%s)", fb(sl$per_f.trend[3]), fp(sl$p.value[3]), fb(sl$per_f.trend[1]), fp(sl$p.value[1]), fb(sl$per_f.trend[2]), fp(sl$p.value[2])),
-    NA, NA, "supports 'AMF and DSEs showed no significant relationship with ancestry'")
+add(S2, "Ancestry slope by fungal type (lmer)", sprintf("EMF slope = %s per 1%% Fremont ancestry (%s); AMF = %s (%s); DSE = %s (%s)", fb(sl$per_f.trend[3]), fp(sl$p.value[3]), fb(sl$per_f.trend[1]), fp(sl$p.value[1]), fb(sl$per_f.trend[2]), fp(sl$p.value[2])))
 
 S3 <- "Results: Survival associations (aggregated groups; stats::glm, ancestry-controlled)"
 gl <- coef(summary(agg_glm_stats)); gn <- coef(summary(agg_glm_naive))
 gs <- function(tb, t, tc = "z") sprintf("%s = %s, z = %s, %s", BETA, fb(tb[t, "Estimate"], 3), fz(tb[t, "z value"]), fp(tb[t, "Pr(>|z|)"]))
-add(S3, "Survival associations / Fig 4 caption", "AMF x drought (ancestry-controlled)", paste0("The AMF ", TIMES, " drought interaction was significant and negative, controlling for host ancestry (linear and quadratic) among survivors in each group (", gs(gl, "scale(mean_amf):treatmentDrought"), ")"),
-    0.018, gl["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations / Fig 4 caption", "AMF x drought (naive)", gs(gn, "scale(mean_amf):treatmentDrought"), 0.010, gn["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations", "EMF and DSE x drought", sprintf("EMF %s drought and DSE %s drought interactions were not significant (%s and %s, respectively)", TIMES, TIMES,
-    fp(gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"]), fp(gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])), 0.179, gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations", "EMF x drought detail", gs(gl, "scale(mean_emf):treatmentDrought"), 0.179, gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations", "DSE x drought detail", gs(gl, "scale(mean_dse):treatmentDrought"), 0.325, gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations / Limitations", "Ancestry terms", sprintf("Percent Fremont ancestry (linear or quadratic) did not significantly predict survival in this model when fungal colonization was included (%s and %s, respectively)",
-    fp(gl["mean_per_fc", "Pr(>|z|)"]), fp(gl["I(mean_per_fc^2)", "Pr(>|z|)"])), 0.74, gl["mean_per_fc", "Pr(>|z|)"], "Limitations paragraph quotes the linear p")
-add(S3, "Methods / Survival associations", "Single-tree groups",
-    sprintf("Colonization means rested on a single scored tree in %d (EMF), %d (AMF) and %d (DSE) of %d groups", sum(use$n_emf == 1), sum(use$n_amf == 1), sum(use$n_dse == 1), nrow(use)), NA, NA, "describe as a limitation; groups have 3-6 trees but 1-5 scored trees")
-add(S3, "Methods", "Model description", "weighted binomial generalized linear models (glm; a population random intercept was estimated at zero variance and dropped)", NA, NA, "Methods currently say GLMMs")
+add(S3, "AMF x drought (ancestry-controlled)", paste0("The AMF ", TIMES, " drought interaction was significant and negative, controlling for host ancestry (linear and quadratic) among survivors in each group (", gs(gl, "scale(mean_amf):treatmentDrought"), ")"), gl["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
+add(S3, "AMF x drought (naive)", gs(gn, "scale(mean_amf):treatmentDrought"), gn["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
+add(S3, "EMF and DSE x drought", sprintf("EMF %s drought and DSE %s drought interactions were not significant (%s and %s, respectively)", TIMES, TIMES,
+    fp(gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"]), fp(gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])), gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
+add(S3, "EMF x drought detail", gs(gl, "scale(mean_emf):treatmentDrought"), gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
+add(S3, "DSE x drought detail", gs(gl, "scale(mean_dse):treatmentDrought"), gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])
+add(S3, "Ancestry terms", sprintf("Percent Fremont ancestry (linear or quadratic) did not significantly predict survival in this model when fungal colonization was included (%s and %s, respectively)",
+    fp(gl["mean_per_fc", "Pr(>|z|)"]), fp(gl["I(mean_per_fc^2)", "Pr(>|z|)"])), gl["mean_per_fc", "Pr(>|z|)"])
+add(S3, "Single-tree groups", sprintf("Colonization means rested on a single scored tree in %d (EMF), %d (AMF) and %d (DSE) of %d groups", sum(use$n_emf == 1), sum(use$n_amf == 1), sum(use$n_dse == 1), nrow(use)))
+add(S3, "Model description", "weighted binomial generalized linear models (glm; a population random intercept was estimated at zero variance and dropped)")
 
 S4 <- "Results: Biomass associations (n = 77, with genotype)"
 fbs <- function(m, t) bet(m, t)
-add(S4, "Biomass associations / Fig 5 caption", "EMF x drought", paste0("(LMM, n = ", nobs(fb_pf4), "; EMF ", TIMES, " drought: ", fbs(fb_pf4, "treatmentDrought:scale(emf)"), ")"), 0.004, pv(fb_pf4, "treatmentDrought:scale(emf)"))
-add(S4, "Biomass associations / Fig 5 caption", "EMF x drought (naive)", fbs(fb_nv4, "treatmentDrought:scale(emf)"), 0.003, pv(fb_nv4, "treatmentDrought:scale(emf)"))
-add(S4, "Biomass associations", "AMF x drought", fbs(fb_pf4, "scale(amf):treatmentDrought"), 0.617, pv(fb_pf4, "scale(amf):treatmentDrought"))
-add(S4, "Biomass associations", "DSE x drought", fbs(fb_pf4, "treatmentDrought:scale(dse)"), 0.984, pv(fb_pf4, "treatmentDrought:scale(dse)"))
-add(S4, "Fig 5 caption", "Outlier statement", sprintf("One tree (%s; standardized log biomass z = %s) exceeded |z| = 3; excluding it gives EMF %s drought %s", zt$tree_idold[1], fz(zt$z[1]), TIMES, bet(fb_pf4_x, "treatmentDrought:scale(emf)")),
-    NA, NA, "current caption says none met the threshold")
+add(S4, "EMF x drought", paste0("(LMM, n = ", nobs(fb_pf4), "; EMF ", TIMES, " drought: ", fbs(fb_pf4, "treatmentDrought:scale(emf)"), ")"), pv(fb_pf4, "treatmentDrought:scale(emf)"))
+add(S4, "EMF x drought (naive)", fbs(fb_nv4, "treatmentDrought:scale(emf)"), pv(fb_nv4, "treatmentDrought:scale(emf)"))
+add(S4, "AMF x drought", fbs(fb_pf4, "scale(amf):treatmentDrought"), pv(fb_pf4, "scale(amf):treatmentDrought"))
+add(S4, "DSE x drought", fbs(fb_pf4, "treatmentDrought:scale(dse)"), pv(fb_pf4, "treatmentDrought:scale(dse)"))
+add(S4, "Outlier statement", sprintf("One tree (%s; standardized log biomass z = %s) exceeded |z| = 3; excluding it gives EMF %s drought %s", zt$tree_idold[1], fz(zt$z[1]), TIMES, bet(fb_pf4_x, "treatmentDrought:scale(emf)")))
 
 S5 <- "Results: Stomatal conductance (log scale; Methods model without quadratic x drought)"
 nm <- function(t) bet(poro_log, t)
-add(S5, "Methods", "Model", "log-transformed stomatal conductance with linear and quadratic ancestry, drought, and linear ancestry x drought, plus initial cutting diameter, soil legacy and inoculation category as covariates and population and genotype (nested in population) as random intercepts", NA, NA, "quadratic x drought removed (LRT p = 0.96 on the raw scale)")
-add(S5, "Stomatal conductance", "n", sprintf("n = %d trees from %d genotypes", nobs(poro_log), ngrps(poro_log)["pop:geno_id"]), NA, NA,
-    sprintf("was n = 204; one tree (%s) has a non-positive conductance value (%s) that cannot be log-transformed", paste(ds$tree_idold[bad], collapse = ","), paste(round(ds$por_avg[bad], 4), collapse = ",")))
-add(S5, "Stomatal conductance", "Linear ancestry", paste0("linear ancestry term: ", nm("per_fc")), 0.0005, pv(poro_log, "per_fc"), "simple effect in well-watered trees")
-add(S5, "Stomatal conductance", "Quadratic ancestry", paste0("quadratic ancestry term: ", nm("I(per_fc^2)")), 0.043, pv(poro_log, "I(per_fc^2)"))
-add(S5, "Stomatal conductance", "Drought", paste0("drought (well-watered vs drought at 50% ancestry): ", nm("treatmentDrought")), 0.072, pv(poro_log, "treatmentDrought"))
-add(S5, "Stomatal conductance", "Ancestry x drought", paste0("linear ancestry ", TIMES, " drought: ", nm("per_fc:treatmentDrought")), 0.073, pv(poro_log, "per_fc:treatmentDrought"),
-    "ancestry slope is shallower under drought; the text currently says the interaction was not significant")
+add(S5, "Model", "log-transformed stomatal conductance with linear and quadratic ancestry, drought, and linear ancestry x drought, plus initial cutting diameter, soil legacy and inoculation category as covariates and population and genotype (nested in population) as random intercepts", NA, "quadratic x drought removed (LRT p = 0.96 on the raw scale)")
+add(S5, "n", sprintf("n = %d trees from %d genotypes", nobs(poro_log), ngrps(poro_log)["pop:geno_id"]))
+add(S5, "Linear ancestry", paste0("linear ancestry term: ", nm("per_fc")), pv(poro_log, "per_fc"), "simple effect in well-watered trees")
+add(S5, "Quadratic ancestry", paste0("quadratic ancestry term: ", nm("I(per_fc^2)")), pv(poro_log, "I(per_fc^2)"))
+add(S5, "Drought", paste0("drought (well-watered vs drought at 50% ancestry): ", nm("treatmentDrought")), pv(poro_log, "treatmentDrought"))
+add(S5, "Ancestry x drought", paste0("linear ancestry ", TIMES, " drought: ", nm("per_fc:treatmentDrought")), pv(poro_log, "per_fc:treatmentDrought"))
 inoc <- cmx(poro_log, grep("myco_cat", rownames(coef(summary(poro_log))), value = TRUE))
-add(S5, "Stomatal conductance", "Inoculation category", sprintf("mycorrhizal inoculation category (all p > %.2f)", floor(min(inoc[, "Pr(>|t|)"]) * 100) / 100), NA, NA)
-add(S5, "Stomatal conductance", "Covariates", sprintf("initial cutting diameter: %s; soil legacy: %s", bet(poro_log, "og_drc_mm"), bet(poro_log, "soilTam Legacy")), NA, NA)
-add(S5, "Stomatal conductance", "Slope, well-watered", sprintf("In well-watered trees, stomatal conductance declined by %s%% (95%% CI %s to %s%%) per 10 percentage points of Fremont ancestry; Fremont-end trees had %s times the conductance of narrowleaf-end trees (95%% CI %s to %s)",
-    fr(-slope_tab[1, "pct_per_10"]), fr(-slope_tab[1, "hi"]), fr(-slope_tab[1, "lo"]), sprintf("%.2f", slope_tab[1, "ratio_100_vs_0"]), sprintf("%.2f", slope_tab[1, "r_lo"]), sprintf("%.2f", slope_tab[1, "r_hi"])), NA, NA,
-    "back-transformed from the log scale; average slope over 0-100% (quadratic cancels)")
-add(S5, "Stomatal conductance", "Slope, drought", sprintf("Under drought the decline was %s%% (95%% CI %s to %s%%) per 10 percentage points; ratio Fremont-end vs narrowleaf-end = %s (95%% CI %s to %s)",
-    fr(-slope_tab[2, "pct_per_10"]), fr(-slope_tab[2, "hi"]), fr(-slope_tab[2, "lo"]), sprintf("%.2f", slope_tab[2, "ratio_100_vs_0"]), sprintf("%.2f", slope_tab[2, "r_lo"]), sprintf("%.2f", slope_tab[2, "r_hi"])), NA, NA)
+add(S5, "Inoculation category", sprintf("mycorrhizal inoculation category (all p > %.2f)", floor(min(inoc[, "Pr(>|t|)"]) * 100) / 100))
+add(S5, "Covariates", sprintf("initial cutting diameter: %s; soil legacy: %s", bet(poro_log, "og_drc_mm"), bet(poro_log, "soilTam Legacy")))
+add(S5, "Slope, well-watered", sprintf("In well-watered trees, stomatal conductance declined by %s%% (95%% CI %s to %s%%) per 10 percentage points of Fremont ancestry; Fremont-end trees had %s times the conductance of narrowleaf-end trees (95%% CI %s to %s)",
+    fr(-slope_tab[1, "pct_per_10"]), fr(-slope_tab[1, "hi"]), fr(-slope_tab[1, "lo"]), sprintf("%.2f", slope_tab[1, "ratio_100_vs_0"]), sprintf("%.2f", slope_tab[1, "r_lo"]), sprintf("%.2f", slope_tab[1, "r_hi"])), NA, "back-transformed from the log scale; average slope over 0-100% (quadratic cancels)")
+add(S5, "Slope, drought", sprintf("Under drought the decline was %s%% (95%% CI %s to %s%%) per 10 percentage points; ratio Fremont-end vs narrowleaf-end = %s (95%% CI %s to %s)",
+    fr(-slope_tab[2, "pct_per_10"]), fr(-slope_tab[2, "hi"]), fr(-slope_tab[2, "lo"]), sprintf("%.2f", slope_tab[2, "ratio_100_vs_0"]), sprintf("%.2f", slope_tab[2, "r_lo"]), sprintf("%.2f", slope_tab[2, "r_hi"])))
 
 S6 <- "Supplemental figure captions"
 fa <- as.data.frame(sf2_a)
-add(S6, "Supp Fig 2 caption", "Inoculum, soil", sprintf("mixed model (tree, genotype and population random intercepts): inoculum F(3, %.0f) = %s, %s; soil F(1, %.0f) = %s (p = %.2f)", fa["myco_cat", "DenDF"], fz(fa["myco_cat", "F value"]), fp(fa["myco_cat", "Pr(>F)"]),
-    fa["soil", "DenDF"], fz(fa["soil", "F value"]), fa["soil", "Pr(>F)"]), 0.03, fa["myco_cat", "Pr(>F)"],
-    "replaces the ANOVA F(3, 328); denominator df are Satterthwaite; soil was p = 0.06, now p = 0.54 (both non-significant)")
-add(S6, "Supp Fig 2 caption", "Inoculum x fungal type", sprintf("inoculum %s fungal type F(6, %.0f) = %s, %s", TIMES, fa["myco_cat:fungal_type", "DenDF"], fz(fa["myco_cat:fungal_type", "F value"]), fp(fa["myco_cat:fungal_type", "Pr(>F)"])), NA, NA, "optional")
-add(S6, "Supp Fig 3 caption", "Drought, PERMANOVA", sprintf("PERMANOVA: F = %s, %s (whole-genotype permutations; tree-level p = %.2f)", fz(Gc("treatment")$F), fp(Gc("treatment")$p_genotype_level), Tc("treatment")$`Pr(>F)`), 0.784, Gc("treatment")$p_genotype_level)
+add(S6, "Inoculum, soil", sprintf("mixed model (tree, genotype and population random intercepts): inoculum F(3, %.0f) = %s, %s; soil F(1, %.0f) = %s (p = %.2f)", fa["myco_cat", "DenDF"], fz(fa["myco_cat", "F value"]), fp(fa["myco_cat", "Pr(>F)"]),
+    fa["soil", "DenDF"], fz(fa["soil", "F value"]), fa["soil", "Pr(>F)"]), fa["myco_cat", "Pr(>F)"])
+add(S6, "Inoculum x fungal type", sprintf("inoculum %s fungal type F(6, %.0f) = %s, %s", TIMES, fa["myco_cat:fungal_type", "DenDF"], fz(fa["myco_cat:fungal_type", "F value"]), fp(fa["myco_cat:fungal_type", "Pr(>F)"])))
+add(S6, "Drought, PERMANOVA", sprintf("PERMANOVA: F = %s, %s (whole-genotype permutations; tree-level p = %.2f)", fz(Gc("treatment")$F), fp(Gc("treatment")$p_genotype_level), Tc("treatment")$`Pr(>F)`), Gc("treatment")$p_genotype_level)
 
 S7 <- "Sample sizes"
-add(S7, "Methods / Results", "n", sprintf("colonization: %d trees from %d genotypes (%d survivors scored for all three fungi); survival models n = %d; biomass n = %d; colonization-biomass n = %d; aggregated survival: %d groups; stomatal n = %d; %d genotypes overall",
-    nrow(d78), n_distinct(d78$geno_id), nrow(d78), nobs(surv_red4), nobs(bio_red4), nobs(fb_pf4), nobs(agg_glm_stats), nobs(poro_log), nrow(gmap)), NA, NA)
-add(S7, "Methods", "Genotypes per cross type (78 trees)", paste(sprintf("%s: %d %s (%d trees)", gcount$new_class, gcount$genotypes, ifelse(gcount$genotypes == 1, "genotype", "genotypes"), gcount$trees), collapse = "; "), NA, NA)
+add(S7, "n", sprintf("colonization: %d trees from %d genotypes (%d survivors scored for all three fungi); survival models n = %d; biomass n = %d; colonization-biomass n = %d; aggregated survival: %d groups; stomatal n = %d; %d genotypes overall",
+    nrow(d78), n_distinct(d78$geno_id), nrow(d78), nobs(surv_red4), nobs(bio_red4), nobs(fb_pf4), nobs(agg_glm_stats), nobs(poro_log), nrow(gmap)))
+add(S7, "Genotypes per cross type (78 trees)", paste(sprintf("%s: %d %s (%d trees)", gcount$new_class, gcount$genotypes, ifelse(gcount$genotypes == 1, "genotype", "genotypes"), gcount$trees), collapse = "; "))
 
 tab <- bind_rows(rows)
 lines <- c("# Formatted results: main models", "",
-           "Generated by `r_code/02b_main_models_followup.R`. The manuscript is not changed. Rows marked **SIGNIFICANCE CHANGED** cross p = 0.05 relative to the current manuscript.",
+           "Generated by `r_code/02b_main_models_followup.R`.",
            "Labels: (G) genotype-level permutation test, (T) tree-level permutation test, (M) PERMANOVA on genotype means. Ancestry coefficients are per 1% Fremont ancestry.",
            "Aggregated survival strings use `stats::glm`. Mixed-model numbers use a genotype random intercept nested in population (survival: population fixed, genotype random).", "")
 for (sct in unique(tab$section)) {
-  lines <- c(lines, paste0("## ", sct), "", "| Location | Statistic | Paste-ready string | Flag / note |", "|---|---|---|---|")
-  for (i in which(tab$section == sct)) {
-    fl <- paste(c(if (nzchar(tab$flag[i])) tab$flag[i], if (nzchar(tab$note[i])) tab$note[i]), collapse = "; ")
-    lines <- c(lines, sprintf("| %s | %s | %s | %s |", tab$location[i], tab$statistic[i], gsub("|", "\\|", tab$string[i], fixed = TRUE), fl))
-  }
+  lines <- c(lines, paste0("## ", sct), "", "| Statistic | String | Note |", "|---|---|---|")
+  for (i in which(tab$section == sct))
+    lines <- c(lines, sprintf("| %s | %s | %s |", tab$statistic[i], gsub("|", "\\|", tab$string[i], fixed = TRUE), tab$note[i]))
   lines <- c(lines, "")
 }
 con <- file("results/02_main_models/formatted_results_main_models.md", "w", encoding = "UTF-8"); writeLines(enc2utf8(lines), con); close(con)
-cat("Wrote", nrow(tab), "strings;", sum(nzchar(tab$flag)), "flagged as significance changes\n")
-print(tab %>% filter(nzchar(flag)) %>% select(location, statistic, flag), right = FALSE)
+cat("Wrote", nrow(tab), "strings\n")
 sink()
 cat("Done. See results/02_main_models/main_models_followup_output.txt and results/02_main_models/formatted_results_main_models.md\n")

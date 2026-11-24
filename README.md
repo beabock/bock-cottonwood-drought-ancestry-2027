@@ -21,10 +21,10 @@ final figures.
 | `data/DATA_DICTIONARY.md` | Every column of every data file |
 | `r_code/` | Analysis scripts, numbered in run order; `r_code/helpers/` holds the files the scripts source (data preparation, shared model helpers, figure style) |
 | `run_all.R` | Runs every script in order |
-| `results/NN_name/` | Output of script `r_code/NN_name.R`: a text log (`output.txt` or `*_output.txt`) and the tables it writes |
+| `results/NN_name/` | Output of script `r_code/NN_name.R`: usually a text log (`output.txt` or `*_output.txt`) and the tables it writes (steps 07, 16 and 28 write tables only) |
 | `results/appendices/` | The tables of Appendices S1 and S4–S7, one CSV per table (see below) |
 | `results/sessionInfo.txt` | R session information recorded for the manuscript analyses |
-| `figures/` | Final figures: `Fig1`–`Fig4`, `AppendixS1_map`, `FigS2`, `FigS3`, `AppendixS5_daypair` (Figure S5.1) and `AppendixS5_surfaces_daypair` (Figure S5.2), each as vector PDF and 600-dpi PNG |
+| `figures/` | Final figures: `Fig1`–`Fig3`, `AppendixS1_map`, `FigS2`, `FigS3`, `FigS4_1` (Figure S4.1), `AppendixS5_daypair` (Figure S5.1) and `AppendixS5_surfaces_daypair` (Figure S5.2), each as vector PDF and 600-dpi PNG |
 
 ## Running the analyses
 
@@ -35,9 +35,9 @@ Rscript run_all.R
 ```
 
 `run_all.R` runs each script in its own R process (the scripts open sinks, set seeds and attach packages that would leak
-between scripts in one session) and stops at the first failure. A full run takes about 20 minutes on a Windows 11
-laptop; most of it is the 9999-permutation PERMANOVAs in step 11 (about 6 minutes) and the downloads in step 12 (about
-5 minutes). After a failure, `Rscript run_all.R --from=12` resumes at step 12.
+between scripts in one session) and stops at the first failure. A full run takes about 30 minutes on a Windows 11
+laptop; most of it is the 9999-permutation PERMANOVAs in step 11 (about 10 minutes), the models of step 02 (about
+5 minutes) and the downloads in step 12 (about 4 minutes). After a failure, `Rscript run_all.R --from=12` resumes at step 12.
 
 **Internet access.** Step 12 (`r_code/12_map_appendix_S1.R`) downloads point elevations (USGS Elevation Point Query
 Service), terrain tiles (`elevatr`), Natural Earth rivers and USGS NHD flowlines to build the Appendix S1 map and the
@@ -88,17 +88,17 @@ sources 02b, which sources 02a.
 | 29 | `29_sensitivity_checks.R` | EMF-scored plant counts, predicted EMF colonization, quadratic-term summary, models refit without plant SFF111 |
 | 30 | `30_appendix_tables.R` | The tables of Appendices S1 and S4–S7 |
 
-Steps 20–29 share `r_code/helpers/model_helpers.R`; each writes `output.txt` and a `strings.csv` with the formatted
-values it computes.
+Steps 20–29 share `r_code/helpers/model_helpers.R`. Steps 20–27 each write `output.txt` and a `strings.csv` with the
+formatted values they compute; step 28 writes the figures and step 29 writes `output.txt` and `checks.csv`.
 
 ### Where each figure and appendix table comes from
 
 | Item | Script | File |
 |---|---|---|
-| Figures 1–4 | `28_figures.R` | `figures/Fig1`–`Fig4` |
+| Figures 1–3 | `28_figures.R` | `figures/Fig1`–`Fig3` |
 | Appendix S1 map | `12_map_appendix_S1.R` | `figures/AppendixS1_map` |
 | Tables S1.1, S1.2 | `30_appendix_tables.R` | `results/appendices/appendix_S1_table1_mother_trees.csv`, `appendix_S1_table2_collection_points.csv` |
-| Appendix S2 and S3 figures | `28_figures.R` | `figures/FigS2`, `FigS3` |
+| Appendix S2 and S3 figures; Figure S4.1 | `28_figures.R` | `figures/FigS2`, `FigS3`, `FigS4_1` |
 | Appendix S4 table | `05`, `18`, `30_appendix_tables.R` | `results/appendices/appendix_S4_control_sensitivity.csv` |
 | Tables S5.1–S5.4 | `19`, `30_appendix_tables.R` | `results/appendices/appendix_S5_table1_conductance_models.csv`, `appendix_S5_table2_surface_models.csv`, `appendix_S5_table3_conductance_vs_emf_rmf.csv`, `appendix_S5_table4_plants_by_dates.csv` |
 | Figures S5.1, S5.2 | `28_figures.R` | `figures/AppendixS5_daypair`, `figures/AppendixS5_surfaces_daypair` |
@@ -115,19 +115,18 @@ or black). The blue/gold pair stays distinct under simulated deuteranopia, prota
 ### Reproducibility
 
 Run-time stamps are not printed, so a rerun on the same R and package versions reproduces the committed outputs byte
-for byte (PDFs apart from the creation date that cairo writes).
+for byte (PDFs apart from the creation date and the font-subset timestamps that cairo writes).
 
 ## Requirements
 
 - **R 4.6.1** (the version used for the manuscript; `results/sessionInfo.txt`).
-- Packages, with the versions used for the manuscript analyses (`results/sessionInfo.txt`):
-  lme4 2.0-6, lmerTest 3.2-1, glmmTMB 1.1.15.2, nlme 3.1-169, emmeans 2.0.4, vegan 2.7-6, permute 0.9-10,
-  pairwiseAdonis 0.4.1, Matrix 1.7-5, ggplot2 4.0.3, ragg 1.5.2, tidyverse 2.0.0 (dplyr 1.2.1, tidyr 1.3.2, readr 2.2.0,
-  purrr 1.2.2, stringr 1.6.0, forcats 1.0.1, tibble 3.3.1, lubridate 1.9.5), readxl 1.6.0, janitor 2.2.1,
-  patchwork 1.3.2, systemfonts 1.3.2, MASS 7.3-65.
-- Not in `sessionInfo.txt` (loaded only by individual scripts): DHARMa 0.5.0 (step 06), and for the map (step 12)
-  sf 1.1.3, terra 1.9.50, elevatr 0.99.1, ggspatial 1.1.11, rnaturalearth 1.2.0, nhdplusTools 1.5.2, ggrepel 0.9.8,
-  maps 3.4.3.
+- Packages, with the versions used for the manuscript analyses (`run_all.R` writes them to `results/sessionInfo.txt`):
+  lme4 2.0-6, lmerTest 3.2-1, glmmTMB 1.1.15.2, nlme 3.1-169, emmeans 2.0.4, pbkrtest 0.5.5 (Kenward-Roger df),
+  car 3.1-5, DHARMa 0.5.0, MASS 7.3-65, Matrix 1.7-5, mvtnorm 1.4-2, vegan 2.7-6, permute 0.9-10, pairwiseAdonis 0.4.1,
+  tidyverse 2.0.0 (dplyr 1.2.1, tidyr 1.3.2, readr 2.2.0, purrr 1.2.2, stringr 1.6.0, forcats 1.0.1, tibble 3.3.1,
+  lubridate 1.9.5), readxl 1.6.0, janitor 2.2.1, ggplot2 4.0.3, patchwork 1.3.2, ragg 1.5.2, systemfonts 1.3.2,
+  RColorBrewer 1.1-3, and for the map (step 12) sf 1.1.3, terra 1.9.50, elevatr 0.99.1, ggspatial 1.1.11,
+  rnaturalearth 1.2.0, nhdplusTools 1.5.2, ggrepel 0.9.8, maps 3.4.3.
 - `pairwiseAdonis` is not on CRAN. Install it from GitHub at the commit used for the manuscript analyses:
 
   ```r
@@ -142,6 +141,9 @@ for byte (PDFs apart from the creation date that cairo writes).
 - Code (`r_code/`, `run_all.R`): MIT License, see `LICENSE`.
 - Data, statistical output and figures (`data/`, `results/`, `figures/`): Creative Commons Attribution 4.0
   International (CC BY 4.0), see `LICENSE-DATA`.
+- The Appendix S1 map uses third-party layers downloaded by step 12: Natural Earth rivers (public domain), USGS NHD
+  flowlines and USGS Elevation Point Query Service elevations (public domain), terrain tiles from the AWS Terrain Tiles
+  open dataset via `elevatr` (Mapzen; attribution requested), and state outlines from the `maps` package.
 
 ## Citation
 

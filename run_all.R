@@ -66,3 +66,14 @@ for (s in steps) {
 }
 tot <- sprintf("TOTAL %d s", round(as.numeric(difftime(Sys.time(), t_all, units = "secs"))))
 cat(tot, "\n"); cat(tot, "\n", file = log_file, append = TRUE)
+
+# R and package versions used by the scripts (no date, so an unchanged environment rewrites the file unchanged)
+pk <- c("lme4", "lmerTest", "glmmTMB", "nlme", "emmeans", "pbkrtest", "car", "DHARMa", "MASS", "Matrix", "mvtnorm",
+        "vegan", "permute", "pairwiseAdonis", "tidyverse", "dplyr", "tidyr", "readr", "purrr", "stringr", "forcats", "tibble",
+        "lubridate", "readxl", "janitor", "ggplot2", "patchwork", "ragg", "systemfonts", "RColorBrewer",
+        "sf", "terra", "elevatr", "ggspatial", "rnaturalearth", "nhdplusTools", "ggrepel", "maps")
+ver <- vapply(pk, function(p) tryCatch(utils::packageDescription(p)$Version, error = function(e) "not installed"), "")
+si <- c("Written by run_all.R: R and package versions used for the analyses.", "", R.version.string,
+        paste("Platform:", R.version$platform), "", "Packages:", sprintf("  %-15s %s", pk, ver), "",
+        "pairwiseAdonis is installed from GitHub: pmartinezarbizu/pairwiseAdonis@cb190f7668a0c82c0b0853927db239e7b9ec3e83")
+writeLines(si, "results/sessionInfo.txt")

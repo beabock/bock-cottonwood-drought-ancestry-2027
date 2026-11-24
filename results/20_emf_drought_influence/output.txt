@@ -78,9 +78,9 @@ Largest |studentized residual|: SFN117 t = -3.41, Bonferroni P = 0.0896 | larges
 Plants meeting either criterion: 0 
   [1c] Outlier and influence criteria | 77-plant model | n = 77 | Bonferroni outlier test and Cook's distance: smallest Bonferroni P = 0.0896 (SFN117); largest Cook's distance = 0.321 (OCN402); plants meeting either criterion: 0
 
-Figure 4 high point: LCF502 (genotype LC_F_5, Drought, 98.9% Fremont, EMF 11.5%, AMF 15.5%, DSE 0.0%, new stem 0.98 g, inoculum EM, soil Tam Legacy); next-largest new stem among the 77: 0.48 g
+Figure S4.1 high point: LCF502 (genotype LC_F_5, Drought, 98.9% Fremont, EMF 11.5%, AMF 15.5%, DSE 0.0%, new stem 0.98 g, inoculum EM, soil Tam Legacy); next-largest new stem among the 77: 0.48 g
 Its Cook's distance: 0.144 (rank 3 of 77)
-  [1b] Without LCF502 (Figure 4 point at 0.98 g, 11.5% EMF, drought) | 76 plants | n = 76 | EMF × drought (per SD): β = –0.316, t = –2.02, df = 52.9, P = 0.048
+  [1b] Without LCF502 (Figure S4.1 point at 0.98 g, 11.5% EMF, drought) | 76 plants | n = 76 | EMF × drought (per SD): β = –0.316, t = –2.02, df = 52.9, P = 0.048
   [1b] Without LCF502 | 76 plants | n = 76 | EMF slope, well-watered: 10.4% per 10 percentage points of EMF (95% CI –6.0 to 29.6%), t = 1.23, df = 55.4, P = 0.225
   [1b] Without LCF502 | 76 plants | n = 76 | EMF slope, drought: –12.2% per 10 percentage points of EMF (95% CI –26.9 to 5.5%), t = –1.43, df = 43.6, P = 0.161
 

@@ -1,12 +1,12 @@
 SAMPLE FLOW AND EXTRA TESTS run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | lmerTest 3.2.1 | emmeans 2.0.4 
 myco_cat levels (first = reference): None, AM, EM, Both 
 
-Reproduction checks against formatted_results_main_models_df.md:
+Reproduction checks against the values reported in the manuscript:
   CHECK survival linear ancestry (per 1%)                       got -0.01123 | reported -0.0112 | OK
   CHECK survival drought                                        got -1.205 | reported -1.205 | OK
-  CHECK biomass linear ancestry                                 got -0.00524 | reported -0.00528 | OK
+  CHECK biomass linear ancestry                                 got -0.00524 | reported -0.00524 | OK
   CHECK biomass quadratic ancestry                              got -0.0001446 | reported -0.000145 | OK
-  CHECK EMF x drought (colonization-biomass)                    got -0.4438 | reported -0.445 | OK
+  CHECK EMF x drought (colonization-biomass)                    got -0.4438 | reported -0.444 | OK
   CHECK Fremont ancestry x EMF (colonization)                   got -0.1709 | reported -0.171 | OK
   CHECK conductance linear ancestry                             got -0.008514 | reported -0.00851 | OK
   n: survival 563 | biomass 425 | colonization plants 78 | colonization-biomass 77 | conductance 203 | adaxial 203 | abaxial 200 
@@ -35,7 +35,7 @@ Survival (binomial GLMM): reported n = 563 | refit n = 563 | pool = all cuttings
          survival status missing initial cutting diameter missing 
                                8                                3 
 
-New stem biomass (LMM): reported n = 429 | refit n = 425 | pool = all cuttings (574)
+New stem biomass (LMM): reported n = 425 | refit n = 425 | pool = all cuttings (574)
 
  died or survival status missing   survivor without new stem mass 
                              133                               15 
@@ -238,7 +238,7 @@ AJB strings:
 ==============================================================================
 SD used for the reported 'per SD' scaling (all plants with the guild scored): AMF 8.73 (n = 91 ) | EMF 13.84 (n = 166 ) | DSE 6.68 (n = 91 )
 SD of EMF among the 77 model plants: 13.12 
-  CHECK manual z-scoring reproduces EMF x drought               got -0.4438 | reported -0.445 | OK
+  CHECK manual z-scoring reproduces EMF x drought               got -0.4438 | reported -0.444 | OK
 
 reported model (n = 77): EMF × drought β = –0.444, t = –2.84, df = 57.3, P = 0.006
      model    treatment slope_log_per_10pp     SE      df   lower   upper

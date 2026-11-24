@@ -78,7 +78,7 @@ load_and_prepare_data <- function() {
       # Calculate additional physiological variables for drought adaptation analysis
       # Stomatal density: average across all measured sides and leaves
       # --- DATA CLEANING FIX ---
-      # Ensure physiological columns are numeric to prevent warnings in H3 loop
+      # Ensure physiological columns are numeric to prevent coercion warnings
       across(matches("stom_dens|por_wet"), as.numeric),
       across(matches("^l_[0-9]+$"), as.numeric),
       stomatal_density_avg = mean(c_across(matches("^l1_.*_s[12]d$")), na.rm = TRUE),

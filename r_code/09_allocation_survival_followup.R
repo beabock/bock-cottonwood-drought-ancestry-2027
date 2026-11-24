@@ -1,6 +1,6 @@
 # ==============================================================================
 # ALLOCATION, PREDICTED SURVIVAL AND FOLLOW-UP TESTS.
-# Analyses for the reframed manuscript; everything is written to results/09_allocation_survival_followup/.
+# Everything is written to results/09_allocation_survival_followup/.
 #   1. Allocation: root:new-stem core LMM in samples (a) and (b), total new biomass, and stem, leaf and root mass
 #      fractions (ordered beta GLMMs). (Section 2, Figure 1, is drawn by r_code/28_figures.R.)
 #   3. Conductance vs. EMF colonization and vs. root mass fraction (plants with both).
@@ -66,7 +66,7 @@ stopifnot(nrow(al) == 414)
 samp <- list(`(a) estimated root mass` = al, `(b) measured root mass only` = filter(al, !scored))
 
 # ------------------------------------------------------------------------------
-hdr("1. Allocation: root:new-stem ratio (core LMM) and new Figure 2")
+hdr("1. Allocation: root:new-stem ratio (core LMM) and Figure 2")
 # ------------------------------------------------------------------------------
 cat("Root:new-stem ratio = root dry mass / new stem dry mass (log scale). Sample (a): n = 414; (b): n = 242.\n")
 rs_mod <- imap(samp, ~ core_lmm("log(root_stem)", .x, "log root:new-stem ratio", .y))
@@ -209,7 +209,7 @@ for (r in runs) {
   cat(sprintf("  genotypes = %d; singular = %s; max |scaled resid| = %.2f\n", ngrps(m)["pop:geno_id"], isSingular(m), max(abs(resid(m, scaled = TRUE))))) }
 
 # ------------------------------------------------------------------------------
-hdr("7. Conductance drought effect; Figure 4 predictions")
+hdr("7. Conductance drought effect; Figure S4.1 predictions")
 # ------------------------------------------------------------------------------
 # (b) Reported whole-leaf conductance model: per_fc = Fremont ancestry - 50, so the drought coefficient is the drought
 #     effect at 50% Fremont ancestry; at other ancestry values it is drought + (ancestry - 50) x (ancestry x drought).
@@ -222,7 +222,7 @@ for (a in c(0, 50, 100)) {
   add("7", "Conductance: drought effect by ancestry", "reported whole-leaf model", nobs(pm), sprintf("Drought at %d%% Fremont ancestry", a),
       sprintf("%s; %s%% conductance under drought", tstr(est, tv, dfm, 2 * pt(-abs(tv), dfm)), pc(100 * (exp(est) - 1))), 2 * pt(-abs(tv), dfm)) }
 cat("  (df for the 0% and 100% contrasts use the Satterthwaite df of the drought coefficient; approximate.)\n")
-# (c) Figure 4 curves (r_code/28_figures.R): for each grid value of the focal guild, every one of the 77 plants keeps its
+# (c) Figure S4.1 curves (r_code/28_figures.R): for each grid value of the focal guild, every one of the 77 plants keeps its
 #     observed values of the other guilds and covariates, the model-matrix rows are averaged, and exp() is applied. The
 #     linear predictor is linear in the other guilds, so this equals holding them at their means over the 77 plants.
 zz <- fb %>% filter(!is.na(dryshoot_new), !is.na(og_drc_mm))
@@ -230,7 +230,7 @@ f4 <- log(dryshoot_new) ~ (amf_z + emf_z + dse_z) * treatment + per_fc + I(per_f
 m4 <- lmer(update(f4, . ~ . + (1 | pop) + (1 | pop:geno_id)), data = zz); stopifnot(nobs(m4) == 77)
 fe4 <- delete.response(terms(f4)); g <- 0.5; nd <- zz %>% mutate(emf_z = g, treatment = factor("Drought", levels = treatment_levels))
 avg_rows <- colMeans(model.matrix(fe4, nd)); at_means <- model.matrix(fe4, nd %>% mutate(amf_z = mean(zz$amf_z), dse_z = mean(zz$dse_z)))
-cat(sprintf("Figure 4 check (EMF panel, drought, EMF z = 0.5): averaged design rows give %.6f on the log scale; other guilds at their means give %.6f\n",
+cat(sprintf("Figure S4.1 check (EMF panel, drought, EMF z = 0.5): averaged design rows give %.6f on the log scale; other guilds at their means give %.6f\n",
             sum(avg_rows * fixef(m4)), mean(as.vector(at_means %*% fixef(m4)))))
 
 st <- bind_rows(strings)

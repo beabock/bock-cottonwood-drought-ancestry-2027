@@ -1,5 +1,6 @@
-#10/30/24
-#Merging all of EAS's datasets.
+# ==============================================================================
+# MERGE: builds the merged plant table data/edited_data/mega_ds.csv (574 cuttings) from the raw greenhouse files.
+# ==============================================================================
 
 library(ggplot2)
 library(readxl)
@@ -14,7 +15,6 @@ theme_set(theme_bw())
 
 gh_all <- read_csv("data/raw_data/gh_allinfo.csv")%>%
   rename("tree_idold" = tree_id)
-#why are some treatments missing? Did those tree_ids die?
 #ID is "tree_id"
 gh_all %>%
   group_by(tree_idold) %>%
@@ -33,7 +33,7 @@ gh_all %>%
 
 cuttingskey <- read_csv("data/raw_data/gh_cuttingskey.csv")%>%
   distinct()
-#Metadata (treat, moist, soil, myco) missing in a bunch of rows here too. Why? 100 are duplicated, too. Need to ask eas about this. removing duplicates for now....
+#Metadata (treat, moist, soil, myco) missing in a bunch of rows here too. 100 are duplicated. Duplicates are removed.
 #id is "tree_idold". There is also a tree id column though
 
 duplicates <- cuttingskey[duplicated(cuttingskey) | duplicated(cuttingskey, fromLast = TRUE), ]
@@ -87,7 +87,6 @@ test <- mega %>%
 mega <- mega %>%
   group_by(tree_idold) %>%
   summarize(across(everything(), ~ first(na.omit(.))), .groups = "drop")
-#Seemed to work. nice.
 
 poro <- read_csv("data/raw_data/gh_poromeasurements_allgroups.csv")
 
@@ -102,11 +101,10 @@ mega %>%
   filter(n() > 1)
 
 #scanning <- read_csv("data/raw_data/gh_rootscandata_final.csv")
-#ID is "tree_id". doesn't jabe treeidold. Could merge with cuttingskey to get around messing with it too much.
+#ID is "tree_id" (no tree_idold); can be linked through cuttingskey.
 #Scanning has multiple rows per plant. Winrhizo has somehow compiled those rows. Probably for plants that are too big for just one scan. Use winRhizo, not scanning.
 
 sa <- read_csv("data/raw_data/gh_sa_raw_1027.csv")
-#Looks similar to another dataset. Come back to this.
 #Has new and old tree id
 #is each column the surface area of each leaf?
 #Some plants have more than one sa row (e.g. JCN1514)
@@ -118,8 +116,7 @@ print(sa %>%
 dups <- sa %>%
   group_by(tree_idold) %>%
   filter(n() > 1)
-#6 have more than one row in sa. Why?
-#For now, removing any that have >1 row. Can come back and do something else.
+#6 plants have more than one row in sa; plants with >1 row are removed.
 sa <- sa %>%
   filter(!tree_idold %in% dups$tree_idold)
 
@@ -147,7 +144,7 @@ soil %>%
   group_by(poro_id) %>%
   filter(n() > 1)
 
-# Fix (2026-07-31): gh_stomdens.csv's own tree_idold only
+# Note: gh_stomdens.csv's own tree_idold only
 # covers 33 of the ~228 measured poro_ids -- it was never the right link.
 # gh_allinfo.csv already gives mega its own poro_id column (joined further
 # below), which covers ~225 of them. Drop gh_stomdens's tree_idold so it
@@ -172,7 +169,6 @@ stom %>%
 stom <- stom %>% rename(stomdens_notes = notes, soil_chem_treat = treat)
 
 new_xtype <- read_csv("data/raw_data/new_xtype.csv")
-#Good to know.
 #Would link to other datasets by the old class data, which is the source tree. not tree id.
 
 mega <- full_join(new_xtype, mega)
@@ -185,20 +181,20 @@ mega %>%
   group_by(tree_idold) %>%
   filter(n() > 1)
 
-# meta <- read_xlsx("data/raw_data/metadata_ghcottieproject_summer2021.xlsx") #Need to go through the sheets on this one manually
+# meta <- read_xlsx("data/raw_data/metadata_ghcottieproject_summer2021.xlsx")
 
 winrhizo <- read_csv("data/edited_data/winrhizaodata_final.csv")
 #Has tree id (new)
 
 mega <- full_join(mega, winrhizo)
 
-#Step 1: Combine all datasets. Need to add in fung scoring data when I get that from EAS
+#Step 1: Combine all datasets.
 
 mega %>%
   group_by(tree_idold) %>%
   filter(n() > 1)
 
-# Fix (2026-07-31): join the porometer/stomatal-density data
+# Note: join the porometer/stomatal-density data
 # onto mega via poro_id (which mega already carries from gh_allinfo.csv)
 # instead of the old implicit full_join(), which required tree_idold AND
 # poro_id AND notes AND treat to all match simultaneously and dropped
@@ -231,7 +227,7 @@ mega <- mega %>%
   group_by(tree_idold) %>%
   summarize(across(everything(), ~ first(na.omit(.))), .groups = "drop")
 
-#Check if old_id matches any new_ids. I think it does for a couple...
+#Check whether any old_id matches a new_id.
 
 mega <- mega %>%
   mutate(tree_idold_modified = gsub("(^[A-Za-z]{3})0", "\\1", tree_idold))
@@ -249,7 +245,6 @@ mega %>%
   summarize(n=n())
 
 
-#Why is treat NA for 257 observations? Check earlier in code.
 
 mega <- mega %>%
   select(where(~ !all(is.na(.))))%>%
@@ -311,7 +306,6 @@ em_adj <- em %>%
 em_adj %>%
   mutate(row_sum = rowSums(select(., -1))) %>%
   filter(row_sum < 99 | row_sum > 101)
-#Nice, fixed it.
 
 dups <- em_adj %>%
   group_by(tree_idold) %>%
@@ -345,7 +339,6 @@ am_adj <- am %>%
 am_adj %>%
   mutate(row_sum = rowSums(select(., -1))) %>%
   filter(row_sum < 99 | row_sum > 101)
-#Nice, fixed it.
 
 dups <- am_adj %>%
   group_by(tree_idold) %>%
@@ -382,7 +375,7 @@ mega %>%
 test <- mega %>%
   filter(is.na(new_class))%>%
   select_if(~ any(!is.na(.)))
-#Seems like these 12 have myco data but no other data. Weird. Not sure how to match these.
+#12 plants have colonization data but no other data and cannot be matched.
 
 mega %>%
   group_by(tree_idold)%>%
@@ -426,7 +419,7 @@ mega <- mega %>%
 mega <- mega %>%
   rowwise() %>%
   mutate(
-    # FIX (2026-07-31): inside rowwise(), l1_b_s1d/l1_b_s2d are already
+    # Note: inside rowwise(), l1_b_s1d/l1_b_s2d are already
     # scalars, so mean(x, y, na.rm=TRUE) was silently passing y as mean()'s
     # `trim` argument instead of averaging the two sub-samples -- it
     # returned x (s1d) only, every time, for both sides and for the

@@ -1,5 +1,5 @@
 # ==============================================================================
-# CONDUCTANCE BY LEAF SURFACE, AND SURVIVAL GROUPING: Appendix S5 (aggregated-survival grouping sensitivity table) and
+# CONDUCTANCE BY LEAF SURFACE, AND SURVIVAL GROUPING: aggregated-survival grouping sensitivity (not reported in the manuscript) and
 # surface-specific stomatal conductance (adaxial = top, abaxial = bottom; the
 # stomatal density data use the same convention).
 # ==============================================================================
@@ -23,7 +23,7 @@ num <- function(x, d = 3) dash(formatC(x, digits = d, format = "fg", flag = "#")
 dec <- function(x, k = 2) dash(sprintf(paste0("%.", k, "f"), x))
 dff <- function(df) if (abs(df - round(df)) < 0.05) sprintf("%d", round(df)) else sprintf("%.1f", df)
 P <- function(p) if (is.na(p)) "NA" else if (p < 0.001) "P < 0.001" else sprintf("P = %.3f", p)
-tdf <- function(t, df, p) sprintf("t = %s, df = %s, %s", dec(t), dff(df), P(p))     # format requested for the new strings
+tdf <- function(t, df, p) sprintf("t = %s, df = %s, %s", dec(t), dff(df), P(p))
 
 # ------------------------------------------------------------------------------
 # 1. APPENDIX S5: aggregated survival, grouping sensitivity

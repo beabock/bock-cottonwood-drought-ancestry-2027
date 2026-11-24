@@ -1,5 +1,5 @@
 # ==============================================================================
-# Appendix S6 (was S8): biomass allocation and leaf drop; source table for the publication table.
+# Appendix S7: biomass allocation and leaf drop; source table for the publication table.
 #   Primary column  = sample (a): estimated dry root mass for colonization-scored plants (n = 414)
 #   Comparison      = sample (b): colonization-scored plants excluded, measured root mass only (n = 242)
 # Allocation strings are read from results/06_allocation_models/allocation_strings.csv (run
@@ -7,7 +7,7 @@
 # its comparison column refits it on the unscored plants so both columns follow the same split.
 # ==============================================================================
 # Run from the project root (R 4.6.1):  Rscript r_code/07_allocation_appendix_S7.R
-# Writes: results/07_allocation_appendix_S7/appendix_S7_source.csv (formatted into Appendix S6 by r_code/30_appendix_tables.R)
+# Writes: results/07_allocation_appendix_S7/appendix_S7_source.csv (formatted into Appendix S7 by r_code/30_appendix_tables.R)
 # ==============================================================================
 source("r_code/helpers/utilities_data_prep.R")
 library(lme4); library(lmerTest); library(tidyverse)
@@ -65,13 +65,13 @@ rs_rows <- map_dfr(c(a = "a", b = "b"), function(s) {
          est = c(NA, cr[names(k), "Estimate"]), p = c(pl, cr[names(k), "Pr(>|t|)"])) })
 cat("Root:new-stem ratio: n =", paste(unique(rs_rows$n), collapse = " / "), "\n")
 
-s8 <- bind_rows(alloc %>% select(response, sample, n, method, term, string, est, p), rs_rows, leaf_a, leaf_b) %>%
+s7 <- bind_rows(alloc %>% select(response, sample, n, method, term, string, est, p), rs_rows, leaf_a, leaf_b) %>%
   mutate(term = sub("^LRT ancestry × drought$", paste("Ancestry", TIMES, "drought (LRT, 2 df)"), term)) %>%
   pivot_wider(names_from = sample, values_from = c(n, string, est, p)) %>%
   mutate(response = factor(response, levels = c(unname(resp), "log root:new-stem ratio", "P(no leaves at harvest)")),
          term = factor(term, levels = c(paste("Ancestry", TIMES, "drought (LRT, 2 df)"), "Linear ancestry", "Quadratic ancestry", "Drought"))) %>%
   arrange(response, term) %>% mutate(across(c(response, term), as.character),
   conclusion_changes = (p_a < 0.05) != (p_b < 0.05) | (p_a < 0.05 & p_b < 0.05 & !is.na(est_a) & sign(est_a) != sign(est_b)))
-names(s8) <- sub("_a$", "_estimated_root", sub("_b$", "_measured_root_only", names(s8)))
-readr::write_excel_csv(s8, "results/07_allocation_appendix_S7/appendix_S7_source.csv")
-cat("Appendix S7 source written: results/07_allocation_appendix_S7/appendix_S7_source.csv |", sum(s8$conclusion_changes), "rows change conclusion\n")
+names(s7) <- sub("_a$", "_estimated_root", sub("_b$", "_measured_root_only", names(s7)))
+readr::write_excel_csv(s7, "results/07_allocation_appendix_S7/appendix_S7_source.csv")
+cat("Appendix S7 source written: results/07_allocation_appendix_S7/appendix_S7_source.csv |", sum(s7$conclusion_changes), "rows change conclusion\n")

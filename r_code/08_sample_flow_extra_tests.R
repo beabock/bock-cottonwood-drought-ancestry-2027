@@ -26,8 +26,8 @@ dff <- function(df) if (abs(df - round(df)) < 0.05) sprintf("%d", round(df)) els
 P <- function(p) if (p < 0.001) "P < 0.001" else sprintf("P = %.3f", p)
 tstr <- function(b, t, df, p) sprintf("%s = %s, t = %s, df = %s, %s", BETA, num(b), dec(t), dff(df), P(p))
 zstr <- function(b, z, p) sprintf("%s = %s, z = %s, %s", BETA, num(b), dec(z), P(p))
-check <- function(label, got, want, tol = 0.0005) {
-  ok <- abs(got - want) <= tol * max(1, abs(want))
+check <- function(label, got, want, sig = 3) {   # agreement at the significant figures reported in the manuscript
+  ok <- signif(got, sig) == signif(want, sig)
   cat(sprintf("  CHECK %-55s got %s | reported %s | %s\n", label, signif(got, 4), signif(want, 4), ifelse(ok, "OK", "MISMATCH")))
   invisible(ok) }
 
@@ -66,14 +66,14 @@ fit_side <- function(y) lmerTest::lmer(as.formula(paste0("log(", y, ") ~ per_fc 
                                        data = por %>% filter(!is.na(.data[[y]]), .data[[y]] > 0))
 ad <- fit_side("adaxial"); ab <- fit_side("abaxial")
 cs <- function(m) coef(summary(m))
-cat("\nReproduction checks against formatted_results_main_models_df.md:\n")
-check("survival linear ancestry (per 1%)", cs(surv_red)["pf50", "Estimate"] / 50, -0.0112, 0.01)
-check("survival drought", cs(surv_red)["treatmentDrought", "Estimate"], -1.205, 0.001)
-check("biomass linear ancestry", cs(bio_red)["per_fc", "Estimate"], -0.00528, 0.001)
-check("biomass quadratic ancestry", cs(bio_red)["I(per_fc^2)", "Estimate"], -0.000145, 0.005)
-check("EMF x drought (colonization-biomass)", cs(fb)["treatmentDrought:scale(emf)", "Estimate"], -0.445, 0.002)
-check("Fremont ancestry x EMF (colonization)", cs(col)["per_f:fungal_typeemf", "Estimate"], -0.171, 0.003)
-check("conductance linear ancestry", cs(poro)["per_fc", "Estimate"], -0.00851, 0.002)
+cat("\nReproduction checks against the values reported in the manuscript:\n")
+check("survival linear ancestry (per 1%)", cs(surv_red)["pf50", "Estimate"] / 50, -0.0112, 3)
+check("survival drought", cs(surv_red)["treatmentDrought", "Estimate"], -1.205, 4)
+check("biomass linear ancestry", cs(bio_red)["per_fc", "Estimate"], -0.00524, 3)
+check("biomass quadratic ancestry", cs(bio_red)["I(per_fc^2)", "Estimate"], -0.000145, 3)
+check("EMF x drought (colonization-biomass)", cs(fb)["treatmentDrought:scale(emf)", "Estimate"], -0.444, 3)
+check("Fremont ancestry x EMF (colonization)", cs(col)["per_f:fungal_typeemf", "Estimate"], -0.171, 3)
+check("conductance linear ancestry", cs(poro)["per_fc", "Estimate"], -0.00851, 3)
 cat("  n: survival", nobs(surv_red), "| biomass", nobs(bio_red), "| colonization plants", n_distinct(dl$tree_id),
     "| colonization-biomass", nobs(fb), "| conductance", nobs(poro), "| adaxial", nobs(ad), "| abaxial", nobs(ab), "\n")
 
@@ -113,7 +113,7 @@ add_flow <- function(model, n_rep, pool_desc, d, crit, n_model) {
 w <- add_flow("Survival (binomial GLMM)", 563, "all cuttings", ds,
               list(`survival status missing` = cc("alive"), `initial cutting diameter missing` = cc("og_drc_mm"),
                    `other covariate missing` = cc(c("per_f", "treatment", "pop", "soil", "myco_cat", "geno_id"))), nobs(surv_red))
-w <- add_flow("New stem biomass (LMM)", 429, "all cuttings", ds,
+w <- add_flow("New stem biomass (LMM)", 425, "all cuttings", ds,
               list(`died or survival status missing` = function(d) d$alive %in% 1, `survivor without new stem mass` = cc("dryshoot_new"), `initial cutting diameter missing` = cc("og_drc_mm"),
                    `other covariate missing` = cc(c("per_f", "treatment", "pop", "soil", "myco_cat", "geno_id"))), nobs(bio_red))
 harv <- ds %>% filter(alive == 1, !is.na(dryshoot_new))
@@ -209,7 +209,7 @@ ta <- ds %>% inner_join(alloc %>% select(tree_idold, total_new, alloc_scored = s
 stopifnot(nrow(ta) == 414)
 tot_a <- lmerTest::lmer(log_total_new ~ per_fc + treatment + I(per_fc^2) + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id), data = ta)
 tot_b <- update(tot_a, data = filter(ta, !alloc_scored))
-check("total new biomass (a) drought", cs(tot_a)["treatmentDrought", "Estimate"], -0.220, 0.002)
+check("total new biomass (a) drought", cs(tot_a)["treatmentDrought", "Estimate"], -0.220, 3)
 inoc_rows[["tot_a"]] <- lmm_inoc(tot_a, "Total new biomass (log), (a) estimated root mass")
 inoc_rows[["tot_b"]] <- lmm_inoc(tot_b, "Total new biomass (log), (b) measured root mass only")
 inoc <- bind_rows(inoc_rows); readr::write_excel_csv(inoc, file.path(out, "inoculum_effects.csv"))
@@ -229,7 +229,7 @@ cat("SD of EMF among the 77 model plants:", round(sd(fbd$emf[!is.na(fbd$dryshoot
 f_rep <- log(dryshoot_new) ~ amf_z * treatment + emf_z * treatment + dse_z * treatment + per_fc + I(per_fc^2) + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id)
 f_rob <- update(f_rep, . ~ . + per_fc:treatment + I(per_fc^2):treatment)
 m_rep <- lmerTest::lmer(f_rep, data = fbd); m_rob <- lmerTest::lmer(f_rob, data = fbd)
-check("manual z-scoring reproduces EMF x drought", cs(m_rep)["treatmentDrought:emf_z", "Estimate"], -0.445, 0.002)
+check("manual z-scoring reproduces EMF x drought", cs(m_rep)["treatmentDrought:emf_z", "Estimate"], -0.444, 3)
 emf_rows <- list()
 for (nm in c("reported", "with ancestry x drought")) {
   m <- if (nm == "reported") m_rep else m_rob

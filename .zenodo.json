@@ -1,0 +1,23 @@
+{
+  "title": "Data and R code for: Hybrid ancestry predicts survival, growth allocation, and ectomycorrhizal colonization of cottonwood cuttings regardless of drought",
+  "upload_type": "dataset",
+  "description": "Raw and merged greenhouse data, R scripts, statistical output, appendix tables, and figures for Bock et al., American Journal of Botany (in review). 574 cuttings of Populus fremontii, P. angustifolia, and their hybrids from 43 donor trees were grown under drought, inoculation, and soil-legacy treatments; the data include survival, biomass, root fungal colonization (AMF, EMF, DSE), and stomatal conductance. See README.md for the run order and the source of every reported statistic. Code is licensed under the MIT License (LICENSE); data, results, and figures under CC BY 4.0 (LICENSE-DATA).",
+  "creators": [
+    {"name": "Bock, Beatrice M.", "affiliation": "Northern Arizona University; Oak Ridge Institute for Science and Education", "orcid": "0000-0003-2240-9360"},
+    {"name": "Schaefer, Elena A.", "affiliation": "Northern Arizona University"},
+    {"name": "Scull, Maya", "affiliation": "Northern Arizona University"},
+    {"name": "Cooper, Hillary F.", "affiliation": "Northern Arizona University"},
+    {"name": "Keith, Arthur", "affiliation": "Northern Arizona University"},
+    {"name": "Allan, Gerard J.", "affiliation": "Northern Arizona University"},
+    {"name": "Hultine, Kevin R.", "affiliation": "Desert Botanical Garden"},
+    {"name": "Doughty, Christopher E.", "affiliation": "Northern Arizona University"},
+    {"name": "Whitham, Thomas G.", "affiliation": "Northern Arizona University"},
+    {"name": "Gehring, Catherine A.", "affiliation": "Northern Arizona University"}
+  ],
+  "license": "cc-by-4.0",
+  "keywords": ["biomass allocation", "cuttings", "dark septate endophytes", "drought", "ectomycorrhizal fungi", "hybridization", "Populus", "restoration", "Salicaceae"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/beabock/bock-cottonwood-drought-ancestry-2027", "relation": "isSupplementTo", "scheme": "url"}
+  ],
+  "grants": [{"id": "10.13039/100000001::2017877"}, {"id": "10.13039/100000001::1340856"}]
+}

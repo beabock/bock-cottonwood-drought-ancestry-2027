@@ -3,14 +3,14 @@
 # Three fits of log whole-leaf conductance with the reported fixed structure
 #   per_fc * treatment + I(per_fc^2) + og_drc_mm + soil + myco_cat, random (1 | pop) + (1 | pop:geno_id):
 #   reported     plant means, 203 plants (r_code/02b_main_models_followup.R)
-#   reading      log of each plant-day mean, + phase (wet/dry) + day pair, + (1 | plant) (as in an earlier conductance script not included here)
+#   reading      log of each plant-day mean, + phase (wet/dry) + day pair, + (1 | plant)
 #   pair_17_22   plant means, plants measured on 17/22 Sep, the only day pair with both watering treatments
 # Drought contrasts (lmerTest::contest, Satterthwaite df for t and P; 95% CI = estimate ± 1.96 SE, the convention of the reported conductance CIs):
 #   averaged over ancestry = drought + mean(per_fc of the fitted plants) x (ancestry x drought), and at 0, 50 and 100% Fremont.
 # Also refits the conductance vs. EMF colonization and root mass fraction tests (r_code/09_allocation_survival_followup.R)
 # with day pair as a covariate. The ancestry x drought coefficient is reported but not interpreted.
 # Also fits the same reading-level model to each leaf surface, and a joint surface model.
-# Writes s10_*.csv, read by r_code/30_appendix_tables.R (Appendix S5 tables and text) and r_code/28_figures.R.
+# Writes results/19_conductance_models_of_record/*.csv, read by r_code/30_appendix_tables.R (Appendix S5 tables and text) and r_code/28_figures.R.
 # Run from the project root:  Rscript r_code/19_conductance_models_of_record.R
 # ==============================================================================
 suppressMessages({ source("r_code/helpers/utilities_data_prep.R"); library(tidyverse); library(lmerTest) })
@@ -25,7 +25,7 @@ P <- function(p) if (p < 0.001) "P < 0.001" else sprintf("P = %.3f", p)
 tstr <- function(b, t, df, p) sprintf("β = %s, t = %s, df = %s, %s", num(b), dec(t), dff(df), P(p))
 norm <- function(x) toupper(sub("^0+", "", as.character(x)))
 
-# ---- data (as in an earlier conductance script not included here) ----
+# ---- data ----
 ds <- load_and_prepare_data() %>% mutate(per_fc = per_f - 50, geno_id = paste(pop, type, geno, sep = "_"), key = norm(poro_id))
 rd <- read_csv("data/raw_data/gh_poromeasurements_allgroups.csv", col_types = cols(poro_id = "c"), show_col_types = FALSE) %>%
   mutate(key = norm(poro_id), date = as.Date(date, format = "%m/%d/%Y"), phase = water) %>%

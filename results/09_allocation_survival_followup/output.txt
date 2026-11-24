@@ -2,7 +2,7 @@ ALLOCATION AND SURVIVAL FOLLOW-UP run: | R version 4.6.1 (2026-06-24 ucrt) | lme
 
 
 ==============================================================================
-1. Allocation: root:new-stem ratio (core LMM) and new Figure 2
+1. Allocation: root:new-stem ratio (core LMM) and Figure 2
 ==============================================================================
 Root:new-stem ratio = root dry mass / new stem dry mass (log scale). Sample (a): n = 414; (b): n = 242.
   [1] log root:new-stem ratio | (a) estimated root mass | n = 414 | Ancestry × drought (LRT, 2 df): χ²(2) = 0.23, P = 0.890
@@ -180,12 +180,12 @@ Colonization-biomass model: inoculum category is already a fixed effect in the r
 
 
 ==============================================================================
-7. Conductance drought effect; Figure 4 predictions
+7. Conductance drought effect; Figure S4.1 predictions
 ==============================================================================
   [7] Conductance: drought effect by ancestry | reported whole-leaf model | n = 203 | Drought at 0% Fremont ancestry: β = –0.325, t = –2.54, df = 176, P = 0.012; –27.7% conductance under drought
   [7] Conductance: drought effect by ancestry | reported whole-leaf model | n = 203 | Drought at 50% Fremont ancestry: β = –0.110, t = –1.38, df = 176, P = 0.169; –10.5% conductance under drought
   [7] Conductance: drought effect by ancestry | reported whole-leaf model | n = 203 | Drought at 100% Fremont ancestry: β = 0.104, t = 0.90, df = 176, P = 0.372; 11.0% conductance under drought
   (df for the 0% and 100% contrasts use the Satterthwaite df of the drought coefficient; approximate.)
-Figure 4 check (EMF panel, drought, EMF z = 0.5): averaged design rows give -2.087247 on the log scale; other guilds at their means give -2.087247
+Figure S4.1 check (EMF panel, drought, EMF z = 0.5): averaged design rows give -2.087247 on the log scale; other guilds at their means give -2.087247
 
 Done.

@@ -4,13 +4,13 @@
 #   Fig1   A survival, B leafless at harvest, along Fremont ancestry (binomial GLMMs; points = mother-tree means)
 #   Fig2   A new stem biomass, B total new biomass, C stem, leaf and root fractions of total new biomass
 #   Fig3   AMF, EMF and DSE colonization along Fremont ancestry (colonization LMM)
-#   Fig4   new stem biomass against AMF, EMF and DSE colonization (colonization-biomass LMM)
+#   FigS4_1 new stem biomass against AMF, EMF and DSE colonization (colonization-biomass LMM)
 #   FigS2  colonization by inoculum treatment (Appendix S2)
 #   FigS3  colonization by watering treatment (Appendix S3)
 #   AppendixS5_daypair, AppendixS5_surfaces_daypair  stomatal conductance by measurement session (Figures S5.1, S5.2)
 # Models are those of record (same formulas and data as the scripts that report them; cited at each figure).
 # Lines are average-marginal predictions: the design rows of the model data are averaged at each x value.
-# Run from the project root (after steps 01-31):  Rscript r_code/28_figures.R
+# Run from the project root (after steps 01-27):  Rscript r_code/28_figures.R
 # Writes figures/<name>.pdf and .png; results/28_figures/fig2_points_at_edge.csv; results/28_figures/figure_S5_2_dropped.csv
 # ==============================================================================
 source("r_code/helpers/model_helpers.R")
@@ -138,7 +138,7 @@ fig3 <- ggplot() + pts(d3, "per_f", "colonization", position = "identity") +
 save_fig(fig3, "Fig3", W_2COL, 7.5 * CM)
 
 # ------------------------------------------------------------------------------
-# Figure 4: new stem biomass against colonization (colonization-biomass LMM of r_code/02a_main_models.R and 20_emf_drought_influence.R;
+# Figure S4.1: new stem biomass against colonization (colonization-biomass LMM of r_code/02a_main_models.R and 20_emf_drought_influence.R;
 # 77 plants). The drought plant with 0.98 g new stem mass, on which the drought slope depends, is circled.
 # ------------------------------------------------------------------------------
 m5 <- sapply(names(guilds), function(g) mean(ds[[g]], na.rm = TRUE)); s5 <- sapply(names(guilds), function(g) sd(ds[[g]], na.rm = TRUE))
@@ -156,7 +156,7 @@ p4 <- function(g, first) {
     labs(x = paste(guilds[[g]], "colonization (%)"), y = if (first) "New stem biomass (g dry mass)" else NULL) + theme_fig() }
 fig4 <- p4("amf", TRUE) + p4("emf", FALSE) + p4("dse", FALSE) + plot_layout(guides = "collect") + plot_annotation(tag_levels = "A") &
   theme(legend.position = "bottom")
-save_fig(fig4, "Fig4", W_2COL, 8 * CM)
+save_fig(fig4, "FigS4_1", W_2COL, 8 * CM)
 
 # ------------------------------------------------------------------------------
 # Figures S2 and S3: colonization by inoculum and by watering treatment (every plant scored for each guild:

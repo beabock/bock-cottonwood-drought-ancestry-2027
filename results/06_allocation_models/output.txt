@@ -1,4 +1,4 @@
-ALLOCATION (exploratory) run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | glmmTMB 1.1.15.2 
+ALLOCATION MODELS run: | R version 4.6.1 (2026-06-24 ucrt) | lme4 2.0.6 | glmmTMB 1.1.15.2 
 
 
 ==============================================================================
@@ -116,8 +116,6 @@ Sample (b) scored plants excluded: n = 242 (zero-leaf plants 65; estimated root 
 
 (b) scored plants excluded (n = 242): linear β = –0.00533, t = –4.12, df = 37.6, P < 0.001 | quadratic β = –0.000134, t = –2.04, df = 26.1, P = 0.052 | drought β = –0.208, t = –2.49, df = 221.5, P = 0.014
   diagnostics: max |scaled resid| = 3.50; 2 beyond |3|; Shapiro-Wilk P = 0.0081; singular = FALSE
-
-Reported (manuscript) reduced new stem model, all 429 plants: linear beta = -0.00528, quadratic beta = -0.000145, drought beta = -0.112 (formatted_results_main_models_df.md)
 
 
 ==============================================================================

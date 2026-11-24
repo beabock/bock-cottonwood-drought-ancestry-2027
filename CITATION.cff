@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use these data or code, please cite the article and this archive."
+title: "Data and R code for: Hybrid ancestry predicts survival, growth allocation, and ectomycorrhizal colonization of cottonwood cuttings regardless of drought"
+type: dataset
+authors:
+  - family-names: Bock
+    given-names: Beatrice M.
+    orcid: "https://orcid.org/0000-0003-2240-9360"
+  - family-names: Schaefer
+    given-names: Elena A.
+  - family-names: Scull
+    given-names: Maya
+  - family-names: Cooper
+    given-names: Hillary F.
+  - family-names: Keith
+    given-names: Arthur
+  - family-names: Allan
+    given-names: Gerard J.
+  - family-names: Hultine
+    given-names: Kevin R.
+  - family-names: Doughty
+    given-names: Christopher E.
+  - family-names: Whitham
+    given-names: Thomas G.
+  - family-names: Gehring
+    given-names: Catherine A.
+repository-code: "https://github.com/beabock/bock-cottonwood-drought-ancestry-2027"
+license:
+  - MIT
+  - CC-BY-4.0
+keywords:
+  - biomass allocation
+  - cuttings
+  - drought
+  - ectomycorrhizal fungi
+  - hybridization
+  - Populus
+  - restoration

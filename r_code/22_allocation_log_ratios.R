@@ -38,8 +38,8 @@ for (s in names(samp)) {
 lr <- bind_rows(lr); readr::write_excel_csv(lr, file.path(OUT, "log_ratios.csv"))
 old <- read_csv("results/14_allocation_fraction_checks/alr_models.csv", show_col_types = FALSE)
 chk <- lr %>% filter(response != "log(leaf:root)") %>% mutate(response = ifelse(response == "log(root:new stem)", "alr_root", "alr_leaf")) %>%
-  inner_join(old %>% select(sample, response, term, string_v55 = string), by = c("sample", "response", "term"))
-cat("Check against alr_models.csv: ", sum(chk$string == chk$string_v55), "of", nrow(chk), "strings identical\n"); stopifnot(all(chk$string == chk$string_v55))
+  inner_join(old %>% select(sample, response, term, string_prev = string), by = c("sample", "response", "term"))
+cat("Check against alr_models.csv: ", sum(chk$string == chk$string_prev), "of", nrow(chk), "strings identical\n"); stopifnot(all(chk$string == chk$string_prev))
 
 hdr("4b. Predicted dry mass (g) at 0% and 100% Fremont ancestry")
 marg <- function(m, d, g, trt) { b <- fixef(m); nd <- d; nd$pf50 <- (g - 50) / 50; nd$treatment <- factor(trt, levels = levels(ds$treatment))

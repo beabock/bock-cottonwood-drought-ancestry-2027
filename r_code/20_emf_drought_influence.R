@@ -1,6 +1,6 @@
 # ==============================================================================
 # The EMF x drought association with new stem biomass (Q4).
-# Reported model (r_code/08_sample_flow_extra_tests.R; r_code/09_allocation_survival_followup.R; Figure 4):
+# Reported model (r_code/08_sample_flow_extra_tests.R; r_code/09_allocation_survival_followup.R; Figure S4.1):
 #   log(dryshoot_new) ~ amf_z * treatment + emf_z * treatment + dse_z * treatment + per_fc + I(per_fc^2)
 #                       + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id),   n = 77
 #   z = (x - mean) / SD over all plants with that guild scored (EMF SD 13.84 over 166 plants), as scale() in the reported fit.
@@ -87,15 +87,15 @@ rec(1, "c", "Outlier and influence criteria", "77-plant model", n, "Bonferroni o
             formatC(ot$outlier_P_bonferroni[1], format = "g", digits = 3), ot$tree_idold[1], num(max(loo$cook)), loo$tree_idold[1], n_flag),
     min(ot$outlier_P_bonferroni), src)
 
-# the Figure 4 plant at about 0.98 g new stem and 12% EMF
+# the Figure S4.1 plant at about 0.98 g new stem and 12% EMF
 hi <- zz %>% filter(abs(dryshoot_new - 0.98) < 0.005, abs(emf - 12) < 1)
 stopifnot(nrow(hi) == 1)
-cat(sprintf("\nFigure 4 high point: %s (genotype %s, %s, %.1f%% Fremont, EMF %.1f%%, AMF %.1f%%, DSE %.1f%%, new stem %.2f g, inoculum %s, soil %s); next-largest new stem among the 77: %.2f g\n",
+cat(sprintf("\nFigure S4.1 high point: %s (genotype %s, %s, %.1f%% Fremont, EMF %.1f%%, AMF %.1f%%, DSE %.1f%%, new stem %.2f g, inoculum %s, soil %s); next-largest new stem among the 77: %.2f g\n",
             hi$tree_idold, hi$geno_id, hi$treatment, hi$per_f, hi$emf, hi$amf, hi$dse, hi$dryshoot_new, hi$myco_cat, hi$soil, sort(zz$dryshoot_new, decreasing = TRUE)[2]))
 lh <- loo %>% filter(tree_idold == hi$tree_idold)
 cat(sprintf("Its Cook's distance: %.3f (rank %d of 77)\n", lh$cook, which(loo$tree_idold == hi$tree_idold)))
 mh <- lmerTest::lmer(f_rep, data = filter(zz, tree_idold != hi$tree_idold)); rh <- row_t(mh, TI); sh <- slopes(mh)
-rec(1, "b", sprintf("Without %s (Figure 4 point at %.2f g, %.1f%% EMF, drought)", hi$tree_idold, hi$dryshoot_new, hi$emf), "76 plants", nobs(mh), "EMF × drought (per SD)", rh$s, rh$p, src)
+rec(1, "b", sprintf("Without %s (Figure S4.1 point at %.2f g, %.1f%% EMF, drought)", hi$tree_idold, hi$dryshoot_new, hi$emf), "76 plants", nobs(mh), "EMF × drought (per SD)", rh$s, rh$p, src)
 rec(1, "b", sprintf("Without %s", hi$tree_idold), "76 plants", nobs(mh), "EMF slope, well-watered", paste0(pct_ci(sh$ww), ", t = ", dec(sh$ww$t), ", df = ", dff(sh$ww$df), ", ", P(sh$ww$p)), sh$ww$p, src)
 rec(1, "b", sprintf("Without %s", hi$tree_idold), "76 plants", nobs(mh), "EMF slope, drought", paste0(pct_ci(sh$dr), ", t = ", dec(sh$dr$t), ", df = ", dff(sh$dr$df), ", ", P(sh$dr$p)), sh$dr$p, src)
 

@@ -6,8 +6,7 @@
 # ==============================================================================
 # Run from the project root:  Rscript r_code/02c_main_models_df.R   (about 8 min)
 # Writes: results/02_main_models/formatted_results_main_models_df.md, results/02_main_models/main_models_df_output.txt
-# Note: sourcing 02a and 02b rewrites their results/ outputs; they are
-# deterministic, so only the "run:" timestamp lines change.
+# Note: sourcing 02a and 02b rewrites their results/ outputs (deterministic: a rerun gives identical files).
 # ==============================================================================
 
 source("r_code/02b_main_models_followup.R")
@@ -34,9 +33,8 @@ glz <- function(tab, term, d = 3) sprintf("%s = %s, %s, %s", BETA, num(tab[term,
 resid_df <- function(dat, rhs) nrow(dat) - ncol(model.matrix(as.formula(paste("~", rhs)), droplevels(dat)))
 
 rows <- list()
-add <- function(section, loc, stat, string, ms_p = NA, p = NA, note = "") {
-  flag <- if (!is.na(ms_p) && !is.na(p) && ((ms_p < 0.05) != (p < 0.05))) paste0("**SIGNIFICANCE CHANGED** (manuscript P ", ifelse(ms_p < 0.001, "< 0.001", ms_p), " → ", P(p), ")") else ""
-  rows[[length(rows) + 1]] <<- data.frame(section = section, location = loc, statistic = stat, string = string, flag = flag, note = note)
+add <- function(section, stat, string, p = NA, note = "") {
+  rows[[length(rows) + 1]] <<- data.frame(section = section, statistic = stat, string = string, note = note)
 }
 pcol <- function(m, term) coef(summary(m))[term, "Pr(>|t|)"]
 
@@ -44,105 +42,100 @@ pcol <- function(m, term) coef(summary(m))[term, "Pr(>|t|)"]
 # 1. Strings with df
 # ------------------------------------------------------------------------------
 S1 <- "Results: Biomass and Survival Vary with Host Ancestry"
-add(S1, "P1 / Fig 1 caption", "Survival ancestry x drought (full model)",
-    sprintf("linear and quadratic ancestry %s drought terms, %s and %s (joint LRT %s, %s)", TIMES,
+add(S1, "Survival ancestry x drought (full model)", sprintf("linear and quadratic ancestry %s drought terms, %s and %s (joint LRT %s, %s)", TIMES,
             P(ssf["per_fc:treatmentDrought", "Pr(>|z|)"]), P(ssf["treatmentDrought:I(per_fc^2)", "Pr(>|z|)"]),
-            chistr(surv_lrt$Chisq[2], surv_lrt$Df[2]), P(surv_lrt$`Pr(>Chisq)`[2])), 0.89, ssf["per_fc:treatmentDrought", "Pr(>|z|)"], "GLMM: Wald z tests have no df")
-add(S1, "P1 / Fig 2 caption", "Biomass LRT ancestry x drought",
-    sprintf("LRT for ancestry %s drought treatment, %s, %s", TIMES, chistr(bio_lrt4$Chisq[2], bio_lrt4$Df[2]), P(bio_lrt4$`Pr(>Chisq)`[2])), 0.58, bio_lrt4$`Pr(>Chisq)`[2])
-add(S1, "P1 / Fig 1 caption", "Survival linear ancestry (reduced)", glz(ssr, "per_fc"), 0.028, ssr["per_fc", "Pr(>|z|)"])
-add(S1, "P1", "Survival quadratic ancestry (reduced)", glz(ssr, "I(per_fc^2)", 2), 0.40, ssr["I(per_fc^2)", "Pr(>|z|)"])
-add(S1, "P1 / Fig 1 caption", "Survival drought (reduced)", glz(ssr, "treatmentDrought", 4), 0.0005, ssr["treatmentDrought", "Pr(>|z|)"])
-add(S1, "P1 / Fig 2 caption", "Biomass linear ancestry (reduced)", lmt(bio_red4, "per_fc"), 0.0005, pcol(bio_red4, "per_fc"))
-add(S1, "P1 / Fig 2 caption", "Biomass quadratic ancestry (reduced)", lmt(bio_red4, "I(per_fc^2)"), 0.0005, pcol(bio_red4, "I(per_fc^2)"), "still significant, but no longer P < 0.001")
-add(S1, "P1 / Fig 2 caption", "Biomass drought (reduced)", lmt(bio_red4, "treatmentDrought"), 0.045, pcol(bio_red4, "treatmentDrought"))
+            chistr(surv_lrt$Chisq[2], surv_lrt$Df[2]), P(surv_lrt$`Pr(>Chisq)`[2])), ssf["per_fc:treatmentDrought", "Pr(>|z|)"], "GLMM: Wald z tests have no df")
+add(S1, "Biomass LRT ancestry x drought", sprintf("LRT for ancestry %s drought treatment, %s, %s", TIMES, chistr(bio_lrt4$Chisq[2], bio_lrt4$Df[2]), P(bio_lrt4$`Pr(>Chisq)`[2])), bio_lrt4$`Pr(>Chisq)`[2])
+add(S1, "Survival linear ancestry (reduced)", glz(ssr, "per_fc"), ssr["per_fc", "Pr(>|z|)"])
+add(S1, "Survival quadratic ancestry (reduced)", glz(ssr, "I(per_fc^2)", 2), ssr["I(per_fc^2)", "Pr(>|z|)"])
+add(S1, "Survival drought (reduced)", glz(ssr, "treatmentDrought", 4), ssr["treatmentDrought", "Pr(>|z|)"])
+add(S1, "Biomass linear ancestry (reduced)", lmt(bio_red4, "per_fc"), pcol(bio_red4, "per_fc"))
+add(S1, "Biomass quadratic ancestry (reduced)", lmt(bio_red4, "I(per_fc^2)"), pcol(bio_red4, "I(per_fc^2)"))
+add(S1, "Biomass drought (reduced)", lmt(bio_red4, "treatmentDrought"), pcol(bio_red4, "treatmentDrought"))
 
 S2 <- "Results: Host Ancestry, Not Drought, Structures Fungal Colonization (PERMANOVA)"
 rdf_foc <- resid_df(foc, "new_class + pop + treatment + soil"); rdf_all <- resid_df(d78, "per_f + pop + treatment + soil")
 G <- function(eng, t) eng[eng$term == t, ]
 gstr <- function(eng, t, rdf) sprintf("%s = %s%%, %s, %s", R2, dec(100 * G(eng, t)$R2, 1), Fstr(G(eng, t)$F, G(eng, t)$df, rdf), P(G(eng, t)$p_genotype_level))
-add(S2, "P2", sprintf("(G) Cross type, whole-genotype permutations (%d genotypes, %d trees)", n_distinct(foc$geno_id), nrow(foc)), gstr(eng_foc, "new_class", rdf_foc), 0.003, G(eng_foc, "new_class")$p_genotype_level, "marginal tests; population, drought and soil in the same model")
-add(S2, "P2", "(G) Population (same model)", gstr(eng_foc, "pop", rdf_foc), 0.352, G(eng_foc, "pop")$p_genotype_level)
-add(S2, "P2 / Supp Fig 3", "(G) Drought, permuted within genotype", gstr(eng_foc, "treatment", rdf_foc), 0.79, G(eng_foc, "treatment")$p_genotype_level)
-add(S2, "P2", "(G) Soil legacy, permuted within genotype", gstr(eng_foc, "soil", rdf_foc), 0.27, G(eng_foc, "soil")$p_genotype_level)
-add(S2, "P2", "(G) Continuous ancestry (37 genotypes, 78 trees)", gstr(eng_all, "per_f", rdf_all), 0.001, G(eng_all, "per_f")$p_genotype_level)
-add(S2, "P2", "(G) Continuous version: population / drought", sprintf("population: %s; drought: %s", gstr(eng_all, "pop", rdf_all), gstr(eng_all, "treatment", rdf_all)), NA, NA)
-add(S2, "P2", "(G) Continuous version: soil legacy", gstr(eng_all, "soil", rdf_all), 0.27, G(eng_all, "soil")$p_genotype_level,
-    "NOT ROBUST (P varies across specifications; results/11_soil_legacy_permanova/output.txt, results/16_soil_legacy_specifications/soil_specifications.csv); treat as exploratory")
+add(S2, sprintf("(G) Cross type, whole-genotype permutations (%d genotypes, %d trees)", n_distinct(foc$geno_id), nrow(foc)), gstr(eng_foc, "new_class", rdf_foc), G(eng_foc, "new_class")$p_genotype_level, "marginal tests; population, drought and soil in the same model")
+add(S2, "(G) Population (same model)", gstr(eng_foc, "pop", rdf_foc), G(eng_foc, "pop")$p_genotype_level)
+add(S2, "(G) Drought, permuted within genotype", gstr(eng_foc, "treatment", rdf_foc), G(eng_foc, "treatment")$p_genotype_level)
+add(S2, "(G) Soil legacy, permuted within genotype", gstr(eng_foc, "soil", rdf_foc), G(eng_foc, "soil")$p_genotype_level)
+add(S2, "(G) Continuous ancestry (37 genotypes, 78 trees)", gstr(eng_all, "per_f", rdf_all), G(eng_all, "per_f")$p_genotype_level)
+add(S2, "(G) Continuous version: population / drought", sprintf("population: %s; drought: %s", gstr(eng_all, "pop", rdf_all), gstr(eng_all, "treatment", rdf_all)))
+add(S2, "(G) Continuous version: soil legacy", gstr(eng_all, "soil", rdf_all), G(eng_all, "soil")$p_genotype_level, "NOT ROBUST (P varies across specifications; results/11_soil_legacy_permanova/output.txt, results/16_soil_legacy_specifications/soil_specifications.csv); treat as exploratory")
 TA <- as.data.frame(permA); TB <- as.data.frame(permB)
 tl <- function(T, t) sprintf("%s = %s%%, %s, %s", R2, dec(100 * T[t, "R2"], 1), Fstr(T[t, "F"], T[t, "Df"], T["Residual", "Df"]), P(T[t, "Pr(>F)"]))
-add(S2, "P2", "(T) Cross type, tree-level (sequential; strata = inoculum)", tl(TA, "new_class"), 0.003, TA["new_class", "Pr(>F)"])
-add(S2, "P2", "(T) Population / drought / soil, tree-level", sprintf("population: %s; drought: %s; soil: %s", tl(TA, "pop"), tl(TA, "treatment"), tl(TA, "soil")), 0.79, TA["treatment", "Pr(>F)"])
-add(S2, "P2", "(T) Continuous ancestry, tree-level", tl(TB, "per_f"), 0.001, TB["per_f", "Pr(>F)"])
+add(S2, "(T) Cross type, tree-level (sequential; strata = inoculum)", tl(TA, "new_class"), TA["new_class", "Pr(>F)"])
+add(S2, "(T) Population / drought / soil, tree-level", sprintf("population: %s; drought: %s; soil: %s", tl(TA, "pop"), tl(TA, "treatment"), tl(TA, "soil")), TA["treatment", "Pr(>F)"])
+add(S2, "(T) Continuous ancestry, tree-level", tl(TB, "per_f"), TB["per_f", "Pr(>F)"])
 gmt <- function(res, t) sprintf("%s = %s%%, %s, %s", R2, dec(100 * res$seq[t, "R2"], 1), Fstr(res$seq[t, "F"], res$seq[t, "Df"], res$seq["Residual", "Df"]), P(res$seq[t, "Pr(>F)"]))
-add(S2, "P2 (alternative)", sprintf("(M) Genotype means, cross type only (%d genotypes)", nrow(gmf)), gmt(gb_cls1, "new_class"), 0.003, gb_cls1$seq["new_class", "Pr(>F)"])
-add(S2, "P2 (alternative)", "(M) Genotype means, cross type + population", sprintf("cross type: %s; population: %s", gmt(gb_cls2, "new_class"), gmt(gb_cls2, "pop")), 0.003, gb_cls2$seq["new_class", "Pr(>F)"])
-add(S2, "P2 (alternative)", "(M) Genotype means, continuous ancestry (37 genotypes)", gmt(gb_pf1, "per_f"), 0.001, gb_pf1$seq["per_f", "Pr(>F)"])
+add(S2, sprintf("(M) Genotype means, cross type only (%d genotypes)", nrow(gmf)), gmt(gb_cls1, "new_class"), gb_cls1$seq["new_class", "Pr(>F)"])
+add(S2, "(M) Genotype means, cross type + population", sprintf("cross type: %s; population: %s", gmt(gb_cls2, "new_class"), gmt(gb_cls2, "pop")), gb_cls2$seq["new_class", "Pr(>F)"])
+add(S2, "(M) Genotype means, continuous ancestry (37 genotypes)", gmt(gb_pf1, "per_f"), gb_pf1$seq["per_f", "Pr(>F)"])
 pw_str <- function(pwt, counts) {
   sp <- strsplit(as.character(pwt$pairs), " vs "); out <- character(nrow(pwt))
   for (i in seq_len(nrow(pwt))) out[i] <- sprintf("%s vs. %s: %s, %s", sp[[i]][1], sp[[i]][2],
       Fstr(pwt$F.Model[i], pwt$Df[i], counts[sp[[i]][1]] + counts[sp[[i]][2]] - 2), P(pwt$p.adjusted[i]))
   paste(out, collapse = "; ") }
-add(S2, "P3 pairwise", "(M) Pairwise on genotype means (Bonferroni)", pw_str(gm_pw, table(as.character(gmf$new_class))), 0.051, gm_pw$p.adjusted[2])
-add(S2, "P3 pairwise", "(T) Pairwise on trees (Bonferroni)", pw_str(pw, table(as.character(foc$new_class))), 0.051, pw$p.adjusted[2])
+add(S2, "(M) Pairwise on genotype means (Bonferroni)", pw_str(gm_pw, table(as.character(gmf$new_class))), gm_pw$p.adjusted[2])
+add(S2, "(T) Pairwise on trees (Bonferroni)", pw_str(pw, table(as.character(foc$new_class))), pw$p.adjusted[2])
 ct <- coef(summary(col4)); nl <- summary(col4n)$tTable
-add(S2, "P3 / Fig 3 caption", "EMF x ancestry (lmer)", sprintf("Fremont ancestry %s EMF interaction, %s, %s", TIMES, tstr(ct["per_f:fungal_typeemf", "t value"], ct["per_f:fungal_typeemf", "df"]), P(ct["per_f:fungal_typeemf", "Pr(>|t|)"])), 0.0005, ct["per_f:fungal_typeemf", "Pr(>|t|)"])
-add(S2, "P3 / Methods", "EMF x ancestry (nlme sensitivity)", sprintf("%s, %s", tstr(nl["per_f:fungal_typeemf", "t-value"], nl["per_f:fungal_typeemf", "DF"]), P(nl["per_f:fungal_typeemf", "p-value"])), 0.0005, nl["per_f:fungal_typeemf", "p-value"],
-    "nlme reports containment df, not Satterthwaite (lmerTest does not support nlme models)")
-add(S2, "Fig 3 caption", "Ancestry slope by fungal type", sprintf("EMF slope = %s per 1%% (%s, %s); AMF = %s (%s, %s); DSE = %s (%s, %s)",
+add(S2, "EMF x ancestry (lmer)", sprintf("Fremont ancestry %s EMF interaction, %s, %s", TIMES, tstr(ct["per_f:fungal_typeemf", "t value"], ct["per_f:fungal_typeemf", "df"]), P(ct["per_f:fungal_typeemf", "Pr(>|t|)"])), ct["per_f:fungal_typeemf", "Pr(>|t|)"])
+add(S2, "EMF x ancestry (nlme sensitivity)", sprintf("%s, %s", tstr(nl["per_f:fungal_typeemf", "t-value"], nl["per_f:fungal_typeemf", "DF"]), P(nl["per_f:fungal_typeemf", "p-value"])), nl["per_f:fungal_typeemf", "p-value"], "nlme reports containment df, not Satterthwaite (lmerTest does not support nlme models)")
+add(S2, "Ancestry slope by fungal type", sprintf("EMF slope = %s per 1%% (%s, %s); AMF = %s (%s, %s); DSE = %s (%s, %s)",
     num(sl$per_f.trend[3]), tstr(sl$t.ratio[3], sl$df[3]), P(sl$p.value[3]), num(sl$per_f.trend[1]), tstr(sl$t.ratio[1], sl$df[1]), P(sl$p.value[1]),
-    num(sl$per_f.trend[2]), tstr(sl$t.ratio[2], sl$df[2]), P(sl$p.value[2])), NA, NA, "Satterthwaite df via emmeans")
+    num(sl$per_f.trend[2]), tstr(sl$t.ratio[2], sl$df[2]), P(sl$p.value[2])), NA, "Satterthwaite df via emmeans")
 
 S3 <- "Results: Survival associations (aggregated groups; stats::glm)"
 gl <- coef(summary(agg_glm_stats)); gn <- coef(summary(agg_glm_naive))
-add(S3, "Survival associations / Fig 4", "AMF x drought (ancestry-controlled)", glz(gl, "scale(mean_amf):treatmentDrought"), 0.018, gl["scale(mean_amf):treatmentDrought", "Pr(>|z|)"], "GLM: Wald z tests have no df")
-add(S3, "Survival associations / Fig 4", "AMF x drought (naive)", glz(gn, "scale(mean_amf):treatmentDrought"), 0.010, gn["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations", "EMF x drought", glz(gl, "scale(mean_emf):treatmentDrought"), 0.179, gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations", "DSE x drought", glz(gl, "scale(mean_dse):treatmentDrought"), 0.325, gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Survival associations / Limitations", "Ancestry terms", sprintf("linear %s; quadratic %s", P(gl["mean_per_fc", "Pr(>|z|)"]), P(gl["I(mean_per_fc^2)", "Pr(>|z|)"])), 0.74, gl["mean_per_fc", "Pr(>|z|)"])
+add(S3, "AMF x drought (ancestry-controlled)", glz(gl, "scale(mean_amf):treatmentDrought"), gl["scale(mean_amf):treatmentDrought", "Pr(>|z|)"], "GLM: Wald z tests have no df")
+add(S3, "AMF x drought (naive)", glz(gn, "scale(mean_amf):treatmentDrought"), gn["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
+add(S3, "EMF x drought", glz(gl, "scale(mean_emf):treatmentDrought"), gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
+add(S3, "DSE x drought", glz(gl, "scale(mean_dse):treatmentDrought"), gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])
+add(S3, "Ancestry terms", sprintf("linear %s; quadratic %s", P(gl["mean_per_fc", "Pr(>|z|)"]), P(gl["I(mean_per_fc^2)", "Pr(>|z|)"])), gl["mean_per_fc", "Pr(>|z|)"])
 
 S4 <- "Results: Biomass associations (n = 77)"
-add(S4, "Biomass associations / Fig 5", "EMF x drought", lmt(fb_pf4, "treatmentDrought:scale(emf)"), 0.004, pcol(fb_pf4, "treatmentDrought:scale(emf)"))
-add(S4, "Biomass associations / Fig 5", "EMF x drought (naive)", lmt(fb_nv4, "treatmentDrought:scale(emf)"), 0.003, pcol(fb_nv4, "treatmentDrought:scale(emf)"))
-add(S4, "Biomass associations", "AMF x drought", lmt(fb_pf4, "scale(amf):treatmentDrought"), 0.617, pcol(fb_pf4, "scale(amf):treatmentDrought"))
-add(S4, "Biomass associations", "DSE x drought", lmt(fb_pf4, "treatmentDrought:scale(dse)"), 0.984, pcol(fb_pf4, "treatmentDrought:scale(dse)"))
-add(S4, "Fig 5 caption", "Without SFN117", lmt(fb_pf4_x, "treatmentDrought:scale(emf)"), NA, NA, "EMF x drought refit without the |z| > 3 tree")
+add(S4, "EMF x drought", lmt(fb_pf4, "treatmentDrought:scale(emf)"), pcol(fb_pf4, "treatmentDrought:scale(emf)"))
+add(S4, "EMF x drought (naive)", lmt(fb_nv4, "treatmentDrought:scale(emf)"), pcol(fb_nv4, "treatmentDrought:scale(emf)"))
+add(S4, "AMF x drought", lmt(fb_pf4, "scale(amf):treatmentDrought"), pcol(fb_pf4, "scale(amf):treatmentDrought"))
+add(S4, "DSE x drought", lmt(fb_pf4, "treatmentDrought:scale(dse)"), pcol(fb_pf4, "treatmentDrought:scale(dse)"))
+add(S4, "Without SFN117", lmt(fb_pf4_x, "treatmentDrought:scale(emf)"), NA, "EMF x drought refit without the |z| > 3 tree")
 
 S5 <- "Results: Stomatal conductance (log scale; n = 203)"
-add(S5, "Stomatal conductance", "Linear ancestry", lmt(poro_log, "per_fc"), 0.0005, pcol(poro_log, "per_fc"))
-add(S5, "Stomatal conductance", "Quadratic ancestry", lmt(poro_log, "I(per_fc^2)"), 0.043, pcol(poro_log, "I(per_fc^2)"))
-add(S5, "Stomatal conductance", "Drought (at 50% ancestry)", lmt(poro_log, "treatmentDrought"), 0.072, pcol(poro_log, "treatmentDrought"))
-add(S5, "Stomatal conductance", "Ancestry x drought", lmt(poro_log, "per_fc:treatmentDrought"), 0.073, pcol(poro_log, "per_fc:treatmentDrought"))
+add(S5, "Linear ancestry", lmt(poro_log, "per_fc"), pcol(poro_log, "per_fc"))
+add(S5, "Quadratic ancestry", lmt(poro_log, "I(per_fc^2)"), pcol(poro_log, "I(per_fc^2)"))
+add(S5, "Drought (at 50% ancestry)", lmt(poro_log, "treatmentDrought"), pcol(poro_log, "treatmentDrought"))
+add(S5, "Ancestry x drought", lmt(poro_log, "per_fc:treatmentDrought"), pcol(poro_log, "per_fc:treatmentDrought"))
 inoc <- coef(summary(poro_log))[grep("myco_cat", rownames(coef(summary(poro_log)))), ]
-add(S5, "Stomatal conductance", "Inoculation category", sprintf("all P > %.2f (t df %s%s%s)", floor(min(inoc[, "Pr(>|t|)"]) * 100) / 100, dff(min(inoc[, "df"])), EN, dff(max(inoc[, "df"]))), NA, NA)
-add(S5, "Stomatal conductance", "Slopes (back-transformed)", sprintf("well-watered: %s%% per 10 points (95%% CI %s%s%s%%); drought: %s%% (%s%s%s%%)",
+add(S5, "Inoculation category", sprintf("all P > %.2f (t df %s%s%s)", floor(min(inoc[, "Pr(>|t|)"]) * 100) / 100, dff(min(inoc[, "df"])), EN, dff(max(inoc[, "df"]))))
+add(S5, "Slopes (back-transformed)", sprintf("well-watered: %s%% per 10 points (95%% CI %s%s%s%%); drought: %s%% (%s%s%s%%)",
     dec(slope_tab[1, "pct_per_10"], 1), dec(slope_tab[1, "lo"], 1), " to ", dec(slope_tab[1, "hi"], 1),
-    dec(slope_tab[2, "pct_per_10"], 1), dec(slope_tab[2, "lo"], 1), " to ", dec(slope_tab[2, "hi"], 1)), NA, NA, "negative values = decline")
+    dec(slope_tab[2, "pct_per_10"], 1), dec(slope_tab[2, "lo"], 1), " to ", dec(slope_tab[2, "hi"], 1)), NA, "negative values = decline")
 
 S6 <- "Supplemental figure captions"
 fa <- as.data.frame(sf2_a)
-add(S6, "Supp Fig 2", "Inoculum / soil / interaction (mixed model, Type II, Satterthwaite)", sprintf("inoculum %s, %s; soil %s, %s; inoculum %s fungal type %s, %s",
+add(S6, "Inoculum / soil / interaction (mixed model, Type II, Satterthwaite)", sprintf("inoculum %s, %s; soil %s, %s; inoculum %s fungal type %s, %s",
     Fstr(fa["myco_cat", "F value"], fa["myco_cat", "NumDF"], fa["myco_cat", "DenDF"]), P(fa["myco_cat", "Pr(>F)"]),
     Fstr(fa["soil", "F value"], fa["soil", "NumDF"], fa["soil", "DenDF"]), P(fa["soil", "Pr(>F)"]), TIMES,
-    Fstr(fa["myco_cat:fungal_type", "F value"], fa["myco_cat:fungal_type", "NumDF"], fa["myco_cat:fungal_type", "DenDF"]), P(fa["myco_cat:fungal_type", "Pr(>F)"])), 0.03, fa["myco_cat", "Pr(>F)"])
-add(S6, "Supp Fig 3", "Drought PERMANOVA (whole-genotype permutations)", sprintf("PERMANOVA: %s, %s (tree-level %s)", Fstr(G(eng_foc, "treatment")$F, 1, rdf_foc), P(G(eng_foc, "treatment")$p_genotype_level), P(TA["treatment", "Pr(>F)"])), 0.784, G(eng_foc, "treatment")$p_genotype_level)
+    Fstr(fa["myco_cat:fungal_type", "F value"], fa["myco_cat:fungal_type", "NumDF"], fa["myco_cat:fungal_type", "DenDF"]), P(fa["myco_cat:fungal_type", "Pr(>F)"])), fa["myco_cat", "Pr(>F)"])
+add(S6, "Drought PERMANOVA (whole-genotype permutations)", sprintf("PERMANOVA: %s, %s (tree-level %s)", Fstr(G(eng_foc, "treatment")$F, 1, rdf_foc), P(G(eng_foc, "treatment")$p_genotype_level), P(TA["treatment", "Pr(>F)"])), G(eng_foc, "treatment")$p_genotype_level)
 
 tab <- bind_rows(rows)
 lines <- c("# Formatted results: main models with degrees of freedom (AJB format)", "",
-           "Generated by `r_code/02c_main_models_df.R`. The manuscript is not changed.",
+           "Generated by `r_code/02c_main_models_df.R`.",
            paste0("Format: capital P; en dash (", EN, ") for minus signs; t(df), F(df1, df2) and ", CHI, "(df) written inline so subscripts can be applied in Word. ",
                   "t df are Satterthwaite (lmerTest) unless noted. z tests (binomial GLMM/GLM) have no df. ",
                   "PERMANOVA F uses the term df and the residual df of the full model."),
-           "Labels: (G) genotype-level permutation test, (T) tree-level permutation test, (M) PERMANOVA on genotype means. Rows marked **SIGNIFICANCE CHANGED** cross P = 0.05 relative to the current manuscript.", "")
+           "Labels: (G) genotype-level permutation test, (T) tree-level permutation test, (M) PERMANOVA on genotype means.", "")
 for (s in unique(tab$section)) {
-  lines <- c(lines, paste0("## ", s), "", "| Location | Statistic | Paste-ready string | Flag / note |", "|---|---|---|---|")
-  for (i in which(tab$section == s)) lines <- c(lines, sprintf("| %s | %s | %s | %s |", tab$location[i], tab$statistic[i],
-      gsub("|", "\\|", tab$string[i], fixed = TRUE), paste(c(if (nzchar(tab$flag[i])) tab$flag[i], if (nzchar(tab$note[i])) tab$note[i]), collapse = "; ")))
+  lines <- c(lines, paste0("## ", s), "", "| Statistic | String | Note |", "|---|---|---|")
+  for (i in which(tab$section == s)) lines <- c(lines, sprintf("| %s | %s | %s |", tab$statistic[i], gsub("|", "\\|", tab$string[i], fixed = TRUE), tab$note[i]))
   lines <- c(lines, "")
 }
 con <- file("results/02_main_models/formatted_results_main_models_df.md", "w", encoding = "UTF-8"); writeLines(enc2utf8(lines), con); close(con)
 hdr("1. formatted_results_main_models_df.md written")
-cat(nrow(tab), "strings;", sum(nzchar(tab$flag)), "flagged\n")
+cat(nrow(tab), "strings\n")
 
 # ------------------------------------------------------------------------------
 # 2. Aggregated survival: grouping sensitivity (stats::glm)
