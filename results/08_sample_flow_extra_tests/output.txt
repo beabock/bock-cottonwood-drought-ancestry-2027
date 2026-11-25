@@ -352,19 +352,13 @@ Genotype-mean check: colonization averaged within genotype, regressed on ancestr
 
 
 ==============================================================================
-7. Reconciling two pairs of numbers
+7. How two reported EMF ancestry numbers relate
 ==============================================================================
-7a. AMF x drought in the group-level survival GLM: -1.91 (text) vs -1.83 (Appendix S5)
-  Text (z-scored over all 38 candidate groups with an AMF mean): β = –1.93, z = –2.29, P = 0.022
-  Appendix S5 (z-scored over the 35 groups in the model):      β = –1.96, z = –2.29, P = 0.022
-  SD of group mean AMF: all candidate groups 9.102 | model groups 9.229 | ratio 0.986; coefficient ratio 0.986
-  Per 1 percentage point of mean AMF (scale-free): -0.2125 vs -0.2125 
-
-7b. Fremont ancestry x EMF: -0.171 (Appendix S6) vs EMF slope -0.124 (Figure 3 legend)
+Fremont ancestry x EMF: -0.171 (Appendix S4) vs EMF slope -0.124 (Figure 3 legend)
   Reference guild = AMF, reference treatment = well-watered. Coefficients: per_f = 0.0205; per_f:EMF = -0.1709; per_f:drought = -0.0196; per_f:EMF:drought = 0.0718
   Ancestry slopes: AMF well-watered 0.0205, drought 0.0010 | EMF well-watered -0.1504, drought -0.0981
   EMF slope averaged over watering treatments = (-0.1504 + -0.0981)/2 = -0.1243  <- Figure 3 legend (-0.124)
-  EMF minus AMF slope, well-watered = -0.1709  <- Appendix S6 'Fremont ancestry x EMF' (-0.171)
+  EMF minus AMF slope, well-watered = -0.1709  <- Appendix S4 'EMF - AMF ancestry slope, well-watered' (-0.171)
   EMF minus AMF slope averaged over treatments (emtrends contrast):
  contrast  estimate     SE  df t.ratio p.value
  amf - dse -0.00199 0.0364 209  -0.055  0.9565

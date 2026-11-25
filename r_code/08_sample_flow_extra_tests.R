@@ -292,27 +292,9 @@ for (g in c("amf", "dse", "emf")) { d <- filter(gm, fungal_type == g)
               tstr(r1[1], r1[3], df.residual(m1), r1[4]), tstr(r2["Estimate"], r2["t value"], r2["df"], r2["Pr(>|t|)"]))) }
 
 # ------------------------------------------------------------------------------
-hdr("7. Reconciling two pairs of numbers")
+hdr("7. How two reported EMF ancestry numbers relate")
 # ------------------------------------------------------------------------------
-cat("7a. AMF x drought in the group-level survival GLM: -1.91 (text) vs -1.83 (Appendix S5)\n")
-gv <- c("pop", "new_class", "treatment", "myco_cat", "soil")
-psurv <- ds %>% group_by(across(all_of(gv))) %>% summarise(n_total = n(), survival_rate = sum(alive, na.rm = TRUE) / n(), .groups = "drop") %>% filter(n_total >= 3)
-pcol <- ds %>% filter(alive == 1) %>% group_by(across(all_of(gv))) %>%
-  summarise(mean_emf = mean(emf, na.rm = TRUE), mean_amf = mean(amf, na.rm = TRUE), mean_dse = mean(dse, na.rm = TRUE),
-            mean_per_f = mean(per_f, na.rm = TRUE), mean_drc_mm = mean(og_drc_mm, na.rm = TRUE), .groups = "drop")
-sdf <- inner_join(psurv, pcol, by = gv) %>% mutate(mean_per_fc = mean_per_f - 50)
-fa <- survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment + mean_per_fc + I(mean_per_fc^2) + mean_drc_mm + soil + myco_cat
-g_text <- glm(fa, data = sdf, weights = n_total, family = binomial)
-used <- sdf[rownames(model.frame(g_text)) %>% as.integer(), ]
-g_s5 <- glm(fa, data = used, weights = n_total, family = binomial)
-rt <- coef(summary(g_text))["scale(mean_amf):treatmentDrought", ]; r5 <- coef(summary(g_s5))["scale(mean_amf):treatmentDrought", ]
-cat(sprintf("  Text (z-scored over all %d candidate groups with an AMF mean): %s\n", sum(is.finite(sdf$mean_amf)), zstr(rt[1], rt[3], rt[4])))
-cat(sprintf("  Appendix S5 (z-scored over the %d groups in the model):      %s\n", nobs(g_s5), zstr(r5[1], r5[3], r5[4])))
-cat(sprintf("  SD of group mean AMF: all candidate groups %.3f | model groups %.3f | ratio %.3f; coefficient ratio %.3f\n",
-            sd(sdf$mean_amf[is.finite(sdf$mean_amf)]), sd(used$mean_amf), sd(sdf$mean_amf[is.finite(sdf$mean_amf)]) / sd(used$mean_amf), rt[1] / r5[1]))
-cat("  Per 1 percentage point of mean AMF (scale-free):", signif(rt[1] / sd(sdf$mean_amf[is.finite(sdf$mean_amf)]), 4), "vs", signif(r5[1] / sd(used$mean_amf), 4), "\n")
-
-cat("\n7b. Fremont ancestry x EMF: -0.171 (Appendix S6) vs EMF slope -0.124 (Figure 3 legend)\n")
+cat("Fremont ancestry x EMF: -0.171 (Appendix S4) vs EMF slope -0.124 (Figure 3 legend)\n")
 b <- fixef(col)
 sl <- c(AMF_ww = b["per_f"], AMF_dr = b["per_f"] + b["per_f:treatmentDrought"],
         EMF_ww = b["per_f"] + b["per_f:fungal_typeemf"], EMF_dr = b["per_f"] + b["per_f:fungal_typeemf"] + b["per_f:treatmentDrought"] + b["per_f:fungal_typeemf:treatmentDrought"])
@@ -321,7 +303,7 @@ cat(sprintf("  Reference guild = AMF, reference treatment = well-watered. Coeffi
             b["per_f"], b["per_f:fungal_typeemf"], b["per_f:treatmentDrought"], b["per_f:fungal_typeemf:treatmentDrought"]))
 cat(sprintf("  Ancestry slopes: AMF well-watered %.4f, drought %.4f | EMF well-watered %.4f, drought %.4f\n", sl["AMF_ww"], sl["AMF_dr"], sl["EMF_ww"], sl["EMF_dr"]))
 cat(sprintf("  EMF slope averaged over watering treatments = (%.4f + %.4f)/2 = %.4f  <- Figure 3 legend (-0.124)\n", sl["EMF_ww"], sl["EMF_dr"], mean(sl[c("EMF_ww", "EMF_dr")])))
-cat(sprintf("  EMF minus AMF slope, well-watered = %.4f  <- Appendix S6 'Fremont ancestry x EMF' (-0.171)\n", sl["EMF_ww"] - sl["AMF_ww"]))
+cat(sprintf("  EMF minus AMF slope, well-watered = %.4f  <- Appendix S4 'EMF - AMF ancestry slope, well-watered' (-0.171)\n", sl["EMF_ww"] - sl["AMF_ww"]))
 ct <- summary(pairs(emtrends(col, ~ fungal_type, var = "per_f", lmer.df = "satterthwaite"), adjust = "none"))
 cat("  EMF minus AMF slope averaged over treatments (emtrends contrast):\n"); print(ct)
 cat("\nDone.\n")
