@@ -8,6 +8,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-2240-9360"
   - family-names: Schaefer
     given-names: Elena A.
+    orcid: "https://orcid.org/0000-0002-1510-9733"
   - family-names: Scull
     given-names: Maya
   - family-names: Cooper
@@ -24,6 +25,7 @@ authors:
     given-names: Thomas G.
   - family-names: Gehring
     given-names: Catherine A.
+    orcid: "https://orcid.org/0000-0002-9393-9556"
 repository-code: "https://github.com/beabock/bock-cottonwood-drought-ancestry-2027"
 license:
   - MIT
