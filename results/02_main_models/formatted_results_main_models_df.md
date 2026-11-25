@@ -40,16 +40,6 @@ Labels: (G) genotype-level permutation test, (T) tree-level permutation test, (M
 | EMF x ancestry (nlme sensitivity) | t(180) = –2.98, P = 0.003 | nlme reports containment df, not Satterthwaite (lmerTest does not support nlme models) |
 | Ancestry slope by fungal type | EMF slope = –0.124 per 1% (t(215.6) = –4.80, P < 0.001); AMF = 0.0108 (t(215.6) = 0.42, P = 0.678); DSE = 0.0127 (t(215.6) = 0.49, P = 0.623) | Satterthwaite df via emmeans |
 
-## Results: Survival associations (aggregated groups; stats::glm)
-
-| Statistic | String | Note |
-|---|---|---|
-| AMF x drought (ancestry-controlled) | β = –1.93, z = –2.29, P = 0.022 | GLM: Wald z tests have no df |
-| AMF x drought (naive) | β = –1.67, z = –2.26, P = 0.024 |  |
-| EMF x drought | β = –3.27, z = –1.99, P = 0.046 |  |
-| DSE x drought | β = –3.79, z = –1.79, P = 0.073 |  |
-| Ancestry terms | linear P = 0.966; quadratic P = 0.247 |  |
-
 ## Results: Biomass associations (n = 77)
 
 | Statistic | String | Note |
@@ -58,7 +48,6 @@ Labels: (G) genotype-level permutation test, (T) tree-level permutation test, (M
 | EMF x drought (naive) | β = –0.450, t(58.3) = –2.89, P = 0.005 |  |
 | AMF x drought | β = –0.0916, t(47) = –0.64, P = 0.526 |  |
 | DSE x drought | β = –0.0178, t(53.1) = –0.11, P = 0.914 |  |
-| Without SFN117 | β = –0.355, t(57.8) = –2.43, P = 0.018 | EMF x drought refit without the |z| > 3 tree |
 
 ## Results: Stomatal conductance (log scale; n = 203)
 

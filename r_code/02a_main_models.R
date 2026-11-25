@@ -1,7 +1,7 @@
 # ==============================================================================
-# MAIN MODELS: every manuscript model refit with mother-tree (genotype) random
-# intercepts, population in the PERMANOVA, population random intercept in the
-# aggregated survival model, and the stomatal model as described in the Methods.
+# MAIN MODELS: PERMANOVA (population as a term), colonization LMM, new stem
+# biomass, survival, colonization x biomass and the Appendix S2 colonization model,
+# each with mother-tree (genotype) random intercepts.
 # ==============================================================================
 # Run from the project root:  Rscript r_code/02a_main_models.R
 # Writes: results/02_main_models/main_models_output.txt, results/02_main_models/genotype_map.csv, results/02_main_models/convergence.csv
@@ -16,7 +16,7 @@
 stopifnot(file.exists("data/edited_data/mega_ds.csv"))
 source("r_code/helpers/utilities_data_prep.R")
 library(vegan); library(pairwiseAdonis)
-library(lme4); library(lmerTest); library(glmmTMB); library(tidyverse); library(emmeans)
+library(lme4); library(lmerTest); library(tidyverse); library(emmeans)
 
 dir.create("results", showWarnings = FALSE)
 sink("results/02_main_models/main_models_output.txt", split = TRUE)
@@ -197,86 +197,7 @@ fb_nv4 <- lmerTest::lmer(log(dryshoot_new) ~ scale(amf) * treatment + scale(emf)
                            og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id), data = ds)
 reg("colonization-biomass ancestry-controlled", fb_pf4); reg("colonization-biomass naive", fb_nv4)
 cat("--- ancestry-controlled ---\n"); print(summary(fb_pf4)); cat("\n--- naive ---\n"); print(summary(fb_nv4))
-zt <- ds %>% filter(!is.na(emf), !is.na(amf), !is.na(dse), !is.na(dryshoot_new), !is.na(og_drc_mm), !is.na(myco_cat)) %>%
-  mutate(z = as.numeric(scale(log(dryshoot_new)))) %>% arrange(desc(abs(z)))
-cat("\nTrees with |z| > 3 for log(dryshoot_new) among these", nrow(zt), ":", sum(abs(zt$z) > 3), "(max |z| =", round(max(abs(zt$z)), 2), ", tree", zt$tree_idold[1], ")\n")
 cat("Max |scaled residual|, ancestry-controlled model:", round(max(abs(resid(fb_pf4, scaled = TRUE))), 2), "\n")
-
-# ------------------------------------------------------------------------------
-# Aggregated survival with population random intercept
-# ------------------------------------------------------------------------------
-hdr("AGGREGATED SURVIVAL: weighted binomial, population random intercept")
-gv <- c("pop", "new_class", "treatment", "myco_cat", "soil")
-psurv <- ds %>% group_by(across(all_of(gv))) %>%
-  summarise(n_total = n(), survival_rate = sum(alive_01_10_2021, na.rm = TRUE) / n(), .groups = "drop") %>% filter(n_total >= 3)
-pcol <- ds %>% filter(alive_01_10_2021 == 1) %>% group_by(across(all_of(gv))) %>%
-  summarise(n_surv = n(), n_emf = sum(!is.na(emf)), n_amf = sum(!is.na(amf)), n_dse = sum(!is.na(dse)),
-            mean_emf = mean(emf, na.rm = TRUE), mean_amf = mean(amf, na.rm = TRUE), mean_dse = mean(dse, na.rm = TRUE),
-            mean_per_f = mean(per_f, na.rm = TRUE), mean_drc_mm = mean(og_drc_mm, na.rm = TRUE), .groups = "drop")
-sdf <- inner_join(psurv, pcol, by = gv) %>% mutate(mean_per_fc = mean_per_f - 50)
-use <- sdf %>% filter(is.finite(mean_emf), is.finite(mean_dse), is.finite(mean_amf))
-cat("cells >=3 trees:", nrow(psurv), "| with a survivor:", nrow(sdf), "| usable (all three fungal means):", nrow(use), "\n")
-cat("Group size (trees):\n"); print(table(use$n_total))
-cat("\nGroups whose colonization mean rests on ONE scored tree (of", nrow(use), "groups):\n")
-print(tibble(EMF = sum(use$n_emf == 1), AMF = sum(use$n_amf == 1), DSE = sum(use$n_dse == 1),
-             any_fungus_one_tree = sum(use$n_emf == 1 | use$n_amf == 1 | use$n_dse == 1),
-             all_three_one_tree = sum(use$n_emf == 1 & use$n_amf == 1 & use$n_dse == 1),
-             `AMF/DSE one tree and EMF one tree` = sum(use$n_amf == 1 & use$n_emf == 1)))
-cat("Scored trees per group: EMF median", median(use$n_emf), "(range", paste(range(use$n_emf), collapse = "-"),
-    "); AMF median", median(use$n_amf), "(range", paste(range(use$n_amf), collapse = "-"), ")\n")
-agg_pf4 <- glmer(survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment +
-                   mean_per_fc + I(mean_per_fc^2) + mean_drc_mm + soil + myco_cat + (1 | pop),
-                 data = sdf, weights = n_total, family = binomial, control = ctl)
-agg_nv4 <- glmer(survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment +
-                   mean_drc_mm + soil + myco_cat + (1 | pop), data = sdf, weights = n_total, family = binomial, control = ctl)
-reg("aggregated survival ancestry-controlled (1|pop)", agg_pf4); reg("aggregated survival naive (1|pop)", agg_nv4)
-cat("\nn groups in model:", nobs(agg_pf4), "\n")
-cat("Population random intercept: converged =", length(agg_pf4@optinfo$conv$lme4$messages) == 0 || all(grepl("singular", agg_pf4@optinfo$conv$lme4$messages)),
-    "| singular (pop variance at 0) =", isSingular(agg_pf4), "\n")
-cat("\n--- ancestry-controlled ---\n"); print(summary(agg_pf4)); cat("\n--- naive ---\n"); print(summary(agg_nv4))
-agg_glm_pf <- glmmTMB(survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment +
-                        mean_per_fc + I(mean_per_fc^2) + mean_drc_mm + soil + myco_cat, data = sdf, family = binomial(), weights = n_total)
-agg_glm_stats <- glm(formula(agg_glm_pf), data = sdf, weights = n_total, family = binomial)
-ct <- coef(summary(agg_glm_pf))$cond["scale(mean_amf):treatmentDrought", ]
-cat("\nSame AMF x drought term from three engines (identical coefficient, population variance is 0):\n")
-print(data.frame(engine = c("glmmTMB, no RE", "stats::glm, no RE", "glmer + (1|pop)"),
-                 estimate = c(ct["Estimate"], coef(agg_glm_stats)["scale(mean_amf):treatmentDrought"], fixef(agg_pf4)["scale(mean_amf):treatmentDrought"]),
-                 se = c(ct["Std. Error"], coef(summary(agg_glm_stats))["scale(mean_amf):treatmentDrought", 2], coef(summary(agg_pf4))["scale(mean_amf):treatmentDrought", 2]),
-                 p = c(ct["Pr(>|z|)"], coef(summary(agg_glm_stats))["scale(mean_amf):treatmentDrought", 4], coef(summary(agg_pf4))["scale(mean_amf):treatmentDrought", 4])), digits = 4)
-
-# ------------------------------------------------------------------------------
-# Stomatal conductance
-# ------------------------------------------------------------------------------
-hdr("STOMATAL CONDUCTANCE: model as described in the Methods + alternatives")
-re_p <- "(1 | pop) + (1 | pop:geno_id)"
-fp <- function(rhs) as.formula(paste("por_avg ~", rhs, "+ og_drc_mm + soil + myco_cat +", re_p))
-poro_M <- lmerTest::lmer(fp("per_fc * treatment + I(per_fc^2) * treatment"), data = ds)   # Methods model
-poro_A <- lmerTest::lmer(fp("per_fc * treatment + I(per_fc^2)"), data = ds)              # without the inoculum covariate
-poro_R <- lmerTest::lmer(fp("per_fc + treatment + I(per_fc^2)"), data = ds)              # additive (reduced)
-poro_L <- lmerTest::lmer(fp("per_fc * treatment"), data = ds)                            # linear ancestry x drought only
-poro_LR <- lmerTest::lmer(fp("per_fc + treatment"), data = ds)                           # linear, additive
-for (nm in c("M", "A", "R", "L", "LR")) reg(paste("stomatal", nm), get(paste0("poro_", nm)))
-cat("n =", nobs(poro_M), "\n")
-cat("\n--- M: Methods model (linear + quadratic ancestry x drought) ---\n"); print(summary(poro_M))
-cat("\n--- R: additive (no interactions) ---\n"); print(summary(poro_R))
-cat("\n--- L: linear ancestry x drought, no quadratic ---\n"); print(summary(poro_L))
-cat("\n--- Model comparison (ML refits) ---\n")
-print(anova(poro_LR, poro_L, poro_R, poro_A, poro_M, refit = TRUE))
-cat("\nScaled residual extremes: M", round(max(abs(resid(poro_M, scaled = TRUE))), 2), "| L", round(max(abs(resid(poro_L, scaled = TRUE))), 2), "\n")
-cat("\n--- Key terms: A (common quadratic, linear ancestry x drought), R (additive), L (linear, x drought) ---\n")
-for (nm in c("A", "R", "L")) {
-  cf <- coef(summary(get(paste0("poro_", nm)))); keep <- intersect(c("per_fc", "I(per_fc^2)", "treatmentDrought", "per_fc:treatmentDrought"), rownames(cf))
-  cat("Model", nm, "\n"); print(round(cf[keep, c("Estimate", "Std. Error", "t value", "Pr(>|t|)")], 5))
-}
-poro_Alog <- lmerTest::lmer(update(formula(poro_A), log(por_avg) ~ .), data = ds)
-cat("Model A on log(por_avg):\n"); print(round(coef(summary(poro_Alog))[c("per_fc", "I(per_fc^2)", "treatmentDrought", "per_fc:treatmentDrought"), c("Estimate", "t value", "Pr(>|t|)")], 5))
-cat("Slope of conductance on ancestry (per 1% Fremont) by treatment, model A (at the midpoint, per_fc = 0):\n")
-cfA <- fixef(poro_A); cat("  well-watered:", signif(cfA["per_fc"], 3), "| drought:", signif(cfA["per_fc"] + cfA["per_fc:treatmentDrought"], 3), "\n")
-poro_Mlog <- lmerTest::lmer(update(formula(poro_M), log(por_avg) ~ .), data = ds)
-poro_Llog <- lmerTest::lmer(update(formula(poro_L), log(por_avg) ~ .), data = ds)
-cat("\n--- log(por_avg) diagnostics: Methods model terms ---\n"); print(round(coef(summary(poro_Mlog))[c("per_fc", "I(per_fc^2)", "treatmentDrought", "per_fc:treatmentDrought", "treatmentDrought:I(per_fc^2)"), c("Estimate", "t value", "Pr(>|t|)")], 5))
-cat("log(por_avg), linear model terms:\n"); print(round(coef(summary(poro_Llog))[c("per_fc", "treatmentDrought", "per_fc:treatmentDrought"), c("Estimate", "t value", "Pr(>|t|)")], 5))
-cat("Distinct genotypes with porometer data:", n_distinct(ds$geno_id[!is.na(ds$por_avg)]), "\n")
 
 # ------------------------------------------------------------------------------
 # Supp Fig 2: mixed-model replacement for the long-format ANOVA
@@ -290,20 +211,6 @@ sf2 <- lmerTest::lmer(colonization ~ myco_cat * fungal_type + soil + treatment +
                         (1 | pop) + (1 | pop:geno_id) + (1 | tree_id), data = dall)
 reg("Supp Fig 2 mixed model", sf2)
 print(VarCorr(sf2)); sf2_a <- anova(sf2, type = 2); print(sf2_a)
-
-# ------------------------------------------------------------------------------
-# Allocation (exploratory; not reported in the manuscript)
-# ------------------------------------------------------------------------------
-hdr("ALLOCATION (exploratory): leaf mass fraction with genotype")
-ds <- ds %>% mutate(lmf_A = dryleaf_weight / (dryleaf_weight + dry_stem), lmf_B = ifelse(dry_stem > 0 & dryleaf_weight <= dry_stem, dryleaf_weight / dry_stem, NA))
-for (y in c("lmf_A", "lmf_B")) {
-  d <- ds %>% filter(!is.na(.data[[y]]), !is.na(og_drc_mm))
-  mf <- lmerTest::lmer(as.formula(paste(y, "~ per_fc * treatment + I(per_fc^2) * treatment + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id)")), data = d)
-  mr <- lmerTest::lmer(as.formula(paste(y, "~ per_fc + treatment + I(per_fc^2) + og_drc_mm + myco_cat + soil + (1 | pop) + (1 | pop:geno_id)")), data = d)
-  reg(paste("allocation", y, "full"), mf); l <- anova(mr, mf, refit = TRUE)
-  cat("\n---", y, "n =", nobs(mf), "| LRT ancestry x drought p =", round(l$`Pr(>Chisq)`[2], 3), "\n")
-  print(round(coef(summary(mr))[c("per_fc", "I(per_fc^2)", "treatmentDrought"), c("Estimate", "Std. Error", "t value", "Pr(>|t|)")], 5))
-}
 
 # ------------------------------------------------------------------------------
 # Convergence summary

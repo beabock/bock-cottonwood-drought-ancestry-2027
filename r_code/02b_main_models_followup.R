@@ -20,7 +20,7 @@
 #     of several inoculum levels).
 # ==============================================================================
 
-source("r_code/02a_main_models.R")      # objects: ds, permA, permA_m, permB_m, col4, bio_*, surv_*, agg_*, fb_*, poro_*, sf2_a, ...
+source("r_code/02a_main_models.R")      # objects: ds, permA, permA_m, permB_m, col4, bio_*, surv_*, fb_*, sf2_a, ...
 library(permute)
 sink("results/02_main_models/main_models_followup_output.txt", split = TRUE)
 hdr <- function(x) cat("\n\n==============================================================================\n", x,
@@ -149,26 +149,16 @@ em <- summary(emmeans(poro_log, ~ per_fc | treatment, at = list(per_fc = c(-50, 
 cat("\nPredicted gsw (back-transformed, covariates at means / equal-weighted levels):\n"); print(em)
 
 # ------------------------------------------------------------------------------
-# 4-5 helper values
+# 4. Survival LRT
 # ------------------------------------------------------------------------------
 hdr("4. Survival: LRT for the two ancestry x drought terms (glmer)")
 surv_lrt <- anova(surv_red4, surv_full4)
 print(surv_lrt)
-hdr("5. Aggregated survival with stats::glm (ancestry-controlled and naive)")
-agg_glm_naive <- glm(survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment + mean_drc_mm + soil + myco_cat,
-                     data = sdf, weights = n_total, family = binomial)
-print(summary(agg_glm_stats)); print(summary(agg_glm_naive))
-cat("\nGroups (of", nrow(use), ") whose colonization mean rests on a single scored tree: EMF", sum(use$n_emf == 1), ", AMF", sum(use$n_amf == 1),
-    ", DSE", sum(use$n_dse == 1), "\n")
-hdr("Refit without the tree with |z| > 3")
-fb_pf4_x <- lmerTest::lmer(formula(fb_pf4), data = ds %>% filter(tree_idold != zt$tree_idold[1]))
-cat("excluded tree:", zt$tree_idold[1], "(z =", round(zt$z[1], 2), "); n =", nobs(fb_pf4_x), "\n")
-print(round(coef(summary(fb_pf4_x))[c("treatmentDrought:scale(emf)", "scale(amf):treatmentDrought", "treatmentDrought:scale(dse)"), c("Estimate", "t value", "Pr(>|t|)")], 4))
 
 # ------------------------------------------------------------------------------
-# 6. Paste-ready strings
+# 5. Paste-ready strings
 # ------------------------------------------------------------------------------
-hdr("6. Writing results/02_main_models/formatted_results_main_models.md")
+hdr("5. Writing results/02_main_models/formatted_results_main_models.md")
 fp <- function(p) if (p < 0.001) "p < 0.001" else sprintf("p = %.3f", p)
 fb <- function(x, d = 3) formatC(signif(x, d), format = "fg")
 fz <- function(x) sprintf("%.2f", x)
@@ -224,31 +214,16 @@ add(S2, "EMF x ancestry (nlme sensitivity)", sprintf("t = %s, %s (nlme, unstruct
 sl <- summary(emtrends(col4, ~ fungal_type, var = "per_f", lmer.df = "satterthwaite"), infer = c(TRUE, TRUE))
 add(S2, "Ancestry slope by fungal type (lmer)", sprintf("EMF slope = %s per 1%% Fremont ancestry (%s); AMF = %s (%s); DSE = %s (%s)", fb(sl$per_f.trend[3]), fp(sl$p.value[3]), fb(sl$per_f.trend[1]), fp(sl$p.value[1]), fb(sl$per_f.trend[2]), fp(sl$p.value[2])))
 
-S3 <- "Results: Survival associations (aggregated groups; stats::glm, ancestry-controlled)"
-gl <- coef(summary(agg_glm_stats)); gn <- coef(summary(agg_glm_naive))
-gs <- function(tb, t, tc = "z") sprintf("%s = %s, z = %s, %s", BETA, fb(tb[t, "Estimate"], 3), fz(tb[t, "z value"]), fp(tb[t, "Pr(>|z|)"]))
-add(S3, "AMF x drought (ancestry-controlled)", paste0("The AMF ", TIMES, " drought interaction was significant and negative, controlling for host ancestry (linear and quadratic) among survivors in each group (", gs(gl, "scale(mean_amf):treatmentDrought"), ")"), gl["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "AMF x drought (naive)", gs(gn, "scale(mean_amf):treatmentDrought"), gn["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "EMF and DSE x drought", sprintf("EMF %s drought and DSE %s drought interactions were not significant (%s and %s, respectively)", TIMES, TIMES,
-    fp(gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"]), fp(gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])), gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "EMF x drought detail", gs(gl, "scale(mean_emf):treatmentDrought"), gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "DSE x drought detail", gs(gl, "scale(mean_dse):treatmentDrought"), gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Ancestry terms", sprintf("Percent Fremont ancestry (linear or quadratic) did not significantly predict survival in this model when fungal colonization was included (%s and %s, respectively)",
-    fp(gl["mean_per_fc", "Pr(>|z|)"]), fp(gl["I(mean_per_fc^2)", "Pr(>|z|)"])), gl["mean_per_fc", "Pr(>|z|)"])
-add(S3, "Single-tree groups", sprintf("Colonization means rested on a single scored tree in %d (EMF), %d (AMF) and %d (DSE) of %d groups", sum(use$n_emf == 1), sum(use$n_amf == 1), sum(use$n_dse == 1), nrow(use)))
-add(S3, "Model description", "weighted binomial generalized linear models (glm; a population random intercept was estimated at zero variance and dropped)")
-
 S4 <- "Results: Biomass associations (n = 77, with genotype)"
 fbs <- function(m, t) bet(m, t)
 add(S4, "EMF x drought", paste0("(LMM, n = ", nobs(fb_pf4), "; EMF ", TIMES, " drought: ", fbs(fb_pf4, "treatmentDrought:scale(emf)"), ")"), pv(fb_pf4, "treatmentDrought:scale(emf)"))
 add(S4, "EMF x drought (naive)", fbs(fb_nv4, "treatmentDrought:scale(emf)"), pv(fb_nv4, "treatmentDrought:scale(emf)"))
 add(S4, "AMF x drought", fbs(fb_pf4, "scale(amf):treatmentDrought"), pv(fb_pf4, "scale(amf):treatmentDrought"))
 add(S4, "DSE x drought", fbs(fb_pf4, "treatmentDrought:scale(dse)"), pv(fb_pf4, "treatmentDrought:scale(dse)"))
-add(S4, "Outlier statement", sprintf("One tree (%s; standardized log biomass z = %s) exceeded |z| = 3; excluding it gives EMF %s drought %s", zt$tree_idold[1], fz(zt$z[1]), TIMES, bet(fb_pf4_x, "treatmentDrought:scale(emf)")))
 
 S5 <- "Results: Stomatal conductance (log scale; Methods model without quadratic x drought)"
 nm <- function(t) bet(poro_log, t)
-add(S5, "Model", "log-transformed stomatal conductance with linear and quadratic ancestry, drought, and linear ancestry x drought, plus initial cutting diameter, soil legacy and inoculation category as covariates and population and genotype (nested in population) as random intercepts", NA, "quadratic x drought removed (LRT p = 0.96 on the raw scale)")
+add(S5, "Model", "log-transformed stomatal conductance with linear and quadratic ancestry, drought, and linear ancestry x drought, plus initial cutting diameter, soil legacy and inoculation category as covariates and population and genotype (nested in population) as random intercepts", NA, "no quadratic x drought term")
 add(S5, "n", sprintf("n = %d trees from %d genotypes", nobs(poro_log), ngrps(poro_log)["pop:geno_id"]))
 add(S5, "Linear ancestry", paste0("linear ancestry term: ", nm("per_fc")), pv(poro_log, "per_fc"), "simple effect in well-watered trees")
 add(S5, "Quadratic ancestry", paste0("quadratic ancestry term: ", nm("I(per_fc^2)")), pv(poro_log, "I(per_fc^2)"))
@@ -270,15 +245,15 @@ add(S6, "Inoculum x fungal type", sprintf("inoculum %s fungal type F(6, %.0f) = 
 add(S6, "Drought, PERMANOVA", sprintf("PERMANOVA: F = %s, %s (whole-genotype permutations; tree-level p = %.2f)", fz(Gc("treatment")$F), fp(Gc("treatment")$p_genotype_level), Tc("treatment")$`Pr(>F)`), Gc("treatment")$p_genotype_level)
 
 S7 <- "Sample sizes"
-add(S7, "n", sprintf("colonization: %d trees from %d genotypes (%d survivors scored for all three fungi); survival models n = %d; biomass n = %d; colonization-biomass n = %d; aggregated survival: %d groups; stomatal n = %d; %d genotypes overall",
-    nrow(d78), n_distinct(d78$geno_id), nrow(d78), nobs(surv_red4), nobs(bio_red4), nobs(fb_pf4), nobs(agg_glm_stats), nobs(poro_log), nrow(gmap)))
+add(S7, "n", sprintf("colonization: %d trees from %d genotypes (%d survivors scored for all three fungi); survival models n = %d; biomass n = %d; colonization-biomass n = %d; stomatal n = %d; %d genotypes overall",
+    nrow(d78), n_distinct(d78$geno_id), nrow(d78), nobs(surv_red4), nobs(bio_red4), nobs(fb_pf4), nobs(poro_log), nrow(gmap)))
 add(S7, "Genotypes per cross type (78 trees)", paste(sprintf("%s: %d %s (%d trees)", gcount$new_class, gcount$genotypes, ifelse(gcount$genotypes == 1, "genotype", "genotypes"), gcount$trees), collapse = "; "))
 
 tab <- bind_rows(rows)
 lines <- c("# Formatted results: main models", "",
            "Generated by `r_code/02b_main_models_followup.R`.",
            "Labels: (G) genotype-level permutation test, (T) tree-level permutation test, (M) PERMANOVA on genotype means. Ancestry coefficients are per 1% Fremont ancestry.",
-           "Aggregated survival strings use `stats::glm`. Mixed-model numbers use a genotype random intercept nested in population (survival: population fixed, genotype random).", "")
+           "Mixed-model numbers use a genotype random intercept nested in population (survival: population fixed, genotype random).", "")
 for (sct in unique(tab$section)) {
   lines <- c(lines, paste0("## ", sct), "", "| Statistic | String | Note |", "|---|---|---|")
   for (i in which(tab$section == sct))

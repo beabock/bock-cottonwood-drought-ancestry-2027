@@ -1,6 +1,6 @@
 # ==============================================================================
-# MAIN MODELS, DEGREES OF FREEDOM: degrees of freedom for every reported statistic (AJB format),
-# aggregated-survival grouping sensitivity, and a check of dry_shoottotal.
+# MAIN MODELS, DEGREES OF FREEDOM: degrees of freedom for every reported statistic (AJB format)
+# and a check of dry_shoottotal.
 # No model is changed: all reported models are those of 02a/02b, obtained by
 # sourcing 02b_main_models_followup.R (which sources 02a_main_models.R).
 # ==============================================================================
@@ -87,20 +87,11 @@ add(S2, "Ancestry slope by fungal type", sprintf("EMF slope = %s per 1%% (%s, %s
     num(sl$per_f.trend[3]), tstr(sl$t.ratio[3], sl$df[3]), P(sl$p.value[3]), num(sl$per_f.trend[1]), tstr(sl$t.ratio[1], sl$df[1]), P(sl$p.value[1]),
     num(sl$per_f.trend[2]), tstr(sl$t.ratio[2], sl$df[2]), P(sl$p.value[2])), NA, "Satterthwaite df via emmeans")
 
-S3 <- "Results: Survival associations (aggregated groups; stats::glm)"
-gl <- coef(summary(agg_glm_stats)); gn <- coef(summary(agg_glm_naive))
-add(S3, "AMF x drought (ancestry-controlled)", glz(gl, "scale(mean_amf):treatmentDrought"), gl["scale(mean_amf):treatmentDrought", "Pr(>|z|)"], "GLM: Wald z tests have no df")
-add(S3, "AMF x drought (naive)", glz(gn, "scale(mean_amf):treatmentDrought"), gn["scale(mean_amf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "EMF x drought", glz(gl, "scale(mean_emf):treatmentDrought"), gl["scale(mean_emf):treatmentDrought", "Pr(>|z|)"])
-add(S3, "DSE x drought", glz(gl, "scale(mean_dse):treatmentDrought"), gl["scale(mean_dse):treatmentDrought", "Pr(>|z|)"])
-add(S3, "Ancestry terms", sprintf("linear %s; quadratic %s", P(gl["mean_per_fc", "Pr(>|z|)"]), P(gl["I(mean_per_fc^2)", "Pr(>|z|)"])), gl["mean_per_fc", "Pr(>|z|)"])
-
 S4 <- "Results: Biomass associations (n = 77)"
 add(S4, "EMF x drought", lmt(fb_pf4, "treatmentDrought:scale(emf)"), pcol(fb_pf4, "treatmentDrought:scale(emf)"))
 add(S4, "EMF x drought (naive)", lmt(fb_nv4, "treatmentDrought:scale(emf)"), pcol(fb_nv4, "treatmentDrought:scale(emf)"))
 add(S4, "AMF x drought", lmt(fb_pf4, "scale(amf):treatmentDrought"), pcol(fb_pf4, "scale(amf):treatmentDrought"))
 add(S4, "DSE x drought", lmt(fb_pf4, "treatmentDrought:scale(dse)"), pcol(fb_pf4, "treatmentDrought:scale(dse)"))
-add(S4, "Without SFN117", lmt(fb_pf4_x, "treatmentDrought:scale(emf)"), NA, "EMF x drought refit without the |z| > 3 tree")
 
 S5 <- "Results: Stomatal conductance (log scale; n = 203)"
 add(S5, "Linear ancestry", lmt(poro_log, "per_fc"), pcol(poro_log, "per_fc"))
@@ -138,58 +129,9 @@ hdr("1. formatted_results_main_models_df.md written")
 cat(nrow(tab), "strings\n")
 
 # ------------------------------------------------------------------------------
-# 2. Aggregated survival: grouping sensitivity (stats::glm)
+# 2. dry_shoottotal: total aboveground or stem only?
 # ------------------------------------------------------------------------------
-hdr("2. Aggregated survival sensitivity (AMF, EMF, DSE x drought)")
-scored <- function(d) !is.na(d$amf) & !is.na(d$emf) & !is.na(d$dse)
-build <- function(gvars) {
-  cells <- ds %>% group_by(across(all_of(gvars))) %>%
-    summarise(n_total = n(), survival_rate = sum(alive_01_10_2021, na.rm = TRUE) / n(),
-              prop_tam = mean(soil == "Tam Legacy"), prop_AM = mean(myco_cat == "AM"), prop_EM = mean(myco_cat == "EM"),
-              prop_Both = mean(myco_cat == "Both"), .groups = "drop") %>% filter(n_total >= 3)
-  colz <- ds %>% filter(alive_01_10_2021 == 1) %>% mutate(sc = scored(.)) %>% group_by(across(all_of(gvars))) %>%
-    summarise(n_scored = sum(sc), mean_emf = mean(emf, na.rm = TRUE), mean_amf = mean(amf, na.rm = TRUE), mean_dse = mean(dse, na.rm = TRUE),
-              mean_per_f = mean(per_f, na.rm = TRUE), mean_drc_mm = mean(og_drc_mm, na.rm = TRUE), .groups = "drop")
-  inner_join(cells, colz, by = gvars) %>% mutate(mean_per_fc = mean_per_f - 50) %>%
-    filter(is.finite(mean_emf), is.finite(mean_amf), is.finite(mean_dse))
-}
-fit_agg <- function(d, covs, label) {
-  base <- tibble(analysis = label, n_groups = nrow(d), n_trees = sum(d$n_total), scored_median = median(d$n_scored),
-                 scored_range = if (nrow(d)) paste(range(d$n_scored), collapse = EN) else "", groups_by_treatment = paste(table(d$treatment), collapse = "/"))
-  f <- as.formula(paste("survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment + mean_per_fc + I(mean_per_fc^2) + mean_drc_mm +", covs))
-  npar <- NA
-  ok <- nrow(d) > 0 && n_distinct(d$treatment) == 2
-  if (ok) { npar <- ncol(model.matrix(f, d)); ok <- nrow(d) >= npar + 5 }
-  if (!ok) return(bind_cols(base, tibble(note = sprintf("not estimable: %d groups (model has %s parameters; both treatments needed)",
-                                                         nrow(d), ifelse(is.na(npar), "15+", npar)))))
-  m <- glm(f, data = d, weights = n_total, family = binomial); cs <- coef(summary(m))
-  mq <- glm(f, data = d, weights = n_total, family = quasibinomial); cq <- coef(summary(mq))   # SEs scaled by estimated dispersion
-  g <- function(t) sprintf("%s = %s, %s, %s", BETA, num(cs[t, "Estimate"]), zstr(cs[t, "z value"]), P(cs[t, "Pr(>|z|)"]))
-  q <- function(t) sprintf("%s, %s", tstr(cq[t, "t value"], df.residual(mq)), P(cq[t, "Pr(>|t|)"]))
-  bind_cols(base, tibble(AMF_x_drought = g("scale(mean_amf):treatmentDrought"), EMF_x_drought = g("scale(mean_emf):treatmentDrought"),
-                         DSE_x_drought = g("scale(mean_dse):treatmentDrought"),
-                         AMF_quasi = q("scale(mean_amf):treatmentDrought"), EMF_quasi = q("scale(mean_emf):treatmentDrought"),
-                         DSE_quasi = q("scale(mean_dse):treatmentDrought"), AMF_P = cs["scale(mean_amf):treatmentDrought", "Pr(>|z|)"],
-                         dispersion = round(sum(residuals(m, type = "pearson")^2) / df.residual(m), 2), n_par = length(coef(m)), note = ""))
-}
-cur <- build(c("pop", "new_class", "treatment", "myco_cat", "soil"))
-coa <- build(c("pop", "new_class", "treatment"))
-sens <- bind_rows(
-  fit_agg(cur, "soil + myco_cat", "current grouping (pop x cross type x drought x inoculum x soil), all groups"),
-  fit_agg(filter(cur, n_scored >= 2), "soil + myco_cat", "current grouping, >= 2 scored plants"),
-  fit_agg(filter(cur, n_scored >= 3), "soil + myco_cat", "current grouping, >= 3 scored plants"),
-  fit_agg(coa, "prop_tam + prop_AM + prop_EM + prop_Both", "(a) pop x cross type x drought; inoculum and soil as group proportions"),
-  fit_agg(filter(coa, n_scored >= 2), "prop_tam + prop_AM + prop_EM + prop_Both", "(a) with >= 2 scored plants"),
-  fit_agg(filter(coa, n_scored >= 3), "prop_tam + prop_AM + prop_EM + prop_Both", "(a) with >= 3 scored plants"))
-cat("'scored plants' = survivors with AMF, EMF and DSE all scored. Colonization predictors are z-scored over the groups in each model.\n",
-    "The 'current grouping, all groups' row therefore differs slightly from the reported model, which z-scored over all 83 candidate groups.\n\n", sep = "")
-print(as.data.frame(sens %>% select(-AMF_P)), right = FALSE)
-write.csv(sens, "results/02_main_models/survival_sensitivity.csv", row.names = FALSE)
-
-# ------------------------------------------------------------------------------
-# 4. dry_shoottotal: total aboveground or stem only?
-# ------------------------------------------------------------------------------
-hdr("4. dry_shoottotal (dry_stem in mega_ds.csv): total aboveground or stem only?")
+hdr("2. dry_shoottotal (dry_stem in mega_ds.csv): total aboveground or stem only?")
 raw <- read_csv("data/raw_data/gh_drybiomass_aboveground.csv", show_col_types = FALSE)
 cat("Raw columns:", paste(names(raw), collapse = ", "), "\n")
 cat("Metadata definition (metadata_ghcottieproject_summer2021.xlsx, sheet gh_drybiomass_aboveground):\n",
@@ -215,4 +157,4 @@ cat("Rows where dryshoot_new > dry_shoottotal:", sum(b$dryshoot_new > b$dry_stem
     sum(bc$dryshoot_new > bc$dryleaf_weight, na.rm = TRUE), "of", sum(!is.na(bc$dryshoot_new)), "\n")
 cat("Median dry leaf / (leaf + dry_shoottotal):", round(median(bc$dryleaf_weight / (bc$dryleaf_weight + bc$dry_stem)), 3), "\n")
 sink()
-cat("Done. See results/02_main_models/main_models_df_output.txt, results/02_main_models/formatted_results_main_models_df.md, results/02_main_models/survival_sensitivity.csv\n")
+cat("Done. See results/02_main_models/main_models_df_output.txt and results/02_main_models/formatted_results_main_models_df.md\n")
