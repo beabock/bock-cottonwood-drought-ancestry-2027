@@ -138,7 +138,16 @@ for byte (PDFs apart from the creation date and the font-subset timestamps that 
   ```
 
   then run `Rscript run_all.R` with `R_LIBS_USER=path/to/new/library` set in the environment. Packages whose recorded
-  version is no longer current on CRAN are installed from source, which on Windows needs Rtools.
+  version is no longer current on CRAN are installed from source, which on Windows needs Rtools. Without Rtools, every
+  recorded version installs as a Windows binary from two dated Posit Package Manager snapshots; run this before
+  `renv::restore()`:
+
+  ```r
+  options(renv.config.repos.override = c(P3M_1020 = "https://packagemanager.posit.co/cran/2026-10-20",
+                                         P3M_1005 = "https://packagemanager.posit.co/cran/2026-10-05"))
+  ```
+
+  (`pairwiseAdonis` has no compiled code and installs from GitHub without Rtools.)
 - `pairwiseAdonis` is not on CRAN. Install it from GitHub at the commit used for the manuscript analyses:
 
   ```r
