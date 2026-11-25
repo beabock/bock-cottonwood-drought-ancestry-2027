@@ -53,13 +53,13 @@ coordinates of each point.
 Script `r_code/NN_name.R` writes its output to `results/NN_name/` (the three step-02 scripts write to
 `results/02_main_models/`). The exceptions are the publication files: the appendix tables in `results/appendices/`
 (steps 12 and 30) and the figures in `figures/` (steps 12 and 28). Scripts 02a and 02b are not run on their own: 02c
-sources 02b, which sources 02a.
+sources 02b, which sources 02a. There is no step 03: a script of exploratory analyses not reported in the manuscript
+(stomatal conductance by leaf side) was removed, and the other steps keep their numbers.
 
 | Step | Script | What it does |
 |---|---|---|
 | 01 | `01_merge_datasets.R` | Builds the merged plant table `data/edited_data/mega_ds.csv` |
 | 02 | `02a_main_models.R`, `02b_main_models_followup.R`, `02c_main_models_df.R` | Survival, biomass, colonization and PERMANOVA models; genotype-level permutation tests; degrees of freedom |
-| 03 | `03_conductance_leaf_sides.R` | Stomatal conductance by leaf side and measurement day |
 | 04 | `04_conductance_surfaces.R` | Surface-specific conductance (plant means); survival grouping sensitivity |
 | 05 | `05_control_inoculum_sensitivity.R` | Main colonization results without control plants (Appendix S4) |
 | 06 | `06_allocation_models.R` | Allocation of new growth, leaf loss and estimated root mass |

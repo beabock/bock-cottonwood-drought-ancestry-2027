@@ -15,7 +15,6 @@ stopifnot(file.exists("run_all.R"), dir.exists("r_code"), dir.exists("data"))
 steps <- c(
   "r_code/01_merge_datasets.R",
   "r_code/02c_main_models_df.R",                  # sources 02b_main_models_followup.R, which sources 02a_main_models.R
-  "r_code/03_conductance_leaf_sides.R",
   "r_code/04_conductance_surfaces.R",             # after 02: adds its block to results/02_main_models/formatted_results_main_models_df.md
   "r_code/05_control_inoculum_sensitivity.R",
   "r_code/06_allocation_models.R",
