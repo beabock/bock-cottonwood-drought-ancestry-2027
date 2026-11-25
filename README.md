@@ -66,7 +66,7 @@ sources 02b, which sources 02a. There is no step 03: a script of exploratory ana
 | 07 | `07_allocation_appendix_S7.R` | Allocation models with estimated and with measured root mass (source of Appendix S7) |
 | 08 | `08_sample_flow_extra_tests.R` | Sample flow (Table S6.2), survival by group, inoculum effects, EMF simple slopes |
 | 09 | `09_allocation_survival_followup.R` | Root:new-stem ratio, mass fractions, predicted survival, counts |
-| 10 | `10_binomial_colonization_checks.R` | Colonization as a binomial GLMM on raw counts; survival with population random |
+| 10 | `10_binomial_colonization_checks.R` | Survival GLMM with population as a random rather than a fixed effect |
 | 11 | `11_soil_legacy_permanova.R` | Robustness of the soil-legacy PERMANOVA result (about 6 min) |
 | 12 | `12_map_appendix_S1.R` | Appendix S1 map and collection-point elevations (internet; about 5 min) |
 | 13 | `13_emf_ancestry_contrasts.R` | Estimates for each version of the EMF ancestry result |
