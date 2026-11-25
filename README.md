@@ -97,7 +97,7 @@ formatted values they compute; step 28 writes the figures and step 29 writes `ou
 |---|---|---|
 | Figures 1–3 | `28_figures.R` | `figures/Fig1`–`Fig3` |
 | Appendix S1 map | `12_map_appendix_S1.R` | `figures/AppendixS1_map` |
-| Tables S1.1, S1.2 | `30_appendix_tables.R` | `results/appendices/appendix_S1_table1_mother_trees.csv`, `appendix_S1_table2_collection_points.csv` |
+| Tables S1.1, S1.2 | `30_appendix_tables.R` | `results/appendices/appendix_S1_table1_donor_trees.csv`, `appendix_S1_table2_collection_points.csv` |
 | Appendix S2 and S3 figures; Figure S4.1 | `28_figures.R` | `figures/FigS2`, `FigS3`, `FigS4_1` |
 | Appendix S4 table | `05`, `18`, `30_appendix_tables.R` | `results/appendices/appendix_S4_control_sensitivity.csv` |
 | Tables S5.1–S5.4 | `19`, `30_appendix_tables.R` | `results/appendices/appendix_S5_table1_conductance_models.csv`, `appendix_S5_table2_surface_models.csv`, `appendix_S5_table3_conductance_vs_emf_rmf.csv`, `appendix_S5_table4_plants_by_dates.csv` |

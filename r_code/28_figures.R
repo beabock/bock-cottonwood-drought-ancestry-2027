@@ -1,7 +1,7 @@
 # ==============================================================================
 # FIGURES: every figure in the manuscript and appendices except the Appendix S1 map (r_code/12_map_appendix_S1.R).
 # All figures share r_code/helpers/figure_style.R (theme_bw, Arial, AJB sizes; color = watering treatment only).
-#   Fig1   A survival, B leafless at harvest, along Fremont ancestry (binomial GLMMs; points = mother-tree means)
+#   Fig1   A survival, B leafless at harvest, along Fremont ancestry (binomial GLMMs; points = donor-tree means)
 #   Fig2   A new stem biomass, B total new biomass, C stem, leaf and root fractions of total new biomass
 #   Fig3   AMF, EMF and DSE colonization along Fremont ancestry (colonization LMM)
 #   FigS4_1 new stem biomass against AMF, EMF and DSE colonization (colonization-biomass LMM)
@@ -53,10 +53,10 @@ stopifnot(nobs(leaf_m) == 425, sum(lz$zero_leaf) == 68)
 c1b <- curve_trt(fixef(leaf_m), as.matrix(vcov(leaf_m)), delete.response(terms(~ pf50 + treatment + I(pf50^2) + og_drc_mm + myco_cat + soil)),
                  lz %>% select(og_drc_mm, myco_cat, soil, treatment), grid_anc, "pf50", function(g) (g - 50) / 50, plogis)
 tree_means <- function(d, y) d %>% group_by(geno_id, treatment) %>% summarise(per_f = mean(per_f), n = n(), y = mean(.data[[y]]), .groups = "drop") %>%
-  mutate(per_f = per_f + ifelse(treatment == "Drought", 0.8, -0.8))     # separate the two treatments at each mother tree
+  mutate(per_f = per_f + ifelse(treatment == "Drought", 0.8, -0.8))     # separate the two treatments at each donor tree
 g1a <- tree_means(sp, "alive_01_10_2021"); g1b <- tree_means(lz, "zero_leaf")
 n_max <- max(g1a$n, g1b$n)
-size_sc <- scale_size_area(max_size = 3.2, breaks = c(2, 5, 10, 15), limits = c(0, n_max), name = "Plants per mother tree")
+size_sc <- scale_size_area(max_size = 3.2, breaks = c(2, 5, 10, 15), limits = c(0, n_max), name = "Plants per donor tree")
 p1 <- function(cd, g, ylab) ggplot() + band(cd) +
   geom_point(data = g, aes(per_f, y, fill = treatment, shape = treatment, size = n), colour = PT_EDGE, stroke = PT_STROKE, alpha = 0.7) +
   size_sc + trt_scales() + scale_y_continuous(limits = c(0, 1)) + labs(x = X_ANC, y = ylab) + theme_fig()

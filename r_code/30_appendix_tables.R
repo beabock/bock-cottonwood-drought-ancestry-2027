@@ -1,6 +1,6 @@
 # ==============================================================================
 # APPENDIX TABLES: the tables of Appendices S1 and S4-S7, one CSV per manuscript table, in results/appendices/.
-#   S1  Table S1.1 mother trees by population and cross type; Table S1.2 collection points
+#   S1  Table S1.1 donor trees by population and cross type; Table S1.2 collection points
 #         (collection points and elevations from r_code/12_map_appendix_S1.R)
 #   S4  main colonization analyses repeated without control plants
 #         (r_code/05_control_inoculum_sensitivity.R, r_code/18_emf_amf_slopes_by_watering.R)
@@ -39,14 +39,14 @@ erng <- cpts %>% group_by(Code) %>% summarise(Population = first(Population), St
                                                `Elevation (m)` = paste0(min(`Elevation (m)`), EN, max(`Elevation (m)`)), .groups = "drop")
 s1 <- ds %>% distinct(pop, geno_id, new_class) %>% count(pop, new_class) %>%
   pivot_wider(names_from = new_class, values_from = n, values_fill = 0) %>% select(pop, any_of(levels(ds$new_class))) %>%
-  left_join(ds %>% group_by(pop) %>% summarise(`Mother trees` = n_distinct(geno_id), Cuttings = n(), .groups = "drop"), by = "pop") %>%
+  left_join(ds %>% group_by(pop) %>% summarise(`Donor trees` = n_distinct(geno_id), Cuttings = n(), .groups = "drop"), by = "pop") %>%
   rename(Code = pop, `F₁ hybrid` = `F1 Hybrid`, `Backcross narrowleaf` = `Backcross Narrowleaf`) %>%
   left_join(erng, by = "Code") %>% relocate(Population, State, Code) %>% arrange(Population)
 s1 <- bind_rows(s1 %>% mutate(across(where(is.numeric), as.character)),
                 s1 %>% summarise(across(where(is.numeric), sum)) %>% mutate(across(everything(), as.character), Population = "Total", State = "", Code = "",
                                                                              `Elevation (m)` = paste0(min(cpts$`Elevation (m)`), EN, max(cpts$`Elevation (m)`))))
-stopifnot(s1$`Mother trees`[s1$Population == "Total"] == "43", s1$Cuttings[s1$Population == "Total"] == "574")
-write_tab(s1, "appendix_S1_table1_mother_trees.csv")
+stopifnot(s1$`Donor trees`[s1$Population == "Total"] == "43", s1$Cuttings[s1$Population == "Total"] == "574")
+write_tab(s1, "appendix_S1_table1_donor_trees.csv")
 
 date_range <- function(x) {   # "03/03/2021 - 03/06/2021" -> "3–6 Mar 2021" (all ranges fall within one month)
   d <- str_split_fixed(x, " - ", 2); a <- as.Date(d[, 1], "%m/%d/%Y"); b <- as.Date(d[, 2], "%m/%d/%Y")
