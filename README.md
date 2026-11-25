@@ -60,7 +60,7 @@ sources 02b, which sources 02a. There is no step 03: a script of exploratory ana
 |---|---|---|
 | 01 | `01_merge_datasets.R` | Builds the merged plant table `data/edited_data/mega_ds.csv` |
 | 02 | `02a_main_models.R`, `02b_main_models_followup.R`, `02c_main_models_df.R` | Survival, biomass, colonization and PERMANOVA models; genotype-level permutation tests; degrees of freedom |
-| 04 | `04_conductance_surfaces.R` | Surface-specific conductance (plant means); survival grouping sensitivity |
+| 04 | `04_conductance_surfaces.R` | Surface-specific conductance (plant means; its surface quadratic terms enter the inventory of step 23) |
 | 05 | `05_control_inoculum_sensitivity.R` | Main colonization results without control plants (Appendix S4) |
 | 06 | `06_allocation_models.R` | Allocation of new growth, leaf loss and estimated root mass |
 | 07 | `07_allocation_appendix_S7.R` | Allocation models with estimated and with measured root mass (source of Appendix S7) |

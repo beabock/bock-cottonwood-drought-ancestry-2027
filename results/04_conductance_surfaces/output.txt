@@ -2,47 +2,7 @@ CONDUCTANCE SURFACES run:
 
 
 ==============================================================================
-1. Appendix S5: aggregated survival grouping sensitivity
-==============================================================================
-  grouping                                                                  
-1 Population × cross type × drought × inoculum × soil (reported grouping)   
-2 Reported grouping, groups with ≥ 2 scored plants                          
-3 Reported grouping, groups with ≥ 3 scored plants                          
-4 Population × cross type × drought (inoculum and soil as group proportions)
-5 Coarser grouping, groups with ≥ 2 scored plants                           
-6 Coarser grouping, groups with ≥ 3 scored plants                           
-  n_groups n_plants scored_median scored_min scored_max dispersion estimable
-1 35       126       1             0          2         1.28        TRUE    
-2  3        11       2             2          2           NA       FALSE    
-3  0         0      NA            NA         NA           NA       FALSE    
-4 34       547       2             1          5         1.57        TRUE    
-5 25       436       2             2          5         1.56        TRUE    
-6 11       203       4             3          5           NA       FALSE    
-  note                                                 AMF_beta AMF_z
-1                                                      -1.960   -2.29
-2 not estimable: 3 groups, only one watering treatment     NA      NA
-3 no groups                                                NA      NA
-4                                                      -0.573   -1.98
-5                                                      -1.110   -2.18
-6 not estimable: 11 groups for 15 parameters               NA      NA
-  AMF_P_wald AMF_P_quasi EMF_beta EMF_z  EMF_P_wald EMF_P_quasi DSE_beta DSE_z
-1 0.0218     0.0564      -2.650   -1.990 0.0465     0.0941      -3.840   -1.79
-2     NA         NA          NA       NA     NA         NA          NA      NA
-3     NA         NA          NA       NA     NA         NA          NA      NA
-4 0.0476     0.1310      -0.274   -0.939 0.3480     0.4630      -0.866   -2.93
-5 0.0296     0.1120      -0.581   -1.630 0.1030     0.2210      -1.610   -3.08
-6     NA         NA          NA       NA     NA         NA          NA      NA
-  DSE_P_wald DSE_P_quasi quasi_df
-1 0.07280    0.1290      20      
-2      NA        NA      NA      
-3      NA        NA      NA      
-4 0.00338    0.0306      19      
-5 0.00209    0.0335      10      
-6      NA        NA      NA      
-
-
-==============================================================================
-2. Surface-specific stomatal conductance (adaxial = top, abaxial = bottom)
+1. Surface-specific stomatal conductance (adaxial = top, abaxial = bottom)
 ==============================================================================
 Trees with porometer data: 205 | with both days: 172 
 Non-positive surface means (cannot be logged): adaxial 1 | abaxial 4 | adaxial wet-day 2 | abaxial wet-day 6 
@@ -91,7 +51,7 @@ myco_catBoth             0.02557    0.15320 162.78195  0.16693  0.86763
 
 
 ==============================================================================
-2b. Ancestry x surface model (both surfaces in one model)
+1b. Ancestry x surface model (both surfaces in one model)
 ==============================================================================
 Formula: log(gsw) ~ surface * (per_fc * treatment + I(per_fc^2)) + og_drc_mm + soil + myco_cat + (1 | pop) + (1 | pop:geno_id) + (1 | tree_id)
 n = 403 surface-level observations from 203 trees (201 with both surfaces), 41 genotypes, 6 populations; singular = FALSE
@@ -135,7 +95,7 @@ surfaceadaxial:per_fc:treatmentDrought  0.01322
 
 
 ==============================================================================
-2c. Sensitivity: watering-day readings only; plants with both days only
+1c. Sensitivity: watering-day readings only; plants with both days only
 ==============================================================================
    analysis                   surface n   term                    beta     
 1  All readings (main)        adaxial 203 per_fc                  -1.42e-02

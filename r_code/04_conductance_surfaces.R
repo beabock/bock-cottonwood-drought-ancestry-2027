@@ -1,7 +1,8 @@
 # ==============================================================================
-# CONDUCTANCE BY LEAF SURFACE, AND SURVIVAL GROUPING: aggregated-survival grouping sensitivity (not reported in the manuscript) and
-# surface-specific stomatal conductance (adaxial = top, abaxial = bottom; the
-# stomatal density data use the same convention).
+# CONDUCTANCE BY LEAF SURFACE: surface-specific stomatal conductance (plant means;
+# adaxial = top, abaxial = bottom; the stomatal density data use the same convention).
+# surface_sensitivity.csv supplies the two surface quadratic terms of the quadratic-term
+# inventory (r_code/23_new_stem_curvature.R).
 # ==============================================================================
 # Run from the project root:  Rscript r_code/04_conductance_surfaces.R   (about 1 min)
 # Writes: results/04_conductance_surfaces/output.txt,
@@ -26,58 +27,9 @@ P <- function(p) if (is.na(p)) "NA" else if (p < 0.001) "P < 0.001" else sprintf
 tdf <- function(t, df, p) sprintf("t = %s, df = %s, %s", dec(t), dff(df), P(p))
 
 # ------------------------------------------------------------------------------
-# 1. APPENDIX S5: aggregated survival, grouping sensitivity
+# 1. SURFACE-SPECIFIC STOMATAL CONDUCTANCE
 # ------------------------------------------------------------------------------
-hdr("1. Appendix S5: aggregated survival grouping sensitivity")
-build <- function(gvars) {
-  cells <- ds %>% group_by(across(all_of(gvars))) %>%
-    summarise(n_total = n(), survival_rate = sum(alive_01_10_2021, na.rm = TRUE) / n(),
-              prop_tam = mean(soil == "Tam Legacy"), prop_AM = mean(myco_cat == "AM"), prop_EM = mean(myco_cat == "EM"),
-              prop_Both = mean(myco_cat == "Both"), .groups = "drop") %>% filter(n_total >= 3)
-  colz <- ds %>% filter(alive_01_10_2021 == 1) %>% mutate(sc = !is.na(amf) & !is.na(emf) & !is.na(dse)) %>%
-    group_by(across(all_of(gvars))) %>%
-    summarise(n_scored = sum(sc), mean_emf = mean(emf, na.rm = TRUE), mean_amf = mean(amf, na.rm = TRUE), mean_dse = mean(dse, na.rm = TRUE),
-              mean_per_f = mean(per_f, na.rm = TRUE), mean_drc_mm = mean(og_drc_mm, na.rm = TRUE), .groups = "drop")
-  inner_join(cells, colz, by = gvars) %>% mutate(mean_per_fc = mean_per_f - 50) %>%
-    filter(is.finite(mean_emf), is.finite(mean_amf), is.finite(mean_dse))
-}
-fungi <- c(AMF = "scale(mean_amf):treatmentDrought", EMF = "scale(mean_emf):treatmentDrought", DSE = "scale(mean_dse):treatmentDrought")
-fit_agg <- function(d, covs, label) {
-  out <- tibble(grouping = label, n_groups = nrow(d), n_plants = sum(d$n_total),
-                scored_median = if (nrow(d)) median(d$n_scored) else NA_real_,
-                scored_min = if (nrow(d)) min(d$n_scored) else NA_real_, scored_max = if (nrow(d)) max(d$n_scored) else NA_real_,
-                dispersion = NA_real_, estimable = FALSE, note = "")
-  f <- as.formula(paste("survival_rate ~ (scale(mean_emf) + scale(mean_dse) + scale(mean_amf)) * treatment + mean_per_fc + I(mean_per_fc^2) + mean_drc_mm +", covs))
-  npar <- if (nrow(d) && n_distinct(d$treatment) == 2) ncol(model.matrix(f, d)) else NA
-  if (is.na(npar) || nrow(d) < npar + 5) {
-    out$note <- if (nrow(d) == 0) "no groups" else if (is.na(npar)) sprintf("not estimable: %d groups, only one watering treatment", nrow(d)) else sprintf("not estimable: %d groups for %d parameters", nrow(d), npar)
-    return(out)
-  }
-  m <- glm(f, data = d, weights = n_total, family = binomial); cs <- coef(summary(m))
-  mq <- glm(f, data = d, weights = n_total, family = quasibinomial); cq <- coef(summary(mq))
-  out$dispersion <- sum(residuals(m, type = "pearson")^2) / df.residual(m); out$estimable <- TRUE
-  for (k in names(fungi)) {
-    out[[paste0(k, "_beta")]] <- cs[fungi[k], "Estimate"]; out[[paste0(k, "_z")]] <- cs[fungi[k], "z value"]
-    out[[paste0(k, "_P_wald")]] <- cs[fungi[k], "Pr(>|z|)"]; out[[paste0(k, "_P_quasi")]] <- cq[fungi[k], "Pr(>|t|)"]
-  }
-  out$quasi_df <- df.residual(mq)
-  out
-}
-cur <- build(c("pop", "new_class", "treatment", "myco_cat", "soil")); coa <- build(c("pop", "new_class", "treatment"))
-s4 <- bind_rows(
-  fit_agg(cur, "soil + myco_cat", paste("Population", TIMES, "cross type", TIMES, "drought", TIMES, "inoculum", TIMES, "soil (reported grouping)")),
-  fit_agg(filter(cur, n_scored >= 2), "soil + myco_cat", "Reported grouping, groups with ≥ 2 scored plants"),
-  fit_agg(filter(cur, n_scored >= 3), "soil + myco_cat", "Reported grouping, groups with ≥ 3 scored plants"),
-  fit_agg(coa, "prop_tam + prop_AM + prop_EM + prop_Both", paste("Population", TIMES, "cross type", TIMES, "drought (inoculum and soil as group proportions)")),
-  fit_agg(filter(coa, n_scored >= 2), "prop_tam + prop_AM + prop_EM + prop_Both", "Coarser grouping, groups with ≥ 2 scored plants"),
-  fit_agg(filter(coa, n_scored >= 3), "prop_tam + prop_AM + prop_EM + prop_Both", "Coarser grouping, groups with ≥ 3 scored plants"))
-print(as.data.frame(s4 %>% mutate(across(where(is.numeric), ~ signif(., 3)))), right = FALSE)
-# The grouping-sensitivity table is printed above only (not an appendix table).
-
-# ------------------------------------------------------------------------------
-# 2. SURFACE-SPECIFIC STOMATAL CONDUCTANCE
-# ------------------------------------------------------------------------------
-hdr("2. Surface-specific stomatal conductance (adaxial = top, abaxial = bottom)")
+hdr("1. Surface-specific stomatal conductance (adaxial = top, abaxial = bottom)")
 side_mean <- function(d, side, days) {
   cc <- as.vector(outer(paste0("l", 1:3, "_", side), days, paste, sep = "_"))
   m <- rowMeans(as.matrix(sapply(d[, cc], as.numeric)), na.rm = TRUE); m[is.nan(m)] <- NA; m }
@@ -119,7 +71,7 @@ for (s in names(models)) {
 }
 terms_tab <- bind_rows(term_rows); slope_tab <- bind_rows(slope_rows)
 
-hdr("2b. Ancestry x surface model (both surfaces in one model)")
+hdr("1b. Ancestry x surface model (both surfaces in one model)")
 long <- por %>% select(tree_id, pop, geno_id, per_fc, treatment, og_drc_mm, soil, myco_cat, adaxial, abaxial) %>%
   pivot_longer(c(adaxial, abaxial), names_to = "surface", values_to = "gsw") %>%
   filter(!is.na(gsw), gsw > 0) %>% mutate(surface = factor(surface, levels = c("abaxial", "adaxial")))
@@ -132,7 +84,7 @@ cat(sprintf("n = %d surface-level observations from %d trees (%d with both surfa
             nobs(joint), n_distinct(long$tree_id[as.integer(rownames(mf))]), sum(table(long$tree_id) == 2), ngrps(joint)["pop:geno_id"], ngrps(joint)["pop"], isSingular(joint)))
 print(round(jc, 5)); print(VarCorr(joint))
 
-hdr("2c. Sensitivity: watering-day readings only; plants with both days only")
+hdr("1c. Sensitivity: watering-day readings only; plants with both days only")
 sens <- list(
   `All readings (main)` = list(adaxial = models$adaxial, abaxial = models$abaxial),
   `Watering-day readings only` = list(adaxial = fit_side("adaxial_wet", por), abaxial = fit_side("abaxial_wet", por)),
