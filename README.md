@@ -125,8 +125,20 @@ for byte (PDFs apart from the creation date and the font-subset timestamps that 
   car 3.1-5, DHARMa 0.5.0, MASS 7.3-65, Matrix 1.7-5, mvtnorm 1.4-2, vegan 2.7-6, permute 0.9-10, pairwiseAdonis 0.4.1,
   tidyverse 2.0.0 (dplyr 1.2.1, tidyr 1.3.2, readr 2.2.0, purrr 1.2.2, stringr 1.6.0, forcats 1.0.1, tibble 3.3.1,
   lubridate 1.9.5), readxl 1.6.0, janitor 2.2.1, ggplot2 4.0.3, patchwork 1.3.2, ragg 1.5.2, systemfonts 1.3.2,
-  RColorBrewer 1.1-3, and for the map (step 12) sf 1.1.3, terra 1.9.50, elevatr 0.99.1, ggspatial 1.1.11,
+  RColorBrewer 1.1-3, and for the map (step 12) sf 1.1-3, terra 1.9-50, elevatr 0.99.1, ggspatial 1.1.11,
   rnaturalearth 1.2.0, nhdplusTools 1.5.2, ggrepel 0.9.8, maps 3.4.3.
+- `renv.lock` (repository root) records these packages and all their dependencies at the versions used, including
+  `pairwiseAdonis` at its GitHub commit. The project does not activate renv (there is no `.Rprofile`), so
+  `Rscript run_all.R` uses whatever library R finds. To install the recorded versions into a separate library and run
+  the analyses with it:
+
+  ```r
+  install.packages("renv")
+  renv::restore(lockfile = "renv.lock", library = "path/to/new/library", prompt = FALSE)
+  ```
+
+  then run `Rscript run_all.R` with `R_LIBS_USER=path/to/new/library` set in the environment. Packages whose recorded
+  version is no longer current on CRAN are installed from source, which on Windows needs Rtools.
 - `pairwiseAdonis` is not on CRAN. Install it from GitHub at the commit used for the manuscript analyses:
 
   ```r
